@@ -6,6 +6,7 @@ import com.sun.net.httpserver.HttpServer;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
+import java.sql.ResultSet;
 
 public class PizzeriaWebApp
 {
@@ -32,11 +33,9 @@ public class PizzeriaWebApp
         }
     }
 
-    static class MyHandler implements HttpHandler
-    {
+    static class MyHandler implements HttpHandler {
         @Override
-        public void handle(HttpExchange exchange) throws IOException 
-        {
+        public void handle(HttpExchange exchange) throws IOException {
             // Log request
             String remoteAddress = exchange.getRemoteAddress().toString();
             String requestMethod = exchange.getRequestMethod();
@@ -46,7 +45,9 @@ public class PizzeriaWebApp
             // Set up response
             String response = "Hello world !";
             exchange.sendResponseHeaders(200, response.getBytes().length);
+            // ResultSet res = DatabaseConnection.query("SELECT * FROM Customer;");
             OutputStream output = exchange.getResponseBody();
+
             output.write(response.getBytes());
             output.flush();
             exchange.close();
