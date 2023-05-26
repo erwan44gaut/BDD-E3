@@ -1,6 +1,6 @@
 -- Create Order table
 CREATE TABLE Pizza_Order (
-    order_id INT PRIMARY KEY,
+    order_id INT PRIMARY KEY AUTO_INCREMENT,
     customer_id INT,
     pizza_id INT,
     delivery_time DATETIME,
@@ -10,6 +10,6 @@ CREATE TABLE Pizza_Order (
     CHECK (delivery_vehicle IN ('Bicycle', 'Car', 'Motorcycle')),
     CHECK (order_status IN ('Pending', 'In Preparation', 'In Delivery', 'Delivered', 'Cancelled')),
 
-    FOREIGN KEY (customer_id) REFERENCES Customer(customer_id),
-    FOREIGN KEY (pizza_id) REFERENCES Pizza(pizza_id)
+    FOREIGN KEY (customer_id) REFERENCES Customer(id),
+    FOREIGN KEY (pizza_id) REFERENCES Pizza(id)
 );

@@ -5,6 +5,6 @@ CREATE TABLE Pizza_Ingredient (
     quantity INT,
     
     PRIMARY KEY (pizza_id, ingredient_id),
-    FOREIGN KEY (pizza_id) REFERENCES Pizza(pizza_id),
-    FOREIGN KEY (ingredient_id) REFERENCES Ingredient(ingredient_id)
+    FOREIGN KEY (pizza_id) REFERENCES Pizza(id),
+    FOREIGN KEY (ingredient_id) REFERENCES Ingredient(id)
 );
