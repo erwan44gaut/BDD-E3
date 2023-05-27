@@ -41,6 +41,22 @@ public class DatabaseConnection
         System.out.println("Database connection closed");
     }
 
+    public static boolean execute(String action)
+    {
+        Statement statement;
+        try 
+        {
+            statement = connection.createStatement();
+            statement.execute(action);
+            return true;
+        } 
+        catch (SQLException e) 
+        {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public static ResultSet query(String query)
     {
         Statement statement;
