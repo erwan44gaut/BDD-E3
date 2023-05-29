@@ -40,9 +40,16 @@ public class ResultSetConverter
                     // Get column name and value
                     String columnName = metaData.getColumnName(i);
                     Object columnValue = resultSet.getObject(i);
-
+                    
                     // Add column name and value to the row object
-                    row.put(columnName, columnValue.toString());
+                    if (columnValue == null)
+                    {
+                        row.put(columnName, "");                        
+                    }
+                    else
+                    {
+                        row.put(columnName, columnValue.toString());
+                    }
                 }
 
                 // Add the row object to the list of rows

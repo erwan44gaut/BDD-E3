@@ -15,4 +15,18 @@ public class CustomerService
         boolean queryResult = DatabaseConnection.execute(sqlQuery);
         return queryResult;
     }
+
+    public static boolean deleteCustomer(int customerId)
+    {
+        String sqlQuery = String.format("DELETE FROM Customer WHERE id=%d", customerId);
+        boolean queryResult = DatabaseConnection.execute(sqlQuery);
+        return queryResult;
+    }
+
+    public static boolean updateCustomerField(int customerId, String field, String value) 
+    {
+        String sqlQuery = String.format("UPDATE Customer SET %s = '%s' WHERE id = %d", field, value, customerId);
+        boolean queryResult = DatabaseConnection.execute(sqlQuery);
+        return queryResult;
+    }
 }

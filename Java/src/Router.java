@@ -25,6 +25,14 @@ public class Router
         {
             CustomerController.addCustomer(exchange);
         }
+        else if (requestURI.equals("/customers/delete"))
+        {
+            CustomerController.deleteCustomer(exchange);
+        }
+        else if (requestURI.equals("/customers/update"))
+        {
+            CustomerController.updateCustomerFields(exchange);
+        }
         else
         {
             ExchangeUtil.sendResponse(exchange, 404, "404: Not found");

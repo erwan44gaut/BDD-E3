@@ -6,6 +6,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.net.httpserver.HttpExchange;
 
 public class ExchangeUtil 
@@ -34,5 +36,25 @@ public class ExchangeUtil
         InputStreamReader isr = new InputStreamReader(exchange.getRequestBody());
         BufferedReader br = new BufferedReader(isr);
         return br.lines().collect(Collectors.joining());
+    }
+
+    public static JsonNode getFieldFromObject(String object, String fieldName)
+    {
+        try 
+        {
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode objectNode = objectMapper.readTree(object);
+            JsonNode fieldNode = objectNode.get(fieldName);
+            if (fieldNode != null) 
+            {
+                return fieldNode;
+            }
+            return null;
+        } 
+        catch (IOException e) 
+        {
+            e.printStackTrace();
+            return null;
+        }
     }
 }
