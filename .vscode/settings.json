@@ -1,0 +1,9 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "Java/modules/Driver.jar",
+        "Java/modules/jackson-annotations-2.15.1.jar",
+        "Java/modules/jackson-core-2.15.1.jar",
+        "Java/modules/jackson-databind-2.15.1.jar"
+    ]
+}
