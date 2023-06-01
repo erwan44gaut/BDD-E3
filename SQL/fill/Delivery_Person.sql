@@ -4,4 +4,4 @@ VALUES
   ("Brendan Riddle"),
   ("Marcia Sexton"),
   ("Shana Guzman"),
-  ("Lacota Barron");
+  ("Lacota Barron")

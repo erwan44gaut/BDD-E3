@@ -1,6 +1,6 @@
-INSERT INTO Vehicle (vehicle_id, type)
+INSERT INTO Vehicle (type)
 VALUES
-    (1, 'motorbike'),
-    (2, 'car'),
-    (3, 'car'),
-    (4, 'motorbike');
+    ('motorbike'),
+    ('car'),
+    ('car'),
+    ('motorbike')

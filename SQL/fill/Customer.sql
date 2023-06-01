@@ -4,5 +4,5 @@ VALUES
     ('John Doe', 100.00),
     ('Jane Smith', 250.50),
     ('David Johnson', 50.20),
-    ('Emma Williams', 350.80);
+    ('Emma Williams', 350.80)
 

@@ -3,7 +3,9 @@ import java.io.IOException;
 
 import com.sun.net.httpserver.HttpExchange;
 
-import customer.CustomerController;
+import Tables.customer.CustomerController;
+import Tables.deliveryPerson.DeliveryPersonController;
+import Tables.ingredient.IngredientController;
 
 public class Router 
 {
@@ -32,6 +34,14 @@ public class Router
         else if (requestURI.equals("/customers/update"))
         {
             CustomerController.updateCustomerFields(exchange);
+        }
+        else if (requestURI.equals("/deliveryPersons")) 
+        {
+            DeliveryPersonController.getDeliveryPersons(exchange);
+        }
+        else if (requestURI.equals("/ingredients")) 
+        {
+            IngredientController.getIngredients(exchange);
         }
         else
         {

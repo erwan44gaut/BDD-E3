@@ -4,4 +4,4 @@ VALUES
     ('Mozzarella'),
     ('Pepperoni'),
     ('Mushrooms'),
-    ('Onions');
+    ('Onions')

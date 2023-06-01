@@ -1,4 +1,4 @@
-package customer;
+package Tables.customer;
 
 import java.sql.ResultSet;
 import java.util.Iterator;

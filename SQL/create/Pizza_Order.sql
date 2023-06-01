@@ -13,7 +13,7 @@
 --     FOREIGN KEY (customer_id) REFERENCES Customer(id),
 --     FOREIGN KEY (pizza_id) REFERENCES Pizza(id)
 -- );
-
+use pizzeria;
 CREATE TABLE Pizza_Order (
     order_id INT PRIMARY KEY AUTO_INCREMENT,
     customer_id INT,
@@ -22,5 +22,5 @@ CREATE TABLE Pizza_Order (
     order_time DATETIME NOT NULL,
 
     FOREIGN KEY (customer_id) REFERENCES Customer(customer_id),
-    FOREIGN KEY (pizza_id) REFERENCES Pizza(pizza_id),
+    FOREIGN KEY (pizza_id) REFERENCES Pizza(pizza_id)
 );

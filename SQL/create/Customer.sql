@@ -2,5 +2,5 @@
 CREATE TABLE Customer (
     customer_id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(50),
-    balance DECIMAL(10,2),
+    balance DECIMAL(10,2)
 );
