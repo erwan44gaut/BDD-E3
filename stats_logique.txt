@@ -1,0 +1,7 @@
+Stats :
+- Meilleur Livreur : nombre de livraisons réussi - nombre de livraison raté : Liste commande -> order time & Delivery -> (Deliver_Person & delivery_time)
+- Pire Livreur : nombre de retards : Liste commande -> order time & Delivery -> (Deliver_Person & delivery_time)
+- Meilleur Client : plus de commande : Liste commande -> Client
+- Pizza la plus demandé : plus de commande : Liste commande -> pizza
+- Pizza la moins demandé : moins de commande : Liste commande -> pizza
+- Ingrédient favori : plus de fois demandé en fonction de la pizza : Liste commande -> pizaa -> Ingréident présent ou non
