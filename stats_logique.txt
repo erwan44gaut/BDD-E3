@@ -5,3 +5,18 @@ Stats :
 - Pizza la plus demandé : plus de commande : Liste commande -> pizza
 - Pizza la moins demandé : moins de commande : Liste commande -> pizza
 - Ingrédient favori : plus de fois demandé en fonction de la pizza : Liste commande -> pizaa -> Ingréident présent ou non
+
+Site :
+- Customers : Add Button, delete button, list(tableau)
+- Deliver_person :  Add Button, delete button, list(tableau)
+- Menu : Create pizza : name, click on ingredient you want
+- Statistiques : list of best, button refresh
+
+Interface Deliver_Person :
+Connect by giving name
+Show list of command available and choose one
+
+Interface Cleint :
+Connect by giving name
+Button recharge money -> amount of money
+Menu to choose a pizza by clicking on it
