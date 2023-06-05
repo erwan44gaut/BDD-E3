@@ -16,35 +16,28 @@ public class Router
         String requestMethod = exchange.getRequestMethod();
         String requestURI = exchange.getRequestURI().toString();
         System.out.println(String.format("%s request from %s: %s", requestMethod, remoteAddress, requestURI));
-        
+
+        // Handle OPTIONS request
+        if (requestMethod.equalsIgnoreCase("OPTIONS")) 
+        {
+            ExchangeUtil.sendPreflightResponse(exchange);
+            return;
+        }
 
         // Create endpoints here
-        if (requestURI.equals("/customers")) 
-        {
+        if (requestURI.equals("/customers")) {
             CustomerController.getCustomers(exchange);
-        }
-        else if (requestURI.equals("/customers/add"))
-        {
+        } else if (requestURI.equals("/customers/add")) {
             CustomerController.addCustomer(exchange);
-        }
-        else if (requestURI.equals("/customers/delete"))
-        {
+        } else if (requestURI.equals("/customers/delete")) {
             CustomerController.deleteCustomer(exchange);
-        }
-        else if (requestURI.equals("/customers/update"))
-        {
+        } else if (requestURI.equals("/customers/update")) {
             CustomerController.updateCustomerFields(exchange);
-        }
-        else if (requestURI.equals("/deliveryPersons")) 
-        {
+        } else if (requestURI.equals("/deliveryPersons")) {
             DeliveryPersonController.getDeliveryPersons(exchange);
-        }
-        else if (requestURI.equals("/ingredients")) 
-        {
+        } else if (requestURI.equals("/ingredients")) {
             IngredientController.getIngredients(exchange);
-        }
-        else
-        {
+        } else {
             ExchangeUtil.sendResponse(exchange, 404, "404: Not found");
         }
     }
