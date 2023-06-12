@@ -1,6 +1,8 @@
 <template>
     <section class="section">
-      <button @click="loadCustomers()">Refresh</button>
+      <Button @click="loadCustomers()">Refresh</Button>
+
+      <Button @click="openAddForm()">Add</Button>
       <table>
         <th>id</th>
         <th>name</th>
@@ -10,46 +12,52 @@
           <td>{{ customer.id }}</td>
           <td>{{ customer.name }}</td>
           <td>{{ customer.balance }}</td>
-          <td><button @click="deleteCustomer(customer.id)">remove</button></td>
+          <td><Button @click="openEditForm(customer.id)">edit</Button></td>
+          <td><Button @click="deleteCustomer(customer.id)">remove</Button></td>
         </tr>
       </table>
+    <DataTable v-model:editingRows="editingRows" :value="customers" editMode="row" dataKey="id">
+        <Column field="id" header="Id"></Column>
+        <Column field="name" header="Name"></Column>
+        <Column field="balance" header="Balance"></Column>
+        <Column :rowEditor="true" style="width: 10%; min-width: 8rem" bodyStyle="text-align:center"></Column>
 
-      <input type="text" v-model="addCustomerName">
-      <button @click="addCustomer()">Add</button>
+      </DataTable>
     </section>
 </template>
 
 <script>
+import Button from "primevue/button";
+import DataTable from 'primevue/datatable';
+import Column from 'primevue/column';
+import ColumnGroup from 'primevue/columngroup';   // optional
+import Row from 'primevue/row';                   // optional
+
+import "primevue/resources/themes/lara-light-indigo/theme.css";        
+import "primevue/resources/primevue.min.css";
+
 export default {
+  components: {
+    Button,
+    DataTable,
+    Column,
+    ColumnGroup,
+    Row,
+  },
   data() {
     return {
       customers: [],
-      addCustomerName: "",
     }
   },
   methods: {
-    addCustomer() {
-      const url = 'http://localhost:8000/customers/add';
-      const data = {
-        "name": this.addCustomerName
-      };
-      fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-      }).then(response => {
-        if (response.ok) {
-          console.log('Customer added successfully');
-        } else {
-          console.error('Failed to add customer. Status:', response.status);
-        }
-      }).catch(error => {
-        console.error('Error adding customer:', error);
-      }).finally(() => {
-        this.loadCustomers();
-      });
+    openEditForm(customerId) {
+      this.$router.push('/customers/edit/' + customerId);
+    },
+    openAddForm() {
+      this.$router.push('/customers/add');
+    },
+    editCustomer(customer) {
+      console.log(customer);
     },
     deleteCustomer(customerId) {
       const url = 'http://localhost:8000/customers/delete';

@@ -1,10 +1,6 @@
-package Tables.ingredient;
+package tables.ingredient;
 
 import java.sql.ResultSet;
-import java.util.Iterator;
-import java.util.Map;
-
-import com.fasterxml.jackson.databind.JsonNode;
 import com.sun.net.httpserver.HttpExchange;
 import src.ExchangeUtil;
 import src.ResultSetConverter;

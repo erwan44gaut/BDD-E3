@@ -1,4 +1,4 @@
-package Tables.ingredient;
+package tables.ingredient;
 
 import java.sql.ResultSet;
 import src.DatabaseConnection;

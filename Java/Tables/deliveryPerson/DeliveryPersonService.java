@@ -1,4 +1,4 @@
-package Tables.deliveryPerson;
+package tables.deliveryPerson;
 
 import java.sql.ResultSet;
 import src.DatabaseConnection;

@@ -2,7 +2,7 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import Catalog from '../views/Catalog.vue'
 import Orders from '../views/Orders.vue'
 import DeliveryPersons from '../views/DeliveryPersons.vue'
-import Customers from '../views/Customers.vue'
+import Customers from '../views/customers/Customers.vue'
 import Stats from '../views/Stats.vue'
 
 const routes: Array<RouteRecordRaw> = [

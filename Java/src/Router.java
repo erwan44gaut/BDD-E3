@@ -3,9 +3,9 @@ import java.io.IOException;
 
 import com.sun.net.httpserver.HttpExchange;
 
-import Tables.customer.CustomerController;
-import Tables.deliveryPerson.DeliveryPersonController;
-import Tables.ingredient.IngredientController;
+import tables.customer.CustomerController;
+import tables.deliveryPerson.DeliveryPersonController;
+import tables.ingredient.IngredientController;
 
 public class Router 
 {
