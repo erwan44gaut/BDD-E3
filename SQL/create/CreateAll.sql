@@ -1,0 +1,73 @@
+CREATE TABLE Pizza(
+   pizza_id INT,
+   pizza_size VARCHAR(50),
+   pizza_base_price DECIMAL(10,2),
+   pizza_name VARCHAR(50),
+   PRIMARY KEY(pizza_id)
+);
+
+CREATE TABLE Ingredient(
+   ingredient_id INT,
+   ingredient_name VARCHAR(50),
+   PRIMARY KEY(ingredient_id)
+);
+
+CREATE TABLE Customer(
+   customer_id INT,
+   customer_name VARCHAR(50),
+   customer_balance DECIMAL(10,2),
+   PRIMARY KEY(customer_id)
+);
+
+CREATE TABLE Pizza_Order(
+   order_id INT,
+   order_status VARCHAR(50) NOT NULL,
+   order_time DATETIME,
+   pizza_id INT NOT NULL,
+   customer_id INT NOT NULL,
+   PRIMARY KEY(order_id),
+   FOREIGN KEY(pizza_id) REFERENCES Pizza(pizza_id),
+   FOREIGN KEY(customer_id) REFERENCES Customer(customer_id)
+);
+
+CREATE TABLE Vehicle(
+   vehicle_id INT,
+   vehicle_type VARCHAR(50),
+   PRIMARY KEY(vehicle_id)
+);
+
+CREATE TABLE Delivery_Person(
+   delivery_person_id INT,
+   delivery_person_name VARCHAR(50),
+   PRIMARY KEY(delivery_person_id)
+);
+
+CREATE TABLE Invoice(
+   invoice_id INT,
+   order_id INT NOT NULL,
+   PRIMARY KEY(invoice_id),
+   UNIQUE(order_id),
+   FOREIGN KEY(order_id) REFERENCES Pizza_Order(order_id)
+);
+
+CREATE TABLE Delivery(
+   delivery_id INT,
+   delivery_status VARCHAR(24),
+   delivery_time DATETIME,
+   delivery_person_id INT NOT NULL,
+   vehicle_id INT NOT NULL,
+   order_id INT NOT NULL,
+   PRIMARY KEY(delivery_id),
+   UNIQUE(order_id),
+   FOREIGN KEY(delivery_person_id) REFERENCES Delivery_Person(delivery_person_id),
+   FOREIGN KEY(vehicle_id) REFERENCES Vehicle(vehicle_id),
+   FOREIGN KEY(order_id) REFERENCES Pizza_Order(order_id)
+);
+
+CREATE TABLE Has_Ingredient(
+   pizza_id INT,
+   ingredient_id INT,
+   PRIMARY KEY(pizza_id, ingredient_id),
+   FOREIGN KEY(pizza_id) REFERENCES Pizza(pizza_id),
+   FOREIGN KEY(ingredient_id) REFERENCES Ingredient(ingredient_id)
+);
