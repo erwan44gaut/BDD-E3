@@ -14,7 +14,7 @@ CREATE TABLE Ingredient(
 
 CREATE TABLE Customer(
    customer_id INT,
-   customer_name VARCHAR(50),
+   customer_name VARCHAR(50) DEFAULT(0),
    customer_balance DECIMAL(10,2),
    PRIMARY KEY(customer_id)
 );

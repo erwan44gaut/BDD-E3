@@ -9,20 +9,13 @@
         <th>balance</th>
 
         <tr v-for="customer in customers">
-          <td>{{ customer.id }}</td>
-          <td>{{ customer.name }}</td>
-          <td>{{ customer.balance }}</td>
-          <td><Button @click="openEditForm(customer.id)">edit</Button></td>
-          <td><Button @click="deleteCustomer(customer.id)">remove</Button></td>
+          <td>{{ customer.customer_id }}</td>
+          <td>{{ customer.customer_name }}</td>
+          <td>{{ customer.customer_balance }}</td>
+          <td><Button @click="openEditForm(customer.customer_id)">edit</Button></td>
+          <td><Button @click="deleteCustomer(customer.customer_id)">remove</Button></td>
         </tr>
       </table>
-    <DataTable v-model:editingRows="editingRows" :value="customers" editMode="row" dataKey="id">
-        <Column field="id" header="Id"></Column>
-        <Column field="name" header="Name"></Column>
-        <Column field="balance" header="Balance"></Column>
-        <Column :rowEditor="true" style="width: 10%; min-width: 8rem" bodyStyle="text-align:center"></Column>
-
-      </DataTable>
     </section>
 </template>
 

@@ -11,7 +11,7 @@ public class CustomerService
 
     public static boolean addCustomer(String customerName)
     {
-        String sqlQuery = String.format("INSERT INTO Customer (name) VALUES (\"%s\")", customerName);
+        String sqlQuery = String.format("INSERT INTO Customer (customer_name) VALUES (\"%s\")", customerName);
         boolean queryResult = DatabaseConnection.execute(sqlQuery);
         return queryResult;
     }

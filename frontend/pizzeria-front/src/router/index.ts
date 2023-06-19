@@ -2,8 +2,10 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import Catalog from '../views/Catalog.vue'
 import Orders from '../views/Orders.vue'
 import DeliveryPersons from '../views/DeliveryPersons.vue'
-import Customers from '../views/customers/Customers.vue'
+import CustomerList from '../views/customers/CustomerList.vue'
 import Stats from '../views/Stats.vue'
+import AddCustomer from '../views/customers/AddCustomer.vue'
+import EditCustomer from '../views/customers/EditCustomer.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -29,13 +31,23 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/customers',
     name: 'Customers',
-    component: Customers
+    component: CustomerList
   },
   {
     path: '/stats',
     name: 'Stats',
     component: Stats
   },
+  {
+    path: '/customers/add',
+    name: 'Add customer',
+    component: AddCustomer
+  },
+  {
+    path: '/customers/edit/:id',
+    name: 'Edit customer',
+    component: EditCustomer
+  }
 ]
 
 const router = createRouter({

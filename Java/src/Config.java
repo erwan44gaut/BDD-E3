@@ -30,6 +30,7 @@ public class Config
         String propertiesPath = Paths.get(projectRoot, "config", "application.properties").toString();
         properties = loadProperties(propertiesPath);
         System.out.println("Loaded properties");
+        
         // Load profile properties
         String profile = properties.getProperty("profile");
         if (!profile.isEmpty())
