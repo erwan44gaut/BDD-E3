@@ -1,6 +1,6 @@
-package tables.customer;
+package src.customer;
+import src.util.DatabaseConnection;
 import java.sql.ResultSet;
-import src.DatabaseConnection;
 
 public class CustomerService
 {

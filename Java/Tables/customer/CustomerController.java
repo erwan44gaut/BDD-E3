@@ -18,12 +18,32 @@ public class CustomerController
         ExchangeUtil.sendResponse(exchange, 200, response);
     }
 
+    public static void getCustomer(HttpExchange exchange)
+    {
+        // Get request body
+        String requestBody = ExchangeUtil.getRequestBody(exchange);
+        if (requestBody == null) {
+            ExchangeUtil.sendResponse(exchange, 400, "Bad Request");
+            return;
+        }
+
+        // Get customer id
+        String customerId = ExchangeUtil.getFieldFromObject(requestBody, "id").asText();
+        if (customerId == null) {
+            ExchangeUtil.sendResponse(exchange, 400, "Invalid Request Body");
+            return;
+        }
+
+        ResultSet customer = CustomerService.getCustomer(customerId);
+        String response = ResultSetConverter.convertToJson(customer);
+        ExchangeUtil.sendResponse(exchange, 200, response);
+    }
+
     public static void addCustomer(HttpExchange exchange)
     {
         // Get request body
         String requestBody = ExchangeUtil.getRequestBody(exchange);
-        if (requestBody == null) 
-        {
+        if (requestBody == null) {
             ExchangeUtil.sendResponse(exchange, 400, "Bad Request");
             return;
         }
@@ -75,40 +95,34 @@ public class CustomerController
     
     public static void updateCustomerFields(HttpExchange exchange) 
     {
-        // Get request body
         String requestBody = ExchangeUtil.getRequestBody(exchange);
-        if (requestBody == null) 
-        {
+        if (requestBody == null) {
             ExchangeUtil.sendResponse(exchange, 400, "Bad Request");
             return;
         }
-
+        
         // Get customer id
         String customerId = ExchangeUtil.getFieldFromObject(requestBody, "id").asText();
-        if (customerId == null) 
-        {
+        if (customerId == null) {
             ExchangeUtil.sendResponse(exchange, 400, "Invalid Request Body");
             return;
         }
 
         // Get patch object
         JsonNode patchJson = ExchangeUtil.getFieldFromObject(requestBody, "patch");
-        if (patchJson == null) 
-        {
+        if (patchJson == null) {
             ExchangeUtil.sendResponse(exchange, 400, "Invalid Request Body");
             return;
         }
 
         // Update customer fields
         Iterator<Map.Entry<String, JsonNode>> fields = patchJson.fields();
-        while (fields.hasNext()) 
-        {
+        while (fields.hasNext()) {
             Map.Entry<String, JsonNode> entry = fields.next();
             String field = entry.getKey();
             String value = entry.getValue().asText();
             boolean queryResult = CustomerService.updateCustomerField(Integer.parseInt(customerId), field, value);
-            if (!queryResult) 
-            {
+            if (!queryResult) {
                 ExchangeUtil.sendResponse(exchange, 500, "Internal Server Error");
                 return;
             }

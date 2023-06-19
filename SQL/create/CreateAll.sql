@@ -1,28 +1,30 @@
 CREATE TABLE Pizza(
    pizza_id INT,
-   pizza_size VARCHAR(50),
-   pizza_base_price DECIMAL(10,2),
-   pizza_name VARCHAR(50),
-   PRIMARY KEY(pizza_id)
+   pizza_size VARCHAR(50) DEFAULT 'humaine',
+   pizza_base_price DECIMAL(10,2) NOT NULL,
+   pizza_name VARCHAR(50) NOT NULL,
+   PRIMARY KEY(pizza_id),
+   UNIQUE(pizza_name)
 );
 
 CREATE TABLE Ingredient(
-   ingredient_id INT,
-   ingredient_name VARCHAR(50),
-   PRIMARY KEY(ingredient_id)
+   ingredient_id INT AUTO_INCREMENT,
+   ingredient_name VARCHAR(50) NOT NULL,
+   PRIMARY KEY(ingredient_id),
+   UNIQUE(ingredient_name)
 );
 
 CREATE TABLE Customer(
-   customer_id INT,
-   customer_name VARCHAR(50) DEFAULT(0),
-   customer_balance DECIMAL(10,2),
+   customer_id INT AUTO_INCREMENT,
+   customer_name VARCHAR(50) NOT NULL,
+   customer_balance DECIMAL(10,2) DEFAULT(0),
    PRIMARY KEY(customer_id)
 );
 
 CREATE TABLE Pizza_Order(
-   order_id INT,
+   order_id INT AUTO_INCREMENT,
    order_status VARCHAR(50) NOT NULL,
-   order_time DATETIME,
+   order_datetime DATETIME NOT NULL,
    pizza_id INT NOT NULL,
    customer_id INT NOT NULL,
    PRIMARY KEY(order_id),
@@ -31,19 +33,20 @@ CREATE TABLE Pizza_Order(
 );
 
 CREATE TABLE Vehicle(
-   vehicle_id INT,
-   vehicle_type VARCHAR(50),
-   PRIMARY KEY(vehicle_id)
+   vehicle_id INT AUTO_INCREMENT,
+   vehicle_type VARCHAR(50) NOT NULL,
+   PRIMARY KEY(vehicle_id),
+   UNIQUE(vehicle_type)
 );
 
 CREATE TABLE Delivery_Person(
-   delivery_person_id INT,
-   delivery_person_name VARCHAR(50),
+   delivery_person_id INT AUTO_INCREMENT,
+   delivery_person_name VARCHAR(50) NOT NULL,
    PRIMARY KEY(delivery_person_id)
 );
 
 CREATE TABLE Invoice(
-   invoice_id INT,
+   invoice_id INT AUTO_INCREMENT,
    order_id INT NOT NULL,
    PRIMARY KEY(invoice_id),
    UNIQUE(order_id),
@@ -51,9 +54,9 @@ CREATE TABLE Invoice(
 );
 
 CREATE TABLE Delivery(
-   delivery_id INT,
+   delivery_id INT AUTO_INCREMENT,
    delivery_status VARCHAR(24),
-   delivery_time DATETIME,
+   delivery_datetime DATETIME,
    delivery_person_id INT NOT NULL,
    vehicle_id INT NOT NULL,
    order_id INT NOT NULL,

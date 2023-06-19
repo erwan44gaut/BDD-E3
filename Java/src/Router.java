@@ -27,6 +27,8 @@ public class Router
         // Create endpoints here
         if (requestURI.equals("/customers")) {
             CustomerController.getCustomers(exchange);
+        } else if (requestURI.equals("/customer")) {
+            CustomerController.getCustomer(exchange);
         } else if (requestURI.equals("/customers/add")) {
             CustomerController.addCustomer(exchange);
         } else if (requestURI.equals("/customers/delete")) {

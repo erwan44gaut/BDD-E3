@@ -1,0 +1,16 @@
+{
+    "java.dependency.packagePresentation": "hierarchical",
+    "java.project.sourcePaths": [
+        "modules",
+        ""
+    ],
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "modules/Driver.jar",
+        "modules/Jackson.jar",
+        "modules/jackson-core-2.15.1.jar",
+        "modules/Jackson databind.jar",
+        "modules/jackson-databind-2.15.1.jar",
+        "modules/jackson-annotations-2.15.1.jar"
+    ]
+}
