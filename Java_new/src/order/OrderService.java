@@ -11,12 +11,27 @@ public class OrderService
         CallableStatement statement = DatabaseConnection.prepareCall("{CALL GetOrderDetails(?)}");
         DatabaseConnection.setStatement(statement, 1, id);
         return DatabaseConnection.queryStatement(statement);
-        // return DatabaseConnection.query(String.format("SELECT Customer.customer_name, Pizza.pizza_name, Pizza.pizza_base_price, Pizza_Order.order_status, Pizza_Order.order_datetime FROM Pizza_Order, Pizza, Customer WHERE Pizza_Order.order_id = %d AND Pizza_Order.Pizza_id = Pizza.pizza_id AND Pizza_Order.customer_id = Customer.customer_id;", id));
     }
 
     public static ResultSet getOrders()
     {
         CallableStatement statement = DatabaseConnection.prepareCall("{CALL GetOrdersDetails()}");
         return DatabaseConnection.queryStatement(statement);
+    }
+
+    public static boolean placeOrder(int customer_id, int pizza_id, int pizza_size)
+    {
+        CallableStatement statement = DatabaseConnection.prepareCall("{CALL placeOrder(?, ?, ?)}");
+        DatabaseConnection.setStatement(statement, 1, customer_id);
+        DatabaseConnection.setStatement(statement, 2, pizza_id);
+        DatabaseConnection.setStatement(statement, 3, pizza_size);
+        return DatabaseConnection.executeStatement(statement);
+    }
+
+    public static int updateStatus(int order_id, String new_status)
+    {
+        String sqlQuery = String.format("UPDATE Pizza_Order SET order_status = '%s' WHERE order_id = %d", new_status, order_id);
+        int queryResult = DatabaseConnection.executeUpdate(sqlQuery);
+        return queryResult;
     }
 }

@@ -1,8 +1,5 @@
 package src;
-
-import java.sql.ResultSet;
-import src.util.ResultSetUtil;
-import src.order.OrderService;
+import src.customer.CustomerService;
 import src.util.Config;
 import src.util.DatabaseConnection;
 
@@ -14,9 +11,8 @@ public class PizzeriaApp
         Config.load();
         DatabaseConnection.connect();
 
-        ResultSet orders = OrderService.getOrders();
-        ResultSetUtil.printResultSet(orders);
-        
+        CustomerService.unitTest();
+
         DatabaseConnection.disconnect();
     }
 }

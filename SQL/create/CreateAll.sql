@@ -22,7 +22,7 @@ CREATE TABLE Customer(
 
 CREATE TABLE Pizza_Order(
    order_id INT AUTO_INCREMENT,
-   order_status VARCHAR(50) NOT NULL,
+   order_status VARCHAR(50) DEFAULT 'pending',
    order_datetime DATETIME NOT NULL,
    customer_id INT,
    pizza_id INT,
