@@ -5,5 +5,5 @@ BEGIN
     FROM Delivery
     GROUP BY customer_id
     HAVING COUNT(*) = (SELECT MAX(delivery_count) FROM (SELECT COUNT(*) AS delivery_count FROM Delivery GROUP BY customer_id) AS temp);
-END
+END;
 DELIMITER;

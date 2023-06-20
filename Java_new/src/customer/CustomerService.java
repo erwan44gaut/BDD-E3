@@ -4,9 +4,9 @@ import java.sql.ResultSet;
 
 public class CustomerService
 {
-    public static ResultSet getCustomer(String id)
+    public static ResultSet getCustomer(int id)
     {
-        return DatabaseConnection.query(String.format("SELECT * FROM Customer WHERE Customer.id = %s", id));
+        return DatabaseConnection.query(String.format("SELECT * FROM Customer WHERE Customer.id = %d", id));
     }
 
     public static ResultSet getCustomers()
