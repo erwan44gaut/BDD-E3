@@ -1,7 +1,8 @@
+
 DELIMITER //
 CREATE PROCEDURE GetOrderDetails(IN order_id INT)
 BEGIN
-    DECLARE size ENUM('small', 'medium', 'large');
+    DECLARE size ENUM('SMALL', 'MEDIUM', 'LARGE');
 
     SELECT pizza_size INTO size FROM Pizza_Order WHERE Pizza_Order.order_id = order_id LIMIT 1;
     
