@@ -1,3 +1,5 @@
+use pizzeria;
+
 CREATE TABLE Pizza(
    pizza_id INT,
    pizza_base_price DECIMAL(10,2) NOT NULL,
@@ -34,9 +36,8 @@ CREATE TABLE Pizza_Order(
 
 CREATE TABLE Vehicle(
    vehicle_id INT AUTO_INCREMENT,
-   vehicle_type VARCHAR(50) NOT NULL,
-   PRIMARY KEY(vehicle_id),
-   UNIQUE(vehicle_type)
+   vehicle_type ENUM('car', 'motorbike') NOT NULL,
+   PRIMARY KEY(vehicle_id)
 );
 
 CREATE TABLE Delivery_Person(
@@ -61,7 +62,7 @@ CREATE TABLE Invoice(
 
 CREATE TABLE Delivery(
    delivery_id INT AUTO_INCREMENT,
-   delivery_status VARCHAR(24),
+   delivery_status ENUM('ACCEPTED', 'IN_PROGRESS', 'COMPLETE', 'LATE'),
    delivery_datetime DATETIME,
    delivery_person_id INT,
    vehicle_id INT,
