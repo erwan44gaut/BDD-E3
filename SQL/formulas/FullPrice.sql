@@ -1,6 +1,6 @@
 DELIMITER //
 
-CREATE FUNCTION CalculateAdjustedPrice(pizza_id INT, pizza_size VARCHAR(50)) RETURNS DECIMAL(10,2)
+CREATE FUNCTION CalculateAdjustedPrice(pizza_id INT, pizza_size ENUM('small', 'medium', 'large')) RETURNS DECIMAL(10,2)
 DETERMINISTIC
 BEGIN
     DECLARE basePrice DECIMAL(10,2);

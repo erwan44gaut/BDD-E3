@@ -22,11 +22,11 @@ CREATE TABLE Customer(
 
 CREATE TABLE Pizza_Order(
    order_id INT AUTO_INCREMENT,
-   order_status VARCHAR(50) DEFAULT 'pending',
-   order_datetime DATETIME NOT NULL,
+   order_status ENUM('ACCEPTED', 'IN_PREPARATION', 'IN_DELIVERY', 'COMPLETED') DEFAULT 'ACCEPTED',
+   order_datetime DATETIME DEFAULT NOW,
    customer_id INT,
    pizza_id INT,
-   pizza_size VARCHAR(50) DEFAULT 'medium',
+   pizza_size ENUM('small', 'medium', 'large') DEFAULT 'medium',
    PRIMARY KEY(order_id),
    FOREIGN KEY(pizza_id) REFERENCES Pizza(pizza_id) ON DELETE SET NULL,
    FOREIGN KEY(customer_id) REFERENCES Customer(customer_id) ON DELETE SET NULL
