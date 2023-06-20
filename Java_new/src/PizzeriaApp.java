@@ -2,6 +2,9 @@ package src;
 
 import java.sql.ResultSet;
 import src.util.ResultSetUtil;
+import src.vehicle.VehicleService;
+import src.delivery.DeliveryService;
+import src.deliveryPerson.DeliveryPersonService;
 import src.order.OrderService;
 import src.util.Config;
 import src.util.DatabaseConnection;
@@ -14,9 +17,8 @@ public class PizzeriaApp
         Config.load();
         DatabaseConnection.connect();
 
-        ResultSet orders = OrderService.getOrders();
-        ResultSetUtil.printResultSet(orders);
-        
+        DeliveryService.unitTest();
+
         DatabaseConnection.disconnect();
     }
 }
