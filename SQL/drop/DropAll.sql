@@ -1,3 +1,5 @@
+use pizzeria;
+
 DROP TABLE Invoice;
 DROP TABLE Delivery;
 DROP TABLE Delivery_Person;

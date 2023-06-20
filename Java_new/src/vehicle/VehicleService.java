@@ -40,7 +40,7 @@ public class VehicleService {
 
         // Test addVehicle(String vehicleType)
         System.out.println("#########################\nADD VEHICLE\n#########################\n");
-        int addResult = VehicleService.addVehicle("car");
+        int addResult = VehicleService.addVehicle("CAR");
         System.out.println("Add Vehicle result: " + addResult);
 
         // Test getVehicles()
