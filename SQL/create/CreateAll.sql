@@ -1,6 +1,5 @@
 CREATE TABLE Pizza(
    pizza_id INT,
-   pizza_size VARCHAR(50) DEFAULT 'humaine',
    pizza_base_price DECIMAL(10,2) NOT NULL,
    pizza_name VARCHAR(50) NOT NULL,
    PRIMARY KEY(pizza_id),
@@ -26,6 +25,7 @@ CREATE TABLE Pizza_Order(
    order_status VARCHAR(50) NOT NULL,
    order_datetime DATETIME NOT NULL,
    pizza_id INT NOT NULL,
+   pizza_size VARCHAR(50) DEFAULT 'medium',
    customer_id INT NOT NULL,
    PRIMARY KEY(order_id),
    FOREIGN KEY(pizza_id) REFERENCES Pizza(pizza_id),

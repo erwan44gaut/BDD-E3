@@ -1,8 +1,9 @@
 -- Insert dummy values into the Pizza table
-INSERT INTO Pizza (pizza_id, pizza_size, pizza_base_price, pizza_name) VALUES
-(1, 'Large', 10.99, 'Margherita'),
-(2, 'Medium', 8.99, 'Pepperoni'),
-(3, 'Small', 6.99, 'Cheese');
+
+INSERT INTO Pizza (pizza_id, pizza_base_price, pizza_name) VALUES
+(1, 10.99, 'Margherita'),
+(2, 8.99, 'Pepperoni'),
+(3, 6.99, 'Cheese');
 
 -- Insert dummy values into the Ingredient table
 INSERT INTO Ingredient (ingredient_id, ingredient_name) VALUES
@@ -19,10 +20,10 @@ INSERT INTO Customer (customer_id, customer_name, customer_balance) VALUES
 (3, 'David Johnson', 75.0);
 
 -- Insert dummy values into the Pizza_Order table
-INSERT INTO Pizza_Order (order_id, order_status, order_datetime, pizza_id, customer_id) VALUES
-(1, 'Pending', '2023-06-01 10:00:00', 1, 1),
-(2, 'Completed', '2023-06-02 12:30:00', 2, 2),
-(3, 'Pending', '2023-06-03 15:45:00', 3, 3);
+INSERT INTO Pizza_Order (order_id, order_status, order_datetime, pizza_id, customer_id, pizza_size) VALUES
+(1, 'Pending', '2023-06-01 10:00:00', 1, 1, 'large'),
+(2, 'Completed', '2023-06-02 12:30:00', 2, 2, 'small'),
+(3, 'Pending', '2023-06-03 15:45:00', 3, 3, 'medium');
 
 -- Insert dummy values into the Vehicle table
 INSERT INTO Vehicle (vehicle_id, vehicle_type) VALUES

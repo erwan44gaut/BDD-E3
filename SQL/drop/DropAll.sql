@@ -1,4 +1,4 @@
-wDROP TABLE Invoice;
+DROP TABLE Invoice;
 DROP TABLE Delivery;
 DROP TABLE Delivery_Person;
 DROP TABLE Vehicle;

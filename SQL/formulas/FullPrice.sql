@@ -1,19 +1,18 @@
 DELIMITER //
 
-CREATE FUNCTION CalculateAdjustedPrice(pizza_id INT) RETURNS DECIMAL(10,2)
+CREATE FUNCTION CalculateAdjustedPrice(pizza_id INT, pizza_size VARCHAR(50)) RETURNS DECIMAL(10,2)
 DETERMINISTIC
 BEGIN
     DECLARE basePrice DECIMAL(10,2);
-    DECLARE pizzaSize VARCHAR(50);
     DECLARE adjustedPrice DECIMAL(10,2);
 
     -- Retrieve the base price and pizza size from the Pizza table based on the pizza ID
-    SELECT pizza_base_price, pizza_size INTO basePrice, pizzaSize FROM Pizza WHERE pizza_id = pizza_id LIMIT 1;
+    SELECT pizza_base_price INTO basePrice FROM Pizza WHERE pizza_id = pizza_id LIMIT 1;
 
     -- Calculate the adjusted price based on the retrieved base price and pizza size
     CASE
-        WHEN pizzaSize = 'large' THEN SET adjustedPrice = basePrice * 1.3;
-        WHEN pizzaSize = 'small' THEN SET adjustedPrice = basePrice * 0.7;
+        WHEN pizza_size = 'large' THEN SET adjustedPrice = basePrice * 1.3;
+        WHEN pizza_size = 'small' THEN SET adjustedPrice = basePrice * 0.7;
         ELSE SET adjustedPrice = basePrice;
     END CASE;
 
