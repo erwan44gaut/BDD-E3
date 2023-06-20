@@ -1,5 +1,6 @@
 package src;
 
+import java.io.IOException;
 import java.sql.ResultSet;
 import src.util.ResultSetUtil;
 import src.vehicle.VehicleService;
@@ -10,16 +11,39 @@ import src.customer.CustomerService;
 import src.util.Config;
 import src.util.DatabaseConnection;
 
-public class PizzeriaApp
+import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
+public class PizzeriaApp extends Application
 {
+    @Override
+    public void start(Stage primaryStage)
+    {
+        Parent root;
+        try {
+            root = FXMLLoader.load(getClass().getResource("MainScene.fxml"));
+            Scene scene = new Scene(root);
+            primaryStage.setTitle("Hello World!");
+            primaryStage.setScene(scene);
+            primaryStage.show();
+        } catch(IOException e) {}
+    }
+
     public static void main(String[] args)
     {
         // Setup
         Config.load();
         DatabaseConnection.connect();
 
-        DeliveryService.unitTest();
+        // DeliveryService.unitTest();
 
         DatabaseConnection.disconnect();
+
+        launch(args);
     }
 }

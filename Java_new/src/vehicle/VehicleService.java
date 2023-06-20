@@ -50,7 +50,7 @@ public class VehicleService {
 
         // Test deleteVehicle(int vehicleId)
         System.out.println("#########################\nDELETE VEHICLE\n#########################\n");
-        int deleteResult = VehicleService.deleteVehicle(4);
+        int deleteResult = VehicleService.deleteVehicle(11);
         System.out.println("Delete Vehicle result: " + deleteResult);
     }
 }
