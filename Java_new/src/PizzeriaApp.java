@@ -6,6 +6,7 @@ import src.vehicle.VehicleService;
 import src.delivery.DeliveryService;
 import src.deliveryPerson.DeliveryPersonService;
 import src.order.OrderService;
+import src.customer.CustomerService;
 import src.util.Config;
 import src.util.DatabaseConnection;
 

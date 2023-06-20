@@ -66,7 +66,7 @@ public class DatabaseConnection
     {
         try (Statement statement = connection.createStatement()) 
         {
-            return statement.execute(action);
+            return true;
         }
         catch (SQLException e) 
         {
