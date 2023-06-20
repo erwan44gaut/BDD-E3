@@ -1,9 +1,10 @@
+
 DELIMITER //
 
 CREATE PROCEDURE PlaceOrder(
     IN customer_id INT,
     IN pizza_id INT,
-    IN pizza_size INT
+    IN pizza_size ENUM('SMALL', 'MEDIUM', 'LARGE')
 )
 BEGIN
     DECLARE pizza_price DECIMAL(10, 2);
@@ -11,11 +12,11 @@ BEGIN
     DECLARE customer_balance DECIMAL(10, 2);
     
     -- Calculate pizza price
-    SELECT pizza_base_price INTO pizza_price FROM Pizza WHERE pizza_id = pizza_id;
-    SELECT CalculateAdjustedPrice(pizza_id, pizza_size) INTO total_price;
+    SELECT pizza_base_price INTO pizza_price FROM Pizza WHERE Pizza.pizza_id = pizza_id LIMIT 1;
+    SELECT CalculateAdjustedPrice(pizza_id, pizza_size) INTO total_price LIMIT 1;
     
     -- Check balance
-    SELECT customer_balance INTO customer_balance FROM Customer WHERE customer_id = customer_id;
+    SELECT customer_balance INTO customer_balance FROM Customer WHERE Customer.customer_id = customer_id;
     
     IF customer_balance >= total_price THEN
         -- Place order
@@ -23,11 +24,7 @@ BEGIN
         VALUES ('ACCEPTED', NOW(), pizza_id, pizza_size, customer_id);
         
         -- Update balance
-        UPDATE Customer SET customer_balance = customer_balance - total_price WHERE customer_id = customer_id;
-        
-        SELECT 'Order placed successfully.' AS message;
-    ELSE
-        SELECT 'Insufficient balance. Order cannot be placed.' AS message;
+        UPDATE Customer SET Customer.customer_balance = customer_balance - total_price WHERE Customer.customer_id = customer_id;
     END IF;
 END //
 
