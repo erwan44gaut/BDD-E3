@@ -1,6 +1,7 @@
 package src.pizza;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import src.util.DatabaseConnection;
 
@@ -43,5 +44,19 @@ public class PizzaService {
         String sqlQuery = String.format("DELETE FROM Has_Ingredient WHERE (pizza_id=%d and ingredient_id=%d", pizzaId,ingredientId);
         boolean queryResult = DatabaseConnection.execute(sqlQuery);
         return queryResult;
+    }
+
+    public static double getAdjustedPrice(int pizzaId, String pizzaSize){
+        double adjustedPrice = 0.0;
+        String sqlQuery = String.format("SELECT CalculateAdjustedPrice(%d,%s) AS adjustedPrice",pizzaId,pizzaSize);
+        try{
+            ResultSet resultSet = DatabaseConnection.query(sqlQuery);
+            if (resultSet.next()) {
+                adjustedPrice = resultSet.getDouble("adjustedPrice");
+            }
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return adjustedPrice;
     }
 }
