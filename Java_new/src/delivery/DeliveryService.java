@@ -5,6 +5,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import src.customer.CustomerService;
 import src.util.DatabaseConnection;
 import src.util.ResultSetUtil;
 
@@ -21,9 +22,9 @@ public class DeliveryService {
         return DatabaseConnection.query(sqlQuery);
     }
 
-    public static int addDelivery(String deliveryStatus, String deliveryDatetime, int deliveryPersonId, int vehicleId, int orderId) 
+    public static int addDelivery(String deliveryStatus, int deliveryPersonId, int vehicleId, int orderId) 
     {
-        String sqlQuery = String.format("INSERT INTO Delivery (delivery_status, delivery_datetime, delivery_person_id, vehicle_id, order_id) VALUES (\"%s\", \"%s\", %d, %d, %d)", deliveryStatus, deliveryDatetime, deliveryPersonId, vehicleId, orderId);
+        String sqlQuery = String.format("INSERT INTO Delivery (delivery_status, delivery_person_id, vehicle_id, order_id) VALUES (\"%s\", %d, %d, %d)", deliveryStatus, deliveryPersonId, vehicleId, orderId);
         int queryResult = DatabaseConnection.executeUpdate(sqlQuery);
         return queryResult;
     }
@@ -51,15 +52,11 @@ public class DeliveryService {
 
         // Test addDelivery(String deliveryStatus, String deliveryDatetime, int deliveryPersonId, int vehicleId, int orderId)
         String deliveryStatus = "LATE";
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // Créer un objet SimpleDateFormat avec le format de date souhaité
-        Date currentDate = new Date(); // Obtenir la date actuelle
-        String formattedDate = dateFormat.format(currentDate); // Formater la date en utilisant le format spécifié
-        String deliveryDatetime = formattedDate;
         int deliveryPersonId = 1;
         int vehicleId = 2;
         int orderId = 3;
         System.out.println("#########################\nADD DELIVERY\n#########################\n");
-        int addResult = DeliveryService.addDelivery(deliveryStatus, deliveryDatetime, deliveryPersonId, vehicleId, orderId);
+        int addResult = DeliveryService.addDelivery(deliveryStatus, deliveryPersonId, vehicleId, orderId);
         System.out.println("Add Delivery result: " + addResult);
 
         // Test updateDeliveryStatus(int deliveryId, String newStatus)

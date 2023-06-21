@@ -48,7 +48,7 @@ public class DeliveryPersonService {
         ResultSetUtil.printResultSet(deliveryPersonsResult);
 
         // Test deleteDeliveryPerson(int deliveryPersonId)
-        int deleteResult = DeliveryPersonService.deleteDeliveryPerson(4);
+        int deleteResult = DeliveryPersonService.deleteDeliveryPerson(11);
         System.out.println("#########################\nDELETE DELIVERY PERSON\n#########################\n" + deleteResult);
     }
 }
