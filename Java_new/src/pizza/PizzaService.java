@@ -11,9 +11,9 @@ public class PizzaService {
         return DatabaseConnection.query("SELECT * FROM Pizza;");
     }
 
-    public static boolean addPizza(String pizzaName, String pizzaSize, float pizzaBasePrice)
+    public static boolean addPizza(String pizzaName, float pizzaBasePrice)
     {
-        String sqlQuery = String.format("INSERT INTO Pizza (pizza_name,pizza_size,pizza_base_price) VALUES (\"%s\",\"%s\",%f)", pizzaName,pizzaSize,pizzaBasePrice);
+        String sqlQuery = String.format("INSERT INTO Pizza (pizza_name,pizza_base_price) VALUES (\"%s\",%f)", pizzaName,pizzaBasePrice);
         boolean queryResult = DatabaseConnection.execute(sqlQuery);
         return queryResult;
     }
