@@ -1,28 +1,24 @@
 DELIMITER //
-CREATE PROCEDURE GetWorstDeliveryPersons()
+CREATE PROCEDURE GetBestDeliveryPersons()
 BEGIN
-    -- Declare variables
     DECLARE min_difference INT;
     
-    -- Find the minimum difference between passed deliveries and failed deliveries
-    SELECT MIN(passed_deliveries - failed_deliveries) INTO min_difference
+    SELECT MIN(passed_deliveries - failed_deliveries) INTO max_difference
     FROM (
         SELECT delivery_person_id, 
-               SUM(CASE WHEN state = 'PASSED' THEN 1 ELSE 0 END) AS passed_deliveries,
-               SUM(CASE WHEN state = 'FAILED' THEN 1 ELSE 0 END) AS failed_deliveries
+               SUM(CASE WHEN delivery_status = 'COMPLETE' THEN 1 ELSE 0 END) AS passed_deliveries,
+               SUM(CASE WHEN (delivery_status = 'LATE' OR delivery_status = 'CANCELED') THEN 1 ELSE 0 END) AS failed_orders
         FROM Delivery
         GROUP BY delivery_person_id
     ) AS temp;
     
-    -- Retrieve delivery persons with the smallest difference
     SELECT delivery_person_id, passed_deliveries - failed_deliveries AS difference
     FROM (
         SELECT delivery_person_id, 
-               SUM(CASE WHEN state = 'PASSED' THEN 1 ELSE 0 END) AS passed_deliveries,
-               SUM(CASE WHEN state = 'FAILED' THEN 1 ELSE 0 END) AS failed_orders
+               SUM(CASE WHEN delivery_status = 'COMPLETE' THEN 1 ELSE 0 END) AS passed_deliveries,
+               SUM(CASE WHEN (delivery_status = 'LATE' OR delivery_status = 'CANCELED') THEN 1 ELSE 0 END) AS failed_orders
         FROM orders
         GROUP BY delivery_person_id
     ) AS temp
-    WHERE total_orders - failed_orders = min_difference;
-END;
-DELIMITER;
+    WHERE passed_deliveries - failed_deliveries = min_difference;
+END//
