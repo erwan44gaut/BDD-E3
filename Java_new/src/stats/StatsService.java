@@ -18,9 +18,9 @@ public class StatsService {
         return DatabaseConnection.queryStatement(statement);
     }
 
-    public static ResultSet getBestCustomers()
+    public static ResultSet GetBestCustomer()
     {
-        CallableStatement statement = DatabaseConnection.prepareCall("{CALL GetBestCustomers()}");
+        CallableStatement statement = DatabaseConnection.prepareCall("{CALL GetBestCustomer()}");
         return DatabaseConnection.queryStatement(statement);
     }
 

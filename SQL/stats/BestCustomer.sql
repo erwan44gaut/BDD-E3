@@ -1,16 +1,13 @@
 DELIMITER //
-CREATE PROCEDURE GetBestCustomers()
+
+CREATE PROCEDURE GetBestCustomer()
 BEGIN
-    SELECT customer_id, COUNT(*) AS total_sales
-    FROM Pizza_Order AS o
-    JOIN Delivery ON o.order_id = Delivery.order_id
-    WHERE customer_id IS NOT NULL
+    SELECT customer_id, COUNT(*) as num_completed_orders
+    FROM Pizza_Order
+    WHERE order_status = 'COMPLETED'
     GROUP BY customer_id
-    HAVING COUNT(*) = (SELECT MAX(sales_count)
-                        FROM (SELECT COUNT(*) AS sales_count 
-                            FROM Pizza_Order AS o
-                            JOIN Delivery ON o.order_id = Delivery.order_id 
-                            WHERE customer_id IS NOT NULL
-                            AND (Delivery.delivery_status="COMPLETE" OR Delivery.delivery_status="LATE")
-                            GROUP BY customer_id) AS temp);
-END//
+    ORDER BY num_completed_orders DESC
+    LIMIT 1;
+END //
+
+DELIMITER ;
