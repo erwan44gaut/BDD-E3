@@ -128,6 +128,16 @@ public class PizzasController implements Initializable{
         delete.setCellValueFactory(new PropertyValueFactory<Pizza, Button>("delete"));
         delete.setCellFactory(column -> {
             return new TableCell<Pizza, Button>() {
+                private final Button deleteButton = new Button("DELETE");
+
+                {
+                    deleteButton.setOnAction(event -> {
+                        Pizza pizza = getTableView().getItems().get(getIndex());
+                        PizzaService.deletePizza(pizza.getPizzaId());
+                        table.getItems().remove(pizza);
+                    });
+                }
+
                 @Override
                 protected void updateItem(Button button, boolean empty) {
                     super.updateItem(button, empty);
@@ -135,7 +145,7 @@ public class PizzasController implements Initializable{
                     if (button == null || empty) {
                         setGraphic(null);
                     } else {
-                        setGraphic(button);
+                        setGraphic(deleteButton);
                         setAlignment(Pos.CENTER);
                     }
                 }

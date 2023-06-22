@@ -19,11 +19,12 @@ public class PizzaService {
         return queryResult;
     }
 
-    public static boolean deletePizza(int pizzaId)
+    public static int deletePizza(int pizzaId)
     {
-        String sqlQuery = String.format("DELETE FROM Pizza WHERE id=%d", pizzaId)+
-        String.format("DELETE FROM Has_Ingredient WHERE pizza_id=%d", pizzaId);
-        boolean queryResult = DatabaseConnection.execute(sqlQuery);
+        String sqlQuery = String.format("DELETE FROM Pizza WHERE pizza_id=%d;", pizzaId);
+        //String.format("DELETE FROM Has_Ingredient WHERE pizza_id=%d;", pizzaId);
+        System.out.println(sqlQuery);
+        int queryResult = DatabaseConnection.executeUpdate(sqlQuery);
         return queryResult;
     }
 
