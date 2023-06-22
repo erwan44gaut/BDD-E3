@@ -1,4 +1,3 @@
-
 DELIMITER //
 
 CREATE PROCEDURE PlaceOrder(
@@ -16,7 +15,7 @@ BEGIN
     SELECT CalculateAdjustedPrice(pizza_id, pizza_size) INTO total_price LIMIT 1;
     
     -- Check balance
-    SELECT customer_balance INTO customer_balance FROM Customer WHERE Customer.customer_id = customer_id;
+    SELECT Customer.customer_balance INTO customer_balance FROM Customer WHERE Customer.customer_id = customer_id;
     
     IF customer_balance >= total_price THEN
         -- Place order
@@ -25,6 +24,8 @@ BEGIN
         
         -- Update balance
         UPDATE Customer SET Customer.customer_balance = customer_balance - total_price WHERE Customer.customer_id = customer_id;
+	ELSE
+		SELECT -1;
     END IF;
 END //
 

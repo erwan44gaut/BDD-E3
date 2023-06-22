@@ -24,7 +24,7 @@ CREATE TABLE Customer(
 
 CREATE TABLE Pizza_Order(
    order_id INT AUTO_INCREMENT,
-   order_status ENUM('ACCEPTED', 'IN_PREPARATION', 'IN_DELIVERY', 'COMPLETED') DEFAULT 'ACCEPTED',
+   order_status ENUM('ACCEPTED', 'IN_PREPARATION', 'IN_DELIVERY', 'COMPLETED', 'CANCELED') DEFAULT 'ACCEPTED',
    order_datetime DATETIME DEFAULT NOW(),
    customer_id INT,
    pizza_id INT,
