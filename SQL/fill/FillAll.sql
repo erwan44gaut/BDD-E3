@@ -96,13 +96,13 @@ VALUES
 INSERT INTO Delivery (delivery_id, delivery_status, delivery_datetime, delivery_person_id, vehicle_id, order_id)
 VALUES
     (1, 'COMPLETE', NOW(), 1, 1, 1),
-    (2, 'ACCEPTED', NOW(), 2, 2, 2),
+    (2, 'COMPLETE', NOW(), 2, 2, 2),
     (3, 'LATE', NOW(), 3, 3, 3),
-    (4, 'ACCEPTED', NOW(), 4, 4, 4),
+    (4, 'LATE', NOW(), 4, 4, 4),
     (5, 'LATE', NOW(), 5, 5, 5),
     (6, 'IN_PROGRESS', NOW(), 6, 6, 6),
     (7, 'IN_PROGRESS', NOW(), 7, 7, 7),
-    (8, 'ACCEPTED', NOW(), 8, 8, 8),
+    (8, 'COMPLETE', NOW(), 8, 8, 8),
     (9, 'IN_PROGRESS', NOW(), 9, 9, 9),
     (10, 'IN_PROGRESS', NOW(), 10, 10, 10);
     
