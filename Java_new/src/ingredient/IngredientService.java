@@ -32,4 +32,5 @@ public class IngredientService {
         boolean queryResult = DatabaseConnection.execute(sqlQuery);
         return queryResult;
     }
+
 }

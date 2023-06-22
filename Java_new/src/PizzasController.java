@@ -1,4 +1,5 @@
 package src;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,8 +9,11 @@ import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TableCell;
@@ -22,6 +26,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+import javafx.stage.Stage;
 import src.pizza.Pizza;
 import src.pizza.PizzaService;
 
@@ -155,6 +160,29 @@ public class PizzasController implements Initializable{
         modify.setCellValueFactory(new PropertyValueFactory<Pizza, Button>("modify"));
         modify.setCellFactory(column -> {
             return new TableCell<Pizza, Button>() {
+                private final Button editButton = new Button("EDIT");
+
+                {
+                    editButton.setOnAction(event -> {
+                        System.out.println("COCUC");
+                        Pizza pizza = getTableView().getItems().get(getIndex());
+                        Stage stage = new Stage();
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("EditPizza.fxml"));
+                        loader.setController(new EditPizzaController(pizza));
+                        Parent root;
+                        try {
+                            root = loader.load();
+                            Scene scene = new Scene(root);
+                            stage.setScene(scene);
+                            stage.setOnCloseRequest(e -> {
+                            refreshTable();;
+                            });
+                            stage.show();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    });
+                }
                 @Override
                 protected void updateItem(Button button, boolean empty) {
                     super.updateItem(button, empty);
@@ -162,7 +190,7 @@ public class PizzasController implements Initializable{
                     if (button == null || empty) {
                         setGraphic(null);
                     } else {
-                        setGraphic(button);
+                        setGraphic(editButton);
                         setAlignment(Pos.CENTER);
                     }
                 }
@@ -185,4 +213,5 @@ public class PizzasController implements Initializable{
         }
         table.setItems(pizzas);
     }
+
 }

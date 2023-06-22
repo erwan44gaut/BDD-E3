@@ -84,7 +84,7 @@ public class Pizza {
         String ingredients = "";
         try{
             while(IngredientSet.next()){
-                ingredients += Ingredient.getName(IngredientSet.getInt("ingredient_id"))+ " | ";
+                ingredients += IngredientSet.getString("ingredient_name")+ " | ";
             }
         }catch(Exception e){
 
