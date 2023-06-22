@@ -7,6 +7,7 @@ import src.vehicle.VehicleService;
 import src.delivery.DeliveryService;
 import src.deliveryPerson.DeliveryPersonService;
 import src.order.OrderService;
+import src.customer.Customer;
 import src.customer.CustomerService;
 import src.util.Config;
 import src.util.DatabaseConnection;
@@ -25,14 +26,16 @@ public class PizzeriaApp extends Application
     public void start(Stage primaryStage)
     {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("Test.fxml"));
-            loader.setController(new PizzasController());
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("OrdersScene.fxml"));
+            loader.setController(new OrderController());
             Parent root = loader.load();
             Scene scene = new Scene(root);
             primaryStage.setTitle("Hello World!");
             primaryStage.setScene(scene);
             primaryStage.show();
-        } catch(IOException e) {}
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] args)
@@ -40,10 +43,6 @@ public class PizzeriaApp extends Application
         // Setup
         Config.load();
         DatabaseConnection.connect();
-
-        // DeliveryService.unitTest();
-
-
         launch(args);
         DatabaseConnection.disconnect();
     }

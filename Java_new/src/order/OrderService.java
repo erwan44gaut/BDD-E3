@@ -31,6 +31,7 @@ public class OrderService
 
     public static int cancelOrder(int order_id)
     {
+        System.out.println("Cancelling order n°" + order_id);
         CallableStatement statement = DatabaseConnection.prepareCall("{CALL CancelOrder(?)}");
         DatabaseConnection.setStatement(statement, 1, order_id);
         return DatabaseConnection.updateStatement(statement);
