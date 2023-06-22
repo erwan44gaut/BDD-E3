@@ -39,32 +39,32 @@ public class OrderService
     public static int updateStatus(int order_id, String new_status)
     {
         CallableStatement statement = DatabaseConnection.prepareCall("{CALL UpdateOrderStatus(?, ?)}");
-        DatabaseConnection.setStatement(statement, 1, new_status);        
-        DatabaseConnection.setStatement(statement, 2, order_id);
+        DatabaseConnection.setStatement(statement, 1, order_id);
+        DatabaseConnection.setStatement(statement, 2, new_status);        
         return DatabaseConnection.updateStatement(statement);
     }
 
     public static void unitTest() {
-        // Test getOrder(int id)
+        // // Test getOrder(int id)
         System.out.println("#########################\nGET ORDER\n#########################\n");
-        ResultSet orderResult = OrderService.getOrder(1);
+        ResultSet orderResult = OrderService.getOrder(18);
         ResultSetUtil.printResultSet(orderResult);
+
+        // Test placeOrder(int customer_id, int pizza_id, int pizza_size)
+        int placeOrderResult = OrderService.placeOrder(3, 5, "LARGE");
+        System.out.println("#########################\nPLACE ORDER\n#########################\n" + placeOrderResult);
 
         // Test getOrders()
         System.out.println("#########################\nGET ORDERS\n#########################\n");
         ResultSet ordersResult = OrderService.getOrders();
         ResultSetUtil.printResultSet(ordersResult);
 
-        // Test placeOrder(int customer_id, int pizza_id, int pizza_size)
-        int placeOrderResult = OrderService.placeOrder(1, 1, "LARGE");
-        System.out.println("#########################\nPLACE ORDER\n#########################\n" + placeOrderResult);
-
         // Test cancelOrder(int order_id)
-        int cancelOrderResult = OrderService.cancelOrder(1);
+        int cancelOrderResult = OrderService.cancelOrder(9);
         System.out.println("#########################\nCANCEL ORDER\n#########################\n" + cancelOrderResult);
 
         // Test updateStatus(int order_id, String new_status)
-        int updateStatusResult = OrderService.updateStatus(1, "Completed");
+        int updateStatusResult = OrderService.updateStatus(15, "ACCEPTED");
         System.out.println("#########################\nUPDATE STATUS\n#########################\n" + updateStatusResult);
     }
 }

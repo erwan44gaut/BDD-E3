@@ -18,7 +18,7 @@ public class PizzeriaApp
         Config.load();
         DatabaseConnection.connect();
 
-        DeliveryService.unitTest();
+        OrderService.unitTest();
 
         DatabaseConnection.disconnect();
     }

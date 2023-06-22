@@ -2,12 +2,8 @@
 DELIMITER //
 CREATE PROCEDURE GetOrderDetails(IN order_id INT)
 BEGIN
-    DECLARE size ENUM('SMALL', 'MEDIUM', 'LARGE');
-
-    SELECT pizza_size INTO size FROM Pizza_Order WHERE Pizza_Order.order_id = order_id LIMIT 1;
-    
-    SELECT Customer.customer_name, Pizza.pizza_name,
-           CalculateAdjustedPrice(Pizza.pizza_id, size) AS adjusted_price,
+    SELECT Customer.customer_name, Pizza.pizza_name, Pizza_Order.pizza_size AS pizza_size,
+           CalculateAdjustedPrice(Pizza.pizza_id, Pizza_Order.pizza_size) AS final_price,
            Pizza_Order.order_status, Pizza_Order.order_datetime
     FROM Pizza_Order
     JOIN Customer ON Pizza_Order.customer_id = Customer.customer_id
