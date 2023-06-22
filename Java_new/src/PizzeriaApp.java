@@ -24,9 +24,10 @@ public class PizzeriaApp extends Application
     @Override
     public void start(Stage primaryStage)
     {
-        Parent root;
         try {
-            root = FXMLLoader.load(getClass().getResource("MainScene.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("Test.fxml"));
+            loader.setController(new PizzasController());
+            Parent root = loader.load();
             Scene scene = new Scene(root);
             primaryStage.setTitle("Hello World!");
             primaryStage.setScene(scene);
@@ -42,8 +43,8 @@ public class PizzeriaApp extends Application
 
         // DeliveryService.unitTest();
 
-        DatabaseConnection.disconnect();
 
         launch(args);
+        DatabaseConnection.disconnect();
     }
 }

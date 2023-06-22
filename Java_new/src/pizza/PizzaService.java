@@ -46,12 +46,16 @@ public class PizzaService {
         return queryResult;
     }
 
+    public static ResultSet getPizzaIngredient(int pizzaId){
+        return DatabaseConnection.query(String.format("SELECT ingredient_id FROM Has_Ingredient WHERE pizza_id=%d",pizzaId));
+    }
+
     public static double getAdjustedPrice(int pizzaId, String pizzaSize){
         double adjustedPrice = 0.0;
         String sqlQuery = String.format("SELECT CalculateAdjustedPrice(%d,%s) AS adjustedPrice",pizzaId,pizzaSize);
         try{
             ResultSet resultSet = DatabaseConnection.query(sqlQuery);
-            if (resultSet.next()) {
+            while (resultSet.next()) {
                 adjustedPrice = resultSet.getDouble("adjustedPrice");
             }
         }catch (SQLException e) {
