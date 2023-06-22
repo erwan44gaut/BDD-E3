@@ -22,10 +22,10 @@ public class PizzaService {
     public static int deletePizza(int pizzaId)
     {
         String sqlQuery = String.format("DELETE FROM Pizza WHERE pizza_id=%d;", pizzaId);
-        //String.format("DELETE FROM Has_Ingredient WHERE pizza_id=%d;", pizzaId);
-        System.out.println(sqlQuery);
+        String sqlQuery2 = String.format("DELETE FROM Has_Ingredient WHERE pizza_id=%d;", pizzaId);
         int queryResult = DatabaseConnection.executeUpdate(sqlQuery);
-        return queryResult;
+        int queryResult2 = DatabaseConnection.executeUpdate(sqlQuery2);
+        return queryResult+queryResult2;
     }
 
     public static boolean updatePizzaField(int pizzaId, String field, String value) 

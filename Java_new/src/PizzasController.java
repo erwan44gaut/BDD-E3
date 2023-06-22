@@ -134,7 +134,7 @@ public class PizzasController implements Initializable{
                     deleteButton.setOnAction(event -> {
                         Pizza pizza = getTableView().getItems().get(getIndex());
                         PizzaService.deletePizza(pizza.getPizzaId());
-                        table.getItems().remove(pizza);
+                        refreshTable();
                     });
                 }
 
@@ -169,6 +169,11 @@ public class PizzasController implements Initializable{
             };
         });
 
+        refreshTable();
+    }
+
+    void refreshTable(){
+        table.getItems().clear();
         try {
             ResultSet pizzaSet = PizzaService.getPizzas();
             while (pizzaSet.next()) {
@@ -180,5 +185,4 @@ public class PizzasController implements Initializable{
         }
         table.setItems(pizzas);
     }
-
 }
