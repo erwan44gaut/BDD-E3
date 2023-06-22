@@ -1,6 +1,7 @@
 package src.pizza;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import src.util.DatabaseConnection;
 
@@ -11,19 +12,20 @@ public class PizzaService {
         return DatabaseConnection.query("SELECT * FROM Pizza;");
     }
 
-    public static boolean addPizza(String pizzaName, String pizzaSize, float pizzaBasePrice)
+    public static boolean addPizza(String pizzaName, float pizzaBasePrice)
     {
-        String sqlQuery = String.format("INSERT INTO Pizza (pizza_name,pizza_size,pizza_base_price) VALUES (\"%s\",\"%s\",%f)", pizzaName,pizzaSize,pizzaBasePrice);
+        String sqlQuery = String.format("INSERT INTO Pizza (pizza_name,pizza_base_price) VALUES (\"%s\",%f)", pizzaName,pizzaBasePrice);
         boolean queryResult = DatabaseConnection.execute(sqlQuery);
         return queryResult;
     }
 
-    public static boolean deletePizza(int pizzaId)
+    public static int deletePizza(int pizzaId)
     {
-        String sqlQuery = String.format("DELETE FROM Pizza WHERE id=%d", pizzaId)+
-        String.format("DELETE FROM Has_Ingredient WHERE pizza_id=%d", pizzaId);
-        boolean queryResult = DatabaseConnection.execute(sqlQuery);
-        return queryResult;
+        String sqlQuery = String.format("DELETE FROM Pizza WHERE pizza_id=%d;", pizzaId);
+        String sqlQuery2 = String.format("DELETE FROM Has_Ingredient WHERE pizza_id=%d;", pizzaId);
+        int queryResult = DatabaseConnection.executeUpdate(sqlQuery);
+        int queryResult2 = DatabaseConnection.executeUpdate(sqlQuery2);
+        return queryResult+queryResult2;
     }
 
     public static boolean updatePizzaField(int pizzaId, String field, String value) 
@@ -43,5 +45,23 @@ public class PizzaService {
         String sqlQuery = String.format("DELETE FROM Has_Ingredient WHERE (pizza_id=%d and ingredient_id=%d", pizzaId,ingredientId);
         boolean queryResult = DatabaseConnection.execute(sqlQuery);
         return queryResult;
+    }
+
+    public static ResultSet getPizzaIngredient(int pizzaId){
+        return DatabaseConnection.query(String.format("SELECT ingredient_id FROM Has_Ingredient WHERE pizza_id=%d",pizzaId));
+    }
+
+    public static double getAdjustedPrice(int pizzaId, String pizzaSize){
+        double adjustedPrice = 0.0;
+        String sqlQuery = String.format("SELECT CalculateAdjustedPrice(%d,%s) AS adjustedPrice",pizzaId,pizzaSize);
+        try{
+            ResultSet resultSet = DatabaseConnection.query(sqlQuery);
+            while (resultSet.next()) {
+                adjustedPrice = resultSet.getDouble("adjustedPrice");
+            }
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return adjustedPrice;
     }
 }

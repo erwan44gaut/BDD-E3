@@ -20,7 +20,8 @@ public class IngredientService {
 
     public static boolean deleteIngredient(int ingredientId)
     {
-        String sqlQuery = String.format("DELETE FROM Ingredient WHERE id=%d", ingredientId);
+        String sqlQuery = String.format("DELETE FROM Ingredient WHERE id=%d", ingredientId) +
+        String.format("DELETE FROM Has_Ingredient WHERE ingredient_id=%d", ingredientId);
         boolean queryResult = DatabaseConnection.execute(sqlQuery);
         return queryResult;
     }
