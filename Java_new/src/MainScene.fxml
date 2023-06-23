@@ -14,14 +14,27 @@
 
 <TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="960.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
   <tabs>
-    <Tab text="Commandes">
+    <Tab text="Véhicules">
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
       </content>
     </Tab>
       <Tab text="Livreurs">
          <content>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <TableView fx:id="table" layoutX="-1.0" layoutY="35.0" prefHeight="476.0" prefWidth="966.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                    <columns>
+                      <TableColumn fx:id="deliveryPersonId" prefWidth="75.0" text="id" />
+                      <TableColumn fx:id="deliveryPersonName" prefWidth="163.0" text="name" />
+                        <TableColumn fx:id="deliveryPersonVehicle" minWidth="0.0" prefWidth="88.0" text="vehicle" />
+                        <TableColumn fx:id="editName" minWidth="0.0" prefWidth="150.0" text="edit" />
+                        <TableColumn fx:id="delete" minWidth="0.0" prefWidth="150.0" text="delete" />
+                    </columns>
+                  </TableView>
+                  <Button fx:id="refreshButton" layoutX="890.0" layoutY="2.0" mnemonicParsing="false" text="Refresh" />
+                  <Button fx:id="addButton" layoutX="819.0" layoutY="2.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="55.0" text="Add" />
+               </children></AnchorPane>
          </content>
       </Tab>
       <Tab text="Stats">
@@ -95,7 +108,7 @@
                               <Text layoutX="477.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="fois." textAlignment="CENTER" wrappingWidth="41.275390625" />
                            </children>
                         </HBox>
-                        <Button fx:id="refreshButton" alignment="BOTTOM_CENTER" mnemonicParsing="false" onAction="#onClick" prefHeight="29.0" prefWidth="960.0" text="Refresh" textAlignment="CENTER">
+                        <Button fx:id="refreshButton" alignment="BOTTOM_CENTER" mnemonicParsing="false" prefHeight="29.0" prefWidth="960.0" text="Refresh" textAlignment="CENTER">
                            <font>
                               <Font size="16.0" />
                            </font>

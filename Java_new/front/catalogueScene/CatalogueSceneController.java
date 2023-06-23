@@ -1,4 +1,4 @@
-package src.front.catalogueScene;
+package front.catalogueScene;
 
 
 import java.sql.ResultSet;

@@ -1,4 +1,4 @@
-package src.front.statsScene;
+package front.statsScene;
 
 import java.beans.EventHandler;
 import java.sql.ResultSet;
