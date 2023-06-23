@@ -7,7 +7,7 @@ BEGIN
     DECLARE adjustedPrice DECIMAL(10,2);
 
     -- Retrieve the base price and pizza size from the Pizza table based on the pizza ID
-    SELECT pizza_base_price INTO basePrice FROM Pizza WHERE pizza_id = pizza_id LIMIT 1;
+    SELECT Pizza.pizza_base_price INTO basePrice FROM Pizza WHERE Pizza.pizza_id = pizza_id LIMIT 1;
 
     -- Calculate the adjusted price based on the retrieved base price and pizza size
     CASE
