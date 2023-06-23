@@ -1,7 +1,7 @@
 use pizzeria;
 
 CREATE TABLE Pizza(
-   pizza_id INT,
+   pizza_id INT AUTO_INCREMENT,
    pizza_base_price DECIMAL(10,2) NOT NULL,
    pizza_name VARCHAR(50) NOT NULL,
    PRIMARY KEY(pizza_id),

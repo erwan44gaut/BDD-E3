@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 
@@ -15,18 +16,25 @@ import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
+import javafx.util.Pair;
+import src.customer.CustomerService;
 import src.pizza.Pizza;
 import src.pizza.PizzaService;
 
@@ -57,6 +65,12 @@ public class PizzasController implements Initializable{
 
     @FXML
     private TableView<Pizza> table;
+
+    @FXML
+    private Button addButton;
+
+    @FXML
+    private Button refreshButton;
 
     ObservableList<Pizza> pizzas = FXCollections.observableArrayList();
 
@@ -219,6 +233,54 @@ public class PizzasController implements Initializable{
                 }
             };
         });
+
+        
+        addButton.setOnAction(event -> {
+            Dialog<Pair<String, Float>> dialog = new Dialog<>();
+            dialog.setTitle("Create new pizza");
+
+            TextField nameField = new TextField();
+            nameField.setPromptText("Enter pizza name");
+
+            TextField priceField = new TextField();
+            priceField.setPromptText("Enter pizza price");
+
+            dialog.getDialogPane().setContent(new VBox(nameField, priceField));
+
+            ButtonType applyButtonType = new ButtonType("Apply", ButtonBar.ButtonData.OK_DONE);
+            ButtonType cancelButtonType = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+            dialog.getDialogPane().getButtonTypes().addAll(applyButtonType, cancelButtonType);
+
+            dialog.setResultConverter(dialogButton -> {
+                if (dialogButton == applyButtonType) {
+                    String name = nameField.getText();
+                    if(name != ""){
+                        try{
+                            float price = Float.parseFloat(priceField.getText());
+                            return new Pair<>(name, price);
+                        }catch(Exception e){
+                            System.out.println("Wrong Price");
+                        }
+                    }
+                    else{
+                        System.out.println("Wrong Price");
+                    } 
+                }
+                return null;
+            });
+
+            Optional<Pair<String, Float>> result = dialog.showAndWait();
+
+            result.ifPresent(pizzaData -> {
+                String name = pizzaData.getKey();
+                float price = pizzaData.getValue();
+                System.out.println("Created new pizza: " + name + ", Price: " + price);
+                PizzaService.addPizza(name, price);
+                refreshTable();
+            });
+        });
+
+        refreshButton.setOnAction(event -> refreshTable());
 
         refreshTable();
     }

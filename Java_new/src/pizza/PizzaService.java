@@ -2,6 +2,7 @@ package src.pizza;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Locale;
 
 import src.util.DatabaseConnection;
 
@@ -12,10 +13,11 @@ public class PizzaService {
         return DatabaseConnection.query("SELECT * FROM Pizza;");
     }
 
-    public static boolean addPizza(String pizzaName, float pizzaBasePrice)
+    public static int addPizza(String pizzaName, float pizzaBasePrice)
     {
-        String sqlQuery = String.format("INSERT INTO Pizza (pizza_name,pizza_base_price) VALUES (\"%s\",%f)", pizzaName,pizzaBasePrice);
-        boolean queryResult = DatabaseConnection.execute(sqlQuery);
+        String sqlQuery = String.format(Locale.US,"INSERT INTO Pizza (pizza_name,pizza_base_price) VALUE ('%s',%f);", pizzaName,pizzaBasePrice);
+        System.out.println(sqlQuery);
+        int queryResult = DatabaseConnection.executeUpdate(sqlQuery);
         return queryResult;
     }
 
