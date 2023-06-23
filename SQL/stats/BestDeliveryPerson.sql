@@ -1,24 +1,14 @@
 DELIMITER //
-CREATE PROCEDURE GetBestDeliveryPersons()
+
+CREATE PROCEDURE GetBestDeliveryPerson()
 BEGIN
-    DECLARE max_difference INT;
-    
-    SELECT MAX(passed_deliveries - failed_deliveries) INTO max_difference
-    FROM (
-        SELECT delivery_person_id, 
-               SUM(CASE WHEN delivery_status = 'COMPLETE' THEN 1 ELSE 0 END) AS passed_deliveries,
-               SUM(CASE WHEN (delivery_status = 'LATE' OR delivery_status = 'CANCELED') THEN 1 ELSE 0 END) AS failed_orders
-        FROM Delivery
-        GROUP BY delivery_person_id
-    ) AS temp;
-    
-    SELECT delivery_person_id, passed_deliveries - failed_deliveries AS difference
-    FROM (
-        SELECT delivery_person_id, 
-               SUM(CASE WHEN delivery_status = 'COMPLETE' THEN 1 ELSE 0 END) AS passed_deliveries,
-               SUM(CASE WHEN (delivery_status = 'LATE' OR delivery_status = 'CANCELED') THEN 1 ELSE 0 END) AS failed_orders
-        FROM orders
-        GROUP BY delivery_person_id
-    ) AS temp
-    WHERE passed_deliveries - failed_deliveries = max_difference;
-END//
+    SELECT D.delivery_person_id, V.vehicle_type, COUNT(*) as num_complete_deliveries
+    FROM Delivery D
+    JOIN Vehicle V ON D.vehicle_id = V.vehicle_id
+    WHERE D.delivery_status = 'COMPLETE'
+    GROUP BY D.delivery_person_id, V.vehicle_type
+    ORDER BY num_complete_deliveries DESC
+    LIMIT 1;
+END //
+
+DELIMITER ;

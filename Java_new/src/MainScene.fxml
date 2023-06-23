@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
@@ -8,6 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="960.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
@@ -24,23 +26,19 @@
       </Tab>
       <Tab text="Stats">
          <content>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="540.0" prefWidth="960.0">
                <children>
                   <VBox prefHeight="506.0" prefWidth="960.0">
                      <children>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Le meilleur client est" textAlignment="CENTER" wrappingWidth="140.275390625">
+                              <Text fx:id="nameBestCustomerTextField" layoutX="595.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="144.275390625" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="est le/la meilleur(e) client(e) et son id est le" textAlignment="CENTER" wrappingWidth="234.275390625">
                                  <HBox.margin>
                                     <Insets />
                                  </HBox.margin>
                               </Text>
-                              <Text fx:id="NameBestCustomerTextField" layoutX="595.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="144.275390625" />
-                              <Text layoutX="491.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text=", id numéro" textAlignment="CENTER" wrappingWidth="87.275390625" />
                               <Text fx:id="idBestCustomerTextField" layoutX="346.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="144.275390625" />
-                              <Text layoutX="328.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="avec" textAlignment="CENTER" wrappingWidth="56.275390625" />
-                              <Text fx:id="totalCommandeBestClientTextField" layoutX="759.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="127.275390625" />
-                              <Text layoutX="490.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="commandes." textAlignment="CENTER" wrappingWidth="99.275390625" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="100.0" prefWidth="200.0">
@@ -50,10 +48,11 @@
                                     <Insets />
                                  </HBox.margin>
                               </Text>
-                              <Text fx:id="worstDeliveryPersonTextField" layoutX="595.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="127.275390625" />
+                              <Text fx:id="nameWorstDeliveryPersonTextField" layoutX="595.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="127.275390625" />
                               <Text layoutX="328.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="avec" textAlignment="CENTER" wrappingWidth="57.275390625" />
                               <Text fx:id="totalCommandeWorstDeliveryPersonTextField" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="127.275390625" />
-                              <Text layoutX="490.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="de retards en" textAlignment="CENTER" wrappingWidth="127.275390625" />
+                              <Text layoutX="490.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="commandes en retards en" textAlignment="CENTER" wrappingWidth="149.275390625" />
+                              <Text fx:id="vehiculeWorstDeliveryPersonTextField" layoutX="526.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="127.275390625" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER" layoutX="10.0" layoutY="410.0" prefHeight="100.0" prefWidth="200.0">
@@ -63,10 +62,11 @@
                                     <Insets />
                                  </HBox.margin>
                               </Text>
-                              <Text fx:id="bestDeliveryPersonTextField" layoutX="93.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="140.275390625" />
+                              <Text fx:id="nameBestDeliveryPersonTextField" layoutX="93.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="140.275390625" />
                               <Text layoutX="328.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="avec" textAlignment="CENTER" wrappingWidth="60.275390625" />
                               <Text fx:id="totalCommandeBestDeliveryPersonTextField" layoutX="817.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="140.275390625" />
-                              <Text layoutX="490.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="à l' heure en" textAlignment="CENTER" wrappingWidth="114.275390625" />
+                              <Text layoutX="490.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="commandes à l' heure en" textAlignment="CENTER" wrappingWidth="148.275390625" />
+                              <Text fx:id="vehiculeBestDeliveryPersonTextField" layoutX="534.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="140.275390625" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER" layoutX="10.0" layoutY="410.0" prefHeight="100.0" prefWidth="200.0">
@@ -90,9 +90,16 @@
                                  </HBox.margin>
                               </Text>
                               <Text fx:id="bestIngredientTextField" layoutX="237.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="140.275390625" />
-                              <Text layoutX="328.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="est le favoris." textAlignment="CENTER" wrappingWidth="118.275390625" />
+                              <Text layoutX="328.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="est le favoris et apparait" textAlignment="CENTER" wrappingWidth="140.275390625" />
+                              <Text fx:id="numberBestIngredientTextField" layoutX="406.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="35.275390625" />
+                              <Text layoutX="477.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="fois." textAlignment="CENTER" wrappingWidth="41.275390625" />
                            </children>
                         </HBox>
+                        <Button fx:id="refreshButton" alignment="BOTTOM_CENTER" mnemonicParsing="false" onAction="#onClick" prefHeight="29.0" prefWidth="960.0" text="Refresh" textAlignment="CENTER">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Button>
                      </children>
                   </VBox>
                </children>
