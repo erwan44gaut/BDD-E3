@@ -51,7 +51,7 @@
                               <Text fx:id="nameWorstDeliveryPersonTextField" layoutX="595.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="127.275390625" />
                               <Text layoutX="328.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="avec" textAlignment="CENTER" wrappingWidth="57.275390625" />
                               <Text fx:id="totalCommandeWorstDeliveryPersonTextField" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="127.275390625" />
-                              <Text layoutX="490.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="commandes en retards en" textAlignment="CENTER" wrappingWidth="149.275390625" />
+                              <Text layoutX="490.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="commandes en retard en" textAlignment="CENTER" wrappingWidth="149.275390625" />
                               <Text fx:id="vehiculeWorstDeliveryPersonTextField" layoutX="526.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="127.275390625" />
                            </children>
                         </HBox>
@@ -65,7 +65,7 @@
                               <Text fx:id="nameBestDeliveryPersonTextField" layoutX="93.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="140.275390625" />
                               <Text layoutX="328.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="avec" textAlignment="CENTER" wrappingWidth="60.275390625" />
                               <Text fx:id="totalCommandeBestDeliveryPersonTextField" layoutX="817.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="140.275390625" />
-                              <Text layoutX="490.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="commandes à l' heure en" textAlignment="CENTER" wrappingWidth="148.275390625" />
+                              <Text layoutX="490.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="commandes à l'heure en" textAlignment="CENTER" wrappingWidth="148.275390625" />
                               <Text fx:id="vehiculeBestDeliveryPersonTextField" layoutX="534.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="140.275390625" />
                            </children>
                         </HBox>
