@@ -15,8 +15,7 @@ public class PizzaService {
 
     public static int addPizza(String pizzaName, float pizzaBasePrice)
     {
-        String sqlQuery = String.format(Locale.US,"INSERT INTO Pizza (pizza_name,pizza_base_price) VALUE ('%s',%f);", pizzaName,pizzaBasePrice);
-        System.out.println(sqlQuery);
+        String sqlQuery = String.format(Locale.US,"INSERT IGNORE INTO Pizza (pizza_name,pizza_base_price) VALUE ('%s',%f);", pizzaName,pizzaBasePrice);
         int queryResult = DatabaseConnection.executeUpdate(sqlQuery);
         return queryResult;
     }
