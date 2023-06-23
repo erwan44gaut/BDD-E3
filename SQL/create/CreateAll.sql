@@ -40,19 +40,6 @@ CREATE TABLE Delivery_Person(
    delivery_person_name VARCHAR(50) NOT NULL
 );
 
-CREATE TABLE Invoice(
-   invoice_id INT AUTO_INCREMENT PRIMARY KEY,
-   pizza_id INT,
-   pizza_name VARCHAR(50),
-   pizza_size VARCHAR(50),
-   total_price FLOAT,
-   customer_id INT,
-   customer_name VARCHAR(50),
-   order_time DATETIME,
-   delivery_time DATETIME
-);
-
-
 CREATE TABLE Delivery(
    delivery_id INT AUTO_INCREMENT PRIMARY KEY,
    delivery_status ENUM('ACCEPTED', 'IN_PROGRESS', 'COMPLETE', 'LATE'),

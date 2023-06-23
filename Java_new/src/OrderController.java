@@ -37,7 +37,9 @@ public class OrderController implements Initializable {
     @FXML
     private TableColumn<PizzaOrder, Float> totalPrice;
     @FXML
-    private TableColumn<PizzaOrder, String> status;
+    private TableColumn<PizzaOrder, String> orderStatus;
+    @FXML
+    private TableColumn<PizzaOrder, String> deliveryStatus;
     @FXML
     private TableColumn<PizzaOrder, Date> orderDate;
     @FXML
@@ -61,7 +63,8 @@ public class OrderController implements Initializable {
         pizzaName.setCellValueFactory(new PropertyValueFactory<PizzaOrder, String>("pizzaName"));
         pizzaSize.setCellValueFactory(new PropertyValueFactory<PizzaOrder, String>("pizzaSize"));
         totalPrice.setCellValueFactory(new PropertyValueFactory<PizzaOrder, Float>("totalPrice"));
-        status.setCellValueFactory(new PropertyValueFactory<PizzaOrder, String>("status"));
+        orderStatus.setCellValueFactory(new PropertyValueFactory<PizzaOrder, String>("orderStatus"));
+        deliveryStatus.setCellValueFactory(new PropertyValueFactory<PizzaOrder, String>("deliveryStatus"));
         orderDate.setCellValueFactory(new PropertyValueFactory<PizzaOrder, Date>("orderDate"));
         cancel.setCellValueFactory(new PropertyValueFactory<PizzaOrder, Button>("cancel"));
         updateStatus.setCellValueFactory(new PropertyValueFactory<PizzaOrder, Button>("updateStatus"));
@@ -80,7 +83,7 @@ public class OrderController implements Initializable {
                         setGraphic(btn);
                         setAlignment(Pos.CENTER);
                         PizzaOrder order = getTableView().getItems().get(getIndex());
-                        String orderStatus = order.getStatus();
+                        String orderStatus = order.getOrderStatus();
                         btn.setOnAction(event -> {
                             Dialog<String> dialog = new Dialog<>();
                             dialog.setTitle("Update Status");
@@ -130,7 +133,7 @@ public class OrderController implements Initializable {
                     else 
                     {
                         PizzaOrder order = getTableView().getItems().get(getIndex());
-                        if (!order.getStatus().equals("ACCEPTED"))
+                        if (!order.getOrderStatus().equals("ACCEPTED"))
                         {
                             setGraphic(null);
                             return;
