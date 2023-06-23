@@ -147,9 +147,9 @@ public class PizzasController implements Initializable{
                             stage.setOnCloseRequest(e -> {
                             refreshTable();
                             });
+                            System.out.println("Order menu of pizza '"+pizza.getName()+"'");
                             stage.show();
                         } catch (IOException e) {
-                            System.out.println("BOLOSSE");
                         }
                     });
                 }
@@ -176,6 +176,7 @@ public class PizzasController implements Initializable{
                     deleteButton.setOnAction(event -> {
                         Pizza pizza = getTableView().getItems().get(getIndex());
                         PizzaService.deletePizza(pizza.getPizzaId());
+                        System.out.println("Delete pizza '"+pizza.getName()+"'");
                         refreshTable();
                     });
                 }
@@ -201,7 +202,6 @@ public class PizzasController implements Initializable{
 
                 {
                     editButton.setOnAction(event -> {
-                        System.out.println("COCUC");
                         Pizza pizza = getTableView().getItems().get(getIndex());
                         Stage stage = new Stage();
                         FXMLLoader loader = new FXMLLoader(getClass().getResource("EditPizza.fxml"));
@@ -215,6 +215,7 @@ public class PizzasController implements Initializable{
                             refreshTable();;
                             });
                             stage.show();
+                            System.out.println("Edit menu of pizza '"+pizza.getName()+"'");
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -263,7 +264,7 @@ public class PizzasController implements Initializable{
                         }
                     }
                     else{
-                        System.out.println("Wrong Price");
+                        System.out.println("No name in the text field");
                     } 
                 }
                 return null;
@@ -274,8 +275,9 @@ public class PizzasController implements Initializable{
             result.ifPresent(pizzaData -> {
                 String name = pizzaData.getKey();
                 float price = pizzaData.getValue();
-                System.out.println("Created new pizza: " + name + ", Price: " + price);
-                PizzaService.addPizza(name, price);
+                int res = PizzaService.addPizza(name, price);
+                if(res==0)System.out.println("The pizza '" + name + "' already exists");
+                else System.out.println("Created new pizza: " + name + ", Price: " + price);
                 refreshTable();
             });
         });
