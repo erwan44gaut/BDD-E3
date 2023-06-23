@@ -72,6 +72,7 @@ public class EditPizzaController implements Initializable{
         if(newNameText!=""){
             PizzaService.updatePizzaField(pizza.getPizzaId(), "pizza_name", newNameText);
             name.setText("NAME : "+newNameText);
+            System.out.println("Change the name of the pizza to '"+newNameText+"'");
         }
     }
 
@@ -82,6 +83,7 @@ public class EditPizzaController implements Initializable{
             Float.parseFloat(newPriceText);
             PizzaService.updatePizzaField(pizza.getPizzaId(), "pizza_base_price", newPriceText);
             price.setText("UNIT PRICE : "+newPriceText);
+            System.out.println("Change the price of the pizza to "+newPriceText);
         }catch(Exception e){
 
         }
@@ -92,6 +94,7 @@ public class EditPizzaController implements Initializable{
         try{
             Ingredient selectedIngredient = addIngredient.getValue();
             PizzaService.addIngredientInPizza(pizza.getPizzaId(), selectedIngredient.getId());
+            System.out.println("Add ingredient : "+selectedIngredient.getName());
             refreshAddIngredient();
             refreshRemoveIngredient();
             refreshIngredients();
@@ -104,6 +107,7 @@ public class EditPizzaController implements Initializable{
         try{
             Ingredient selectedIngredient = removeIngredient.getValue();
             PizzaService.deleteIngredientInPizza(pizza.getPizzaId(), selectedIngredient.getId());
+            System.out.println("Remove ingredient : "+selectedIngredient.getName());
             refreshAddIngredient();
             refreshRemoveIngredient();
             refreshIngredients();
