@@ -10,7 +10,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="355.0" prefWidth="433.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <TableView fx:id="table" layoutX="98.0" layoutY="44.0" prefHeight="128.0" prefWidth="226.0">
+      <TableView fx:id="table" layoutX="101.0" layoutY="50.0" prefHeight="122.0" prefWidth="227.0">
         <columns>
           <TableColumn fx:id="size" prefWidth="75.0" text="SIZE" />
           <TableColumn fx:id="price" prefWidth="75.0" text="PRICE" />
