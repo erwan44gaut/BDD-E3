@@ -57,16 +57,16 @@ public class PizzaService {
         return DatabaseConnection.query(sqlQuery);
     }
 
-    public static double getAdjustedPrice(int pizzaId, String pizzaSize){
-        double adjustedPrice = 0.0;
-        String sqlQuery = String.format("SELECT CalculateAdjustedPrice(%d,%s) AS adjustedPrice",pizzaId,pizzaSize);
+    public static float getAdjustedPrice(int pizzaId, String pizzaSize){
+        float adjustedPrice = 0f;
+        String sqlQuery = String.format("SELECT CalculateAdjustedPrice(%d,'%s') AS adjustedPrice;",pizzaId,pizzaSize);
         try{
             ResultSet resultSet = DatabaseConnection.query(sqlQuery);
-            while (resultSet.next()) {
-                adjustedPrice = resultSet.getDouble("adjustedPrice");
+            if (resultSet.next()) {
+                adjustedPrice = resultSet.getFloat("adjustedPrice");
             }
         }catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("ERROR : function adjustedPrice");
         }
         return adjustedPrice;
     }

@@ -116,6 +116,29 @@ public class PizzasController implements Initializable{
         order.setCellValueFactory(new PropertyValueFactory<Pizza, Button>("order"));
         order.setCellFactory(column -> {
             return new TableCell<Pizza, Button>() {
+                private final Button orderButton = new Button("ORDER");
+
+                {
+                    orderButton.setOnAction(event -> {
+                        Pizza pizza = getTableView().getItems().get(getIndex());
+                        System.out.println("ORDER");
+                        Stage stage = new Stage();
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("OrderPizza.fxml"));
+                        loader.setController(new OrderPizzaController(pizza));
+                        Parent root;
+                        try {
+                            root = loader.load();
+                            Scene scene = new Scene(root);
+                            stage.setScene(scene);
+                            stage.setOnCloseRequest(e -> {
+                            refreshTable();
+                            });
+                            stage.show();
+                        } catch (IOException e) {
+                            System.out.println("BOLOSSE");
+                        }
+                    });
+                }
                 @Override
                 protected void updateItem(Button button, boolean empty) {
                     super.updateItem(button, empty);
@@ -123,7 +146,7 @@ public class PizzasController implements Initializable{
                     if (button == null || empty) {
                         setGraphic(null);
                     } else {
-                        setGraphic(button);
+                        setGraphic(orderButton);
                         setAlignment(Pos.CENTER);
                     }
                 }
