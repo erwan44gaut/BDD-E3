@@ -32,8 +32,7 @@ public class CustomerService
 
     public static int updateCustomerField(int customerId, String field, String value) 
     {
-        String sqlQuery = String.format("UPDATE Customer SET %s = '%s' WHERE customer_id = %d", field, value,
-                customerId);
+        String sqlQuery = String.format("UPDATE Customer SET %s = '%s' WHERE customer_id = %d", field, value, customerId);
         int queryResult = DatabaseConnection.executeUpdate(sqlQuery);
         return queryResult;
     }

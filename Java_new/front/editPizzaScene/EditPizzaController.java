@@ -1,4 +1,4 @@
-package src;
+package front.editPizzaScene;
 
 import java.net.URL;
 import java.sql.ResultSet;

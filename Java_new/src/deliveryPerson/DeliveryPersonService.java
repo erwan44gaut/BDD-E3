@@ -31,6 +31,13 @@ public class DeliveryPersonService {
         return queryResult;
     }
 
+    public static int updateDeliveryPersonField(int deliveryPersonId, String field, String value) 
+    {
+        String sqlQuery = String.format("UPDATE Delivery_Person SET %s = '%s' WHERE delivery_person_id = %d", field, value, deliveryPersonId);
+        int queryResult = DatabaseConnection.executeUpdate(sqlQuery);
+        return queryResult;
+    }
+
     public static void unitTest() 
     {
         // Test getDeliveryPersonById(int deliveryPersonId)

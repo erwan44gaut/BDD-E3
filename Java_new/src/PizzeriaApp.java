@@ -6,7 +6,6 @@ import src.util.ResultSetUtil;
 import src.vehicle.VehicleService;
 import src.delivery.DeliveryService;
 import src.deliveryPerson.DeliveryPersonService;
-import src.front.statsScene.StatsSceneController;
 import src.order.OrderService;
 import src.customer.CustomerService;
 import src.util.Config;
@@ -26,8 +25,8 @@ public class PizzeriaApp extends Application
     public void start(Stage primaryStage)
     {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("Test.fxml"));
-            loader.setController(new PizzasController());
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("MainScene.fxml"));
+            loader.setController(new AdminController());
             Parent root = loader.load();
             Scene scene = new Scene(root);
             primaryStage.setTitle("Pizzeria");

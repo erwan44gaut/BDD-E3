@@ -1,4 +1,4 @@
-package src;
+package front.customerScene;
 import java.net.URL;
 import java.sql.Date;
 import java.sql.ResultSet;
@@ -31,40 +31,40 @@ import src.customer.Customer;
 public class CustomerController implements Initializable {
 
     @FXML
-    private TableColumn<Customer, Integer> customerId;
+    private TableColumn<Customer, Integer> customer_customerId;
     @FXML
-    private TableColumn<Customer, String> customerName;
+    private TableColumn<Customer, String> customer_customerName;
     @FXML
-    private TableColumn<Customer, Float> customerBalance;
+    private TableColumn<Customer, Float> customer_customerBalance;
     @FXML
-    private TableColumn<Customer, Button> rechargeBalance;
+    private TableColumn<Customer, Button> customer_rechargeBalance;
     @FXML
-    private TableColumn<Customer, Button> editName;
+    private TableColumn<Customer, Button> customer_editName;
     @FXML
-    private TableColumn<Customer, Button> delete;
+    private TableColumn<Customer, Button> customer_delete;
 
     @FXML
-    private Button addButton;
+    private Button customer_addButton;
 
     @FXML
-    private Button refreshButton;
+    private Button customer_refreshButton;
     @FXML
-    private TableView<Customer> table;
+    private TableView<Customer> customer_table;
 
     ObservableList<Customer> customers = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) 
     {
-        table.setFixedCellSize(60.0);
-        customerId.setCellValueFactory(new PropertyValueFactory<Customer, Integer>("customerId"));
-        customerName.setCellValueFactory(new PropertyValueFactory<Customer, String>("customerName"));
-        customerBalance.setCellValueFactory(new PropertyValueFactory<Customer, Float>("customerBalance"));
-        rechargeBalance.setCellValueFactory(new PropertyValueFactory<Customer, Button>("rechargeBalance"));
-        editName.setCellValueFactory(new PropertyValueFactory<Customer, Button>("editName"));
-        refreshButton.setOnAction(event -> refreshTable());
+        customer_table.setFixedCellSize(60.0);
+        customer_customerId.setCellValueFactory(new PropertyValueFactory<Customer, Integer>("customerId"));
+        customer_customerName.setCellValueFactory(new PropertyValueFactory<Customer, String>("customerName"));
+        customer_customerBalance.setCellValueFactory(new PropertyValueFactory<Customer, Float>("customerBalance"));
+        customer_rechargeBalance.setCellValueFactory(new PropertyValueFactory<Customer, Button>("rechargeBalance"));
+        customer_editName.setCellValueFactory(new PropertyValueFactory<Customer, Button>("editName"));
+        customer_refreshButton.setOnAction(event -> refreshTable());
 
-        addButton.setOnAction(event -> {
+        customer_addButton.setOnAction(event -> {
             Dialog<String> dialog = new Dialog<>();
             dialog.setTitle("Create new customer");
 
@@ -93,7 +93,7 @@ public class CustomerController implements Initializable {
             });
         });
 
-        editName.setCellFactory(column -> {
+        customer_editName.setCellFactory(column -> {
             return new TableCell<Customer, Button>() {
                 final Button btn = new Button("Edit name");
 
@@ -140,7 +140,7 @@ public class CustomerController implements Initializable {
             };
         });
 
-        rechargeBalance.setCellFactory(column -> {
+        customer_rechargeBalance.setCellFactory(column -> {
             return new TableCell<Customer, Button>() {
                 final Button btn = new Button("Recharge balance");
                 
@@ -194,7 +194,7 @@ public class CustomerController implements Initializable {
         });
 
                 
-        delete.setCellFactory(column -> {
+        customer_delete.setCellFactory(column -> {
             return new TableCell<Customer, Button>() {
                 final Button btn = new Button("Delete");
 
@@ -236,6 +236,6 @@ public class CustomerController implements Initializable {
         {
             e.printStackTrace();
         }
-        table.setItems(customers);
+        customer_table.setItems(customers);
     }
 }
