@@ -27,50 +27,50 @@ import src.order.PizzaOrder;
 public class OrderController implements Initializable {
 
     @FXML
-    private TableColumn<PizzaOrder, Integer> orderId;
+    private TableColumn<PizzaOrder, Integer> order_orderId;
     @FXML
-    private TableColumn<PizzaOrder, String> customerName;
+    private TableColumn<PizzaOrder, String> order_customerName;
     @FXML
-    private TableColumn<PizzaOrder, String> pizzaName;
+    private TableColumn<PizzaOrder, String> order_pizzaName;
     @FXML
-    private TableColumn<PizzaOrder, String> pizzaSize;
+    private TableColumn<PizzaOrder, String> order_pizzaSize;
     @FXML
-    private TableColumn<PizzaOrder, Float> totalPrice;
+    private TableColumn<PizzaOrder, Float> order_totalPrice;
     @FXML
-    private TableColumn<PizzaOrder, String> orderStatus;
+    private TableColumn<PizzaOrder, String> order_orderStatus;
     @FXML
-    private TableColumn<PizzaOrder, String> deliveryStatus;
+    private TableColumn<PizzaOrder, String> order_deliveryStatus;
     @FXML
-    private TableColumn<PizzaOrder, Date> orderDate;
+    private TableColumn<PizzaOrder, Date> order_orderDate;
     @FXML
-    private TableColumn<PizzaOrder, Button> cancel;
+    private TableColumn<PizzaOrder, Button> order_cancel;
     @FXML
-    private TableColumn<PizzaOrder, Button> updateStatus;
+    private TableColumn<PizzaOrder, Button> order_updateStatus;
     @FXML
-    private Button refreshButton;
+    private Button order_refreshButton;
 
     @FXML
-    private TableView<PizzaOrder> table;
+    private TableView<PizzaOrder> order_table;
 
     ObservableList<PizzaOrder> orders = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) 
     {
-        table.setFixedCellSize(60.0);
-        orderId.setCellValueFactory(new PropertyValueFactory<PizzaOrder, Integer>("orderId"));
-        customerName.setCellValueFactory(new PropertyValueFactory<PizzaOrder, String>("customerName"));
-        pizzaName.setCellValueFactory(new PropertyValueFactory<PizzaOrder, String>("pizzaName"));
-        pizzaSize.setCellValueFactory(new PropertyValueFactory<PizzaOrder, String>("pizzaSize"));
-        totalPrice.setCellValueFactory(new PropertyValueFactory<PizzaOrder, Float>("totalPrice"));
-        orderStatus.setCellValueFactory(new PropertyValueFactory<PizzaOrder, String>("orderStatus"));
-        deliveryStatus.setCellValueFactory(new PropertyValueFactory<PizzaOrder, String>("deliveryStatus"));
-        orderDate.setCellValueFactory(new PropertyValueFactory<PizzaOrder, Date>("orderDate"));
-        cancel.setCellValueFactory(new PropertyValueFactory<PizzaOrder, Button>("cancel"));
-        updateStatus.setCellValueFactory(new PropertyValueFactory<PizzaOrder, Button>("updateStatus"));
-        refreshButton.setOnAction(event -> refreshTable());
+        order_table.setFixedCellSize(60.0);
+        order_orderId.setCellValueFactory(new PropertyValueFactory<PizzaOrder, Integer>("orderId"));
+        order_customerName.setCellValueFactory(new PropertyValueFactory<PizzaOrder, String>("customerName"));
+        order_pizzaName.setCellValueFactory(new PropertyValueFactory<PizzaOrder, String>("pizzaName"));
+        order_pizzaSize.setCellValueFactory(new PropertyValueFactory<PizzaOrder, String>("pizzaSize"));
+        order_totalPrice.setCellValueFactory(new PropertyValueFactory<PizzaOrder, Float>("totalPrice"));
+        order_orderStatus.setCellValueFactory(new PropertyValueFactory<PizzaOrder, String>("orderStatus"));
+        order_deliveryStatus.setCellValueFactory(new PropertyValueFactory<PizzaOrder, String>("deliveryStatus"));
+        order_orderDate.setCellValueFactory(new PropertyValueFactory<PizzaOrder, Date>("orderDate"));
+        order_cancel.setCellValueFactory(new PropertyValueFactory<PizzaOrder, Button>("cancel"));
+        order_updateStatus.setCellValueFactory(new PropertyValueFactory<PizzaOrder, Button>("updateStatus"));
+        order_refreshButton.setOnAction(event -> refreshTable());
         
-        updateStatus.setCellFactory(column -> {
+        order_updateStatus.setCellFactory(column -> {
             return new TableCell<PizzaOrder, Button>() {
                 final Button btn = new Button("Update Status");
                 
@@ -118,7 +118,7 @@ public class OrderController implements Initializable {
         });
 
 
-        cancel.setCellFactory(column -> 
+        order_cancel.setCellFactory(column -> 
         {
             return new TableCell<PizzaOrder, Button>() 
             {
@@ -170,6 +170,6 @@ public class OrderController implements Initializable {
         {
             e.printStackTrace();
         }
-        table.setItems(orders);
+        order_table.setItems(orders);
     }
 }

@@ -12,7 +12,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="698.0" prefWidth="1183.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="649.0" prefWidth="1055.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
   <tabs>
     <Tab text="Véhicules">
       <content>
@@ -136,6 +136,49 @@
                   </TableView>
                   <Button fx:id="pizza_addButton" layoutX="926.0" layoutY="23.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="49.0" text="Add" />
                   <Button fx:id="pizza_refreshButton" layoutX="982.0" layoutY="23.0" mnemonicParsing="false" text="Refresh" />
+               </children>
+            </AnchorPane>
+         </content>
+      </Tab>
+      <Tab text="Orders">
+         <content>
+            <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="628.0" prefWidth="1046.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+               <children>
+                  <TableView fx:id="order_table" layoutX="25.0" layoutY="27.0" prefHeight="565.0" prefWidth="989.0">
+                  <columns>
+                     <TableColumn fx:id="order_orderId" prefWidth="48.000057220458984" text="id" />
+                        <TableColumn fx:id="order_customerName" prefWidth="133.59991455078125" text="customer name" />
+                        <TableColumn fx:id="order_pizzaName" prefWidth="101.59999084472656" text="pizza name" />
+                        <TableColumn fx:id="order_pizzaSize" prefWidth="127.2000732421875" text="pizza size" />
+                        <TableColumn fx:id="order_totalPrice" prefWidth="81.60009765625" text="total price" />
+                        <TableColumn fx:id="order_orderStatus" prefWidth="81.60009765625" text="order status" />
+                        <TableColumn fx:id="order_deliveryStatus" prefWidth="108.0001220703125" text="delivery status" />
+                        <TableColumn fx:id="order_orderDate" prefWidth="63.9998779296875" text="order date" />
+                        <TableColumn fx:id="order_updateStatus" prefWidth="138.4000244140625" text="update status" />
+                        <TableColumn fx:id="order_cancel" prefWidth="95.199951171875" text="cancel" />
+                  </columns>
+                  </TableView>
+                  <Button fx:id="order_refreshButton" layoutX="959.0" layoutY="1.0" mnemonicParsing="false" text="Refresh" />
+               </children>
+            </AnchorPane>
+         </content>
+      </Tab>
+      <Tab text="Customers">
+         <content>
+            <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="628.0" prefWidth="1046.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+               <children>
+                  <TableView fx:id="customer_table" layoutX="25.0" layoutY="27.0" prefHeight="565.0" prefWidth="989.0">
+                  <columns>
+                     <TableColumn fx:id="customer_customerId" prefWidth="75.0" text="id" />
+                        <TableColumn fx:id="customer_customerName" prefWidth="163.0" text="name" />
+                        <TableColumn fx:id="customer_customerBalance" prefWidth="87.2000732421875" text="balance" />
+                        <TableColumn fx:id="customer_rechargeBalance" prefWidth="124.0" text="recharge" />
+                        <TableColumn fx:id="customer_editName" prefWidth="149.5999755859375" text="edit" />
+                        <TableColumn fx:id="customer_delete" prefWidth="149.5999755859375" text="delete" />
+                  </columns>
+                  </TableView>
+                  <Button fx:id="customer_refreshButton" layoutX="959.0" layoutY="1.0" mnemonicParsing="false" text="Refresh" />
+                  <Button fx:id="customer_addButton" layoutX="920.0" layoutY="1.0" mnemonicParsing="false" text="Add" />
                </children>
             </AnchorPane>
          </content>
