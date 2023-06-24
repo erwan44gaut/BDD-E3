@@ -25,8 +25,8 @@ public class PizzeriaApp extends Application
     public void start(Stage primaryStage)
     {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("ClientScene.fxml"));
-            loader.setController(new ClientController(1));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("StartScene.fxml"));
+            loader.setController(new StartController());
             Parent root = loader.load();
             Scene scene = new Scene(root);
             primaryStage.setTitle("Pizzeria");
