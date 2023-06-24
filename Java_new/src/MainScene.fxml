@@ -23,13 +23,13 @@
          <content>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
-                  <TableView fx:id="deliveryPerson_table" layoutX="-1.0" layoutY="35.0" prefHeight="476.0" prefWidth="966.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                  <TableView fx:id="deliveryPerson_table" layoutX="-1.0" layoutY="35.0" prefHeight="585.0" prefWidth="1055.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                     <columns>
                       <TableColumn fx:id="deliveryPerson_id" prefWidth="75.0" text="id" />
                       <TableColumn fx:id="deliveryPerson_name" prefWidth="163.0" text="name" />
-                        <TableColumn fx:id="deliveryPerson_vehicle" minWidth="0.0" prefWidth="88.0" text="vehicle" />
+                        <TableColumn fx:id="deliveryPerson_vehicle" minWidth="0.0" prefWidth="100.0" text="vehicle" />
                         <TableColumn fx:id="deliveryPerson_editName" minWidth="0.0" prefWidth="150.0" text="edit name" />
-                        <TableColumn fx:id="deliveryPerson_editVehicle" minWidth="0.0" prefWidth="150.0" text="edit vehicle" />
+                        <TableColumn fx:id="deliveryPerson_editVehicle" minWidth="0.0" prefWidth="200.0" text="edit vehicle" />
                         <TableColumn fx:id="deliveryPerson_delete" minWidth="0.0" prefWidth="150.0" text="delete" />
                     </columns>
                   </TableView>

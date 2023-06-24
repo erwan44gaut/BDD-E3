@@ -48,6 +48,7 @@ import src.order.PizzaOrder;
 import src.pizza.Pizza;
 import src.pizza.PizzaService;
 import src.stats.StatsService;
+import src.vehicle.VehicleService;
 
 public class AdminController implements Initializable {
     //#region FXMl Variables
@@ -739,10 +740,20 @@ public class AdminController implements Initializable {
 
             {
                 comboBox.getItems().addAll("CAR", "BIKE", "MOTORBIKE");
+                comboBox.setPromptText("Change vehicle");
                 comboBox.setOnAction(event -> {
                     DeliveryPerson deliveryPerson = getTableView().getItems().get(getIndex());
                     String selectedVehicle = comboBox.getValue();
-                    System.out.println("Selected vehicle: " + selectedVehicle);
+                    String vehiculeId = null;
+                    try {  
+                        ResultSet vehicule = VehicleService.getVehicleByName(selectedVehicle);
+                        if (vehicule.next()) vehiculeId = vehicule.getString("vehicle_id");
+                    } catch (Exception e) {
+                        System.out.println("Error while getting vehicle id");
+                        e.printStackTrace();
+                    }
+                    DeliveryPersonService.updateDeliveryPersonField(deliveryPerson.getDeliveryPersonId(), "vehicle_id", vehiculeId);
+                    refreshTable();
                 });
             }
 
@@ -754,6 +765,7 @@ public class AdminController implements Initializable {
                 } else {
                     comboBox.setValue(item);
                     setGraphic(comboBox);
+                    setAlignment(Pos.CENTER);
                 }
             }
         });

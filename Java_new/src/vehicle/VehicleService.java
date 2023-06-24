@@ -17,6 +17,12 @@ public class VehicleService {
         return DatabaseConnection.query(sqlQuery);
     }
 
+    public static ResultSet getVehicleByName(String vehicleName)
+    {
+        String sqlQuery = String.format("SELECT * FROM Vehicle WHERE vehicle_type = '%s';", vehicleName);
+        return DatabaseConnection.query(sqlQuery);
+    }
+
     public static int addVehicle(String vehicleType) 
     {
         String sqlQuery = String.format("INSERT INTO Vehicle (vehicle_type) VALUES (\"%s\")", vehicleType);
