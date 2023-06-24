@@ -71,20 +71,6 @@ VALUES
     (9, 'William', 2),
     (10, 'Olivia', 2);
 
--- Insert into Invoice table
-INSERT INTO Invoice (invoice_id, pizza_id, pizza_name, pizza_size, total_price, customer_id, customer_name, order_time, delivery_time)
-VALUES
-    (1, 1, 'Margherita', 'MEDIUM', 9.99, 1, 'John Doe', NOW(), NOW()),
-    (2, 2, 'Pepperoni', 'LARGE', 10.99, 2, 'Jane Smith', NOW(), NOW()),
-    (3, 3, 'Supreme', 'SMALL', 11.99, 3, 'Michael Johnson', NOW(), NOW()),
-    (4, 4, 'Vegetarian', 'MEDIUM', 8.99, 4, 'Sarah Davis', NOW(), NOW()),
-    (5, 5, 'Hawaiian', 'LARGE', 12.99, 5, 'Robert Wilson', NOW(), NOW()),
-    (6, 6, 'BBQ Chicken', 'SMALL', 10.99, 6, 'Emily Jones', NOW(), NOW()),
-    (7, 7, 'Meat Lovers', 'MEDIUM', 13.99, 7, 'Daniel Brown', NOW(), NOW()),
-    (8, 8, 'Mushroom', 'LARGE', 11.99, 8, 'Sophia Miller', NOW(), NOW()),
-    (9, 9, 'Cheese', 'SMALL', 9.99, 9, 'William Taylor', NOW(), NOW()),
-    (10, 10, 'Sausage', 'MEDIUM', 10.99, 10, 'Olivia Anderson', NOW(), NOW());
-
 -- Insert into Delivery table
 INSERT INTO Delivery (delivery_id, delivery_status, delivery_datetime, delivery_person_id, order_id)
 VALUES
