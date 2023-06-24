@@ -42,45 +42,45 @@ public class PizzasController implements Initializable{
 
 
     @FXML
-    private TableColumn<Pizza, String> name;
+    private TableColumn<Pizza, String> pizza_name;
 
     @FXML
-    private TableColumn<Pizza, Float> price;
+    private TableColumn<Pizza, Float> pizza_price;
 
     @FXML
-    private TableColumn<Pizza, Image> image;
+    private TableColumn<Pizza, Image> pizza_image;
 
     @FXML
-    private TableColumn<Pizza, String> ingredients;
+    private TableColumn<Pizza, String> pizza_ingredients;
 
     @FXML
-    private TableColumn<Pizza, Button> order;
+    private TableColumn<Pizza, Button> pizza_order;
 
     @FXML
-    private TableColumn<Pizza, Button> delete;
+    private TableColumn<Pizza, Button> pizza_delete;
 
     @FXML
-    private TableColumn<Pizza, Button> modify;
+    private TableColumn<Pizza, Button> pizza_modify;
 
 
     @FXML
-    private TableView<Pizza> table;
+    private TableView<Pizza> pizza_table;
 
     @FXML
-    private Button addButton;
+    private Button pizza_addButton;
 
     @FXML
-    private Button refreshButton;
+    private Button pizza_refreshButton;
 
     ObservableList<Pizza> pizzas = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        table.setFixedCellSize(60.0);
-        name.setCellValueFactory(new PropertyValueFactory<Pizza,String>("name"));
-        price.setCellValueFactory(new PropertyValueFactory<Pizza,Float>("price"));
-        image.setCellValueFactory(new PropertyValueFactory<Pizza,Image>("image"));
-        image.setCellFactory(column -> {
+        pizza_table.setFixedCellSize(60.0);
+        pizza_name.setCellValueFactory(new PropertyValueFactory<Pizza,String>("name"));
+        pizza_price.setCellValueFactory(new PropertyValueFactory<Pizza,Float>("price"));
+        pizza_image.setCellValueFactory(new PropertyValueFactory<Pizza,Image>("image"));
+        pizza_image.setCellFactory(column -> {
             return new TableCell<>() {
                 private final ImageView imageView = new ImageView();
                 {
@@ -101,8 +101,8 @@ public class PizzasController implements Initializable{
                 }
             };
         });
-        ingredients.setCellValueFactory(new PropertyValueFactory<Pizza, String>("ingredients"));
-        ingredients.setCellFactory(column -> {
+        pizza_ingredients.setCellValueFactory(new PropertyValueFactory<Pizza, String>("ingredients"));
+        pizza_ingredients.setCellFactory(column -> {
             return new TableCell<Pizza, String>() {
                 private final TextFlow textFlow = new TextFlow();
 
@@ -127,8 +127,8 @@ public class PizzasController implements Initializable{
         });
 
 
-        order.setCellValueFactory(new PropertyValueFactory<Pizza, Button>("order"));
-        order.setCellFactory(column -> {
+        pizza_order.setCellValueFactory(new PropertyValueFactory<Pizza, Button>("order"));
+        pizza_order.setCellFactory(column -> {
             return new TableCell<Pizza, Button>() {
                 private final Button orderButton = new Button("ORDER");
 
@@ -167,8 +167,8 @@ public class PizzasController implements Initializable{
             };
         });
 
-        delete.setCellValueFactory(new PropertyValueFactory<Pizza, Button>("delete"));
-        delete.setCellFactory(column -> {
+        pizza_delete.setCellValueFactory(new PropertyValueFactory<Pizza, Button>("delete"));
+        pizza_delete.setCellFactory(column -> {
             return new TableCell<Pizza, Button>() {
                 private final Button deleteButton = new Button("DELETE");
 
@@ -195,8 +195,8 @@ public class PizzasController implements Initializable{
             };
         });
 
-        modify.setCellValueFactory(new PropertyValueFactory<Pizza, Button>("modify"));
-        modify.setCellFactory(column -> {
+        pizza_modify.setCellValueFactory(new PropertyValueFactory<Pizza, Button>("modify"));
+        pizza_modify.setCellFactory(column -> {
             return new TableCell<Pizza, Button>() {
                 private final Button editButton = new Button("EDIT");
 
@@ -236,7 +236,7 @@ public class PizzasController implements Initializable{
         });
 
         
-        addButton.setOnAction(event -> {
+        pizza_addButton.setOnAction(event -> {
             Dialog<Pair<String, Float>> dialog = new Dialog<>();
             dialog.setTitle("Create new pizza");
 
@@ -282,13 +282,13 @@ public class PizzasController implements Initializable{
             });
         });
 
-        refreshButton.setOnAction(event -> refreshTable());
+        pizza_refreshButton.setOnAction(event -> refreshTable());
 
         refreshTable();
     }
 
     void refreshTable(){
-        table.getItems().clear();
+        pizza_table.getItems().clear();
         try {
             ResultSet pizzaSet = PizzaService.getPizzas();
             while (pizzaSet.next()) {
@@ -298,7 +298,7 @@ public class PizzasController implements Initializable{
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        table.setItems(pizzas);
+        pizza_table.setItems(pizzas);
     }
 
 }

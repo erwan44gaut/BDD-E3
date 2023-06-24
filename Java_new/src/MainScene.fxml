@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
@@ -10,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="960.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="698.0" prefWidth="1183.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
   <tabs>
     <Tab text="Commandes">
       <content>
@@ -103,12 +104,19 @@
          <content>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
-                  <TableView fx:id="pizza_table" layoutX="246.0" layoutY="148.0" prefHeight="200.0" prefWidth="444.0">
-                    <columns>
-                      <TableColumn fx:id="pizza_name" prefWidth="75.0" text="Name" />
-                      <TableColumn fx:id="pizza_price" prefWidth="75.0" text="Price" />
-                    </columns>
+                  <TableView fx:id="pizza_table" layoutX="45.0" layoutY="64.0" prefHeight="503.0" prefWidth="965.0">
+                  <columns>
+                     <TableColumn fx:id="pizza_name" prefWidth="75.0" text="name" />
+                     <TableColumn fx:id="pizza_price" prefWidth="75.0" text="price" />
+                        <TableColumn fx:id="pizza_image" prefWidth="163.0" text="image" />
+                        <TableColumn fx:id="pizza_ingredients" prefWidth="333.0" text="ingredients" />
+                        <TableColumn fx:id="pizza_order" prefWidth="114.0" text="order" />
+                        <TableColumn fx:id="pizza_delete" prefWidth="114.0" text="delete" />
+                        <TableColumn fx:id="pizza_modify" prefWidth="91.0" text="modify" />
+                  </columns>
                   </TableView>
+                  <Button fx:id="pizza_addButton" layoutX="926.0" layoutY="23.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="49.0" text="Add" />
+                  <Button fx:id="pizza_refreshButton" layoutX="982.0" layoutY="23.0" mnemonicParsing="false" text="Refresh" />
                </children>
             </AnchorPane>
          </content>
