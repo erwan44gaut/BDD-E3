@@ -18,6 +18,7 @@ public class PizzaOrder {
 
     private Button updateStatus;
     private Button cancel;
+    private Button assignDelivery;
 
     public PizzaOrder(int orderId, String customerName, String pizzaName, String pizzaSize, Float totalPrice, String orderStatus, String deliveryStatus, Date orderDate) {
         this.orderId = orderId;
@@ -30,6 +31,7 @@ public class PizzaOrder {
         this.orderDate = orderDate;
         this.cancel = new Button("CANCEL");
         this.updateStatus = new Button("UPDATE STATUS");
+        this.assignDelivery = new Button("ASSIGN DELIVERY");
     }
 
     public int getOrderId() {
@@ -72,6 +74,10 @@ public class PizzaOrder {
         return updateStatus;
     }
     
+    public Button getAssignDelivery() {
+        return assignDelivery;
+    }
+
     public static PizzaOrder createOrderFromResultSet(ResultSet resultSet) throws SQLException {
         int orderId = resultSet.getInt("order_id");
         String customerName = resultSet.getString("customer_name");

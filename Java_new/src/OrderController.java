@@ -8,7 +8,6 @@ import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
@@ -21,59 +20,65 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import src.delivery.DeliveryService;
+import src.deliveryPerson.DeliveryPersonService;
 import src.order.OrderService;
 import src.order.PizzaOrder;
 
 public class OrderController implements Initializable {
 
     @FXML
-    private TableColumn<PizzaOrder, Integer> orderId;
+    private TableColumn<PizzaOrder, Integer> order_orderId;
     @FXML
-    private TableColumn<PizzaOrder, String> customerName;
+    private TableColumn<PizzaOrder, String> order_customerName;
     @FXML
-    private TableColumn<PizzaOrder, String> pizzaName;
+    private TableColumn<PizzaOrder, String> order_pizzaName;
     @FXML
-    private TableColumn<PizzaOrder, String> pizzaSize;
+    private TableColumn<PizzaOrder, String> order_pizzaSize;
     @FXML
-    private TableColumn<PizzaOrder, Float> totalPrice;
+    private TableColumn<PizzaOrder, Float> order_totalPrice;
     @FXML
-    private TableColumn<PizzaOrder, String> orderStatus;
+    private TableColumn<PizzaOrder, String> order_orderStatus;
     @FXML
-    private TableColumn<PizzaOrder, String> deliveryStatus;
+    private TableColumn<PizzaOrder, String> order_deliveryStatus;
     @FXML
-    private TableColumn<PizzaOrder, Date> orderDate;
+    private TableColumn<PizzaOrder, Date> order_orderDate;
     @FXML
-    private TableColumn<PizzaOrder, Button> cancel;
+    private TableColumn<PizzaOrder, Button> order_cancel;
     @FXML
-    private TableColumn<PizzaOrder, Button> updateStatus;
+    private TableColumn<PizzaOrder, Button> order_updateStatus;
     @FXML
-    private Button refreshButton;
+    private TableColumn<PizzaOrder, Button> order_assignDelivery;
+    @FXML
+    private Button order_refreshButton;
 
     @FXML
-    private TableView<PizzaOrder> table;
+    private TableView<PizzaOrder> order_table;
 
     ObservableList<PizzaOrder> orders = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) 
     {
-        table.setFixedCellSize(60.0);
-        orderId.setCellValueFactory(new PropertyValueFactory<PizzaOrder, Integer>("orderId"));
-        customerName.setCellValueFactory(new PropertyValueFactory<PizzaOrder, String>("customerName"));
-        pizzaName.setCellValueFactory(new PropertyValueFactory<PizzaOrder, String>("pizzaName"));
-        pizzaSize.setCellValueFactory(new PropertyValueFactory<PizzaOrder, String>("pizzaSize"));
-        totalPrice.setCellValueFactory(new PropertyValueFactory<PizzaOrder, Float>("totalPrice"));
-        orderStatus.setCellValueFactory(new PropertyValueFactory<PizzaOrder, String>("orderStatus"));
-        deliveryStatus.setCellValueFactory(new PropertyValueFactory<PizzaOrder, String>("deliveryStatus"));
-        orderDate.setCellValueFactory(new PropertyValueFactory<PizzaOrder, Date>("orderDate"));
-        cancel.setCellValueFactory(new PropertyValueFactory<PizzaOrder, Button>("cancel"));
-        updateStatus.setCellValueFactory(new PropertyValueFactory<PizzaOrder, Button>("updateStatus"));
-        refreshButton.setOnAction(event -> refreshTable());
-        
-        updateStatus.setCellFactory(column -> {
+        order_table.setFixedCellSize(60.0);
+        order_orderId.setCellValueFactory(new PropertyValueFactory<PizzaOrder, Integer>("orderId"));
+        order_customerName.setCellValueFactory(new PropertyValueFactory<PizzaOrder, String>("customerName"));
+        order_pizzaName.setCellValueFactory(new PropertyValueFactory<PizzaOrder, String>("pizzaName"));
+        order_pizzaSize.setCellValueFactory(new PropertyValueFactory<PizzaOrder, String>("pizzaSize"));
+        order_totalPrice.setCellValueFactory(new PropertyValueFactory<PizzaOrder, Float>("totalPrice"));
+        order_orderStatus.setCellValueFactory(new PropertyValueFactory<PizzaOrder, String>("orderStatus"));
+        order_deliveryStatus.setCellValueFactory(new PropertyValueFactory<PizzaOrder, String>("deliveryStatus"));
+        order_orderDate.setCellValueFactory(new PropertyValueFactory<PizzaOrder, Date>("orderDate"));
+        order_cancel.setCellValueFactory(new PropertyValueFactory<PizzaOrder, Button>("cancel"));
+        order_updateStatus.setCellValueFactory(new PropertyValueFactory<PizzaOrder, Button>("updateStatus"));
+        order_assignDelivery.setCellValueFactory(new PropertyValueFactory<PizzaOrder, Button>("assignDelivery"));
+
+        order_refreshButton.setOnAction(event -> refreshTable());
+
+        order_updateStatus.setCellFactory(column -> {
             return new TableCell<PizzaOrder, Button>() {
                 final Button btn = new Button("Update Status");
-                
+
                 @Override
                 protected void updateItem(Button item, boolean empty) {
                     super.updateItem(item, empty);
@@ -87,11 +92,12 @@ public class OrderController implements Initializable {
                         btn.setOnAction(event -> {
                             Dialog<String> dialog = new Dialog<>();
                             dialog.setTitle("Update Status");
-                            
+
                             ComboBox<String> statusComboBox = new ComboBox<>();
-                            statusComboBox.getItems().addAll("ACCEPTED", "IN_PREPARATION", "IN_DELIVERY", "COMPLETED", "CANCELED");
+                            statusComboBox.getItems().addAll("ACCEPTED", "IN_PREPARATION", "IN_DELIVERY", "COMPLETED",
+                                    "CANCELED");
                             statusComboBox.getSelectionModel().select(orderStatus);
-                            
+
                             ButtonType applyButtonType = new ButtonType("Apply", ButtonBar.ButtonData.OK_DONE);
                             ButtonType cancelButtonType = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
                             dialog.getDialogPane().getButtonTypes().addAll(applyButtonType, cancelButtonType);
@@ -117,32 +123,23 @@ public class OrderController implements Initializable {
             };
         });
 
-
-        cancel.setCellFactory(column -> 
-        {
-            return new TableCell<PizzaOrder, Button>() 
-            {
+        order_cancel.setCellFactory(column -> {
+            return new TableCell<PizzaOrder, Button>() {
                 @Override
-                protected void updateItem(Button button, boolean empty) 
-                {   
+                protected void updateItem(Button button, boolean empty) {
                     super.updateItem(button, empty);
-                    if (button == null || empty) 
-                    {
+                    if (button == null || empty) {
                         setGraphic(null);
-                    } 
-                    else 
-                    {
+                    } else {
                         PizzaOrder order = getTableView().getItems().get(getIndex());
-                        if (!order.getOrderStatus().equals("ACCEPTED"))
-                        {
+                        if (!order.getOrderStatus().equals("ACCEPTED")) {
                             setGraphic(null);
                             return;
                         }
 
                         setGraphic(button);
                         setAlignment(Pos.CENTER);
-                        button.setOnAction(event -> 
-                        {
+                        button.setOnAction(event -> {
                             int orderId = order.getOrderId();
                             OrderService.cancelOrder(orderId);
                             refreshTable();
@@ -151,6 +148,61 @@ public class OrderController implements Initializable {
                 }
             };
         });
+        order_assignDelivery.setCellFactory(column -> {
+            return new TableCell<PizzaOrder, Button>() {
+                final Button btn = new Button("Assign delivery person");
+
+                @Override
+                protected void updateItem(Button item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty) {
+                        setGraphic(null);
+                    } else {
+                        setGraphic(btn);
+                        setAlignment(Pos.CENTER);
+                        PizzaOrder order = getTableView().getItems().get(getIndex());
+
+                        btn.setOnAction(event -> {
+                            Dialog<String> dialog = new Dialog<>();
+                            dialog.setTitle("Select the delivery person's ID");
+
+                            ComboBox<String> deliveryComboBox = new ComboBox<>();
+                            ResultSet deliveryPersons = DeliveryPersonService.getDeliveryPersons();
+                            try {
+                                while (deliveryPersons.next()) {
+                                    String deliveryPersonId = Integer.toString(deliveryPersons.getInt("delivery_person_id"));
+                                    deliveryComboBox.getItems().add(deliveryPersonId);
+                                }
+                            } catch (SQLException e) {
+                                e.printStackTrace();
+                            }
+                            deliveryComboBox.getSelectionModel().selectFirst();
+
+                            ButtonType confirmButtonType = new ButtonType("Assign", ButtonBar.ButtonData.OK_DONE);
+                            ButtonType cancelButtonType = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+                            dialog.getDialogPane().getButtonTypes().addAll(confirmButtonType, cancelButtonType);
+                            dialog.getDialogPane().setContent(deliveryComboBox);
+
+                            dialog.setResultConverter(dialogButton -> {
+                                if (dialogButton == confirmButtonType) {
+                                    return deliveryComboBox.getSelectionModel().getSelectedItem();
+                                }
+                                return null;
+                            });
+
+                            Optional<String> result = dialog.showAndWait();
+
+                            result.ifPresent(selectedDeliveryPerson -> {
+                                System.out.println("Assigned order to delivery person: " + selectedDeliveryPerson);
+                                DeliveryService.addDelivery(Integer.parseInt(selectedDeliveryPerson), order.getOrderId());
+                                refreshTable();
+                            });
+                        });
+                    }
+                }
+            };
+        });
+        refreshTable();
 
         refreshTable();
     }
@@ -170,6 +222,6 @@ public class OrderController implements Initializable {
         {
             e.printStackTrace();
         }
-        table.setItems(orders);
+        order_table.setItems(orders);
     }
 }
