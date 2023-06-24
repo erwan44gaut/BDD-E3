@@ -13,6 +13,12 @@ public class PizzaService {
         return DatabaseConnection.query("SELECT * FROM Pizza;");
     }
 
+    public static ResultSet getPizzaById(int pizzaId)
+    {
+        String sqlQuery = String.format("SELECT * FROM Pizza WHERE pizza_id = %d", pizzaId);
+        return DatabaseConnection.query(sqlQuery);
+    }
+
     public static int addPizza(String pizzaName, float pizzaBasePrice)
     {
         String sqlQuery = String.format(Locale.US,"INSERT IGNORE INTO Pizza (pizza_name,pizza_base_price) VALUE ('%s',%f);", pizzaName,pizzaBasePrice);

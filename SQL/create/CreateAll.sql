@@ -52,7 +52,6 @@ CREATE TABLE Invoice(
    delivery_time DATETIME
 );
 
-
 CREATE TABLE Delivery(
    delivery_id INT AUTO_INCREMENT PRIMARY KEY,
    delivery_status ENUM('ACCEPTED', 'IN_PROGRESS', 'COMPLETE', 'LATE'),

@@ -42,7 +42,7 @@ VALUES
     (1, 'ACCEPTED', NOW(), 1, 'MEDIUM', 1),
     (2, 'IN_PREPARATION', NOW(), 2, 'LARGE', 2),
     (3, 'IN_DELIVERY', NOW(), 3, 'SMALL', 3),
-    (4, 'ACCEPTED', NOW(), 4, 'MEDIUM', 4),
+    (4, 'COMPLETED', NOW(), 8, 'MEDIUM', 8),
     (5, 'COMPLETED', NOW(), 5, 'LARGE', 5),
     (6, 'IN_PREPARATION', NOW(), 6, 'SMALL', 6),
     (7, 'ACCEPTED', NOW(), 7, 'MEDIUM', 7),
@@ -97,12 +97,12 @@ INSERT INTO Delivery (delivery_id, delivery_status, delivery_datetime, delivery_
 VALUES
     (1, 'COMPLETE', NOW(), 1, 1, 1),
     (2, 'COMPLETE', NOW(), 2, 2, 2),
-    (3, 'LATE', NOW(), 3, 3, 3),
+    (3, 'LATE', NOW(), 4, 4, 3),
     (4, 'LATE', NOW(), 4, 4, 4),
     (5, 'LATE', NOW(), 5, 5, 5),
     (6, 'IN_PROGRESS', NOW(), 6, 6, 6),
     (7, 'IN_PROGRESS', NOW(), 7, 7, 7),
-    (8, 'COMPLETE', NOW(), 8, 8, 8),
+    (8, 'COMPLETE', NOW(), 1, 1, 8),
     (9, 'IN_PROGRESS', NOW(), 9, 9, 9),
     (10, 'IN_PROGRESS', NOW(), 10, 10, 10);
     

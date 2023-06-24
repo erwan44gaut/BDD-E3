@@ -1,8 +1,9 @@
 {
     "java.dependency.packagePresentation": "hierarchical",
     "java.project.sourcePaths": [
+        ".",
         "modules",
-        ""
+        "scenes"
     ],
     "java.project.referencedLibraries": [
         "lib/**/*.jar",

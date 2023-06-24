@@ -12,19 +12,21 @@ public class PizzaOrder {
     private String pizzaName;
     private String pizzaSize;
     private Float totalPrice;
-    private String status;
+    private String orderStatus;
+    private String deliveryStatus;
     private Date orderDate;
 
     private Button updateStatus;
     private Button cancel;
 
-    public PizzaOrder(int orderId, String customerName, String pizzaName, String pizzaSize, Float totalPrice, String status, Date orderDate) {
+    public PizzaOrder(int orderId, String customerName, String pizzaName, String pizzaSize, Float totalPrice, String orderStatus, String deliveryStatus, Date orderDate) {
         this.orderId = orderId;
         this.customerName = customerName;
         this.pizzaName = pizzaName;
         this.pizzaSize = pizzaSize;
         this.totalPrice = totalPrice;
-        this.status = status;
+        this.orderStatus = orderStatus;
+        this.deliveryStatus = deliveryStatus;
         this.orderDate = orderDate;
         this.cancel = new Button("CANCEL");
         this.updateStatus = new Button("UPDATE STATUS");
@@ -50,10 +52,14 @@ public class PizzaOrder {
         return totalPrice;
     }
 
-    public String getStatus() {
-        return status;
+    public String getOrderStatus() {
+        return orderStatus;
     }
     
+    public String getDeliveryStatus() {
+        return deliveryStatus;
+    }
+
     public Date getOrderDate() {
         return orderDate;
     }
@@ -72,9 +78,10 @@ public class PizzaOrder {
         String pizzaName = resultSet.getString("pizza_name");
         String pizzaSize = resultSet.getString("pizza_size");
         float totalPrice = resultSet.getInt("adjusted_price");
-        String status = resultSet.getString("order_status");
+        String orderStatus = resultSet.getString("order_status");
+        String deliveryStatus = resultSet.getString("delivery_status");
         Date orderDate = resultSet.getDate("order_datetime");
 
-        return new PizzaOrder(orderId, customerName, pizzaName, pizzaSize, totalPrice, status, orderDate);
+        return new PizzaOrder(orderId, customerName, pizzaName, pizzaSize, totalPrice, orderStatus, deliveryStatus, orderDate);
     }
 }

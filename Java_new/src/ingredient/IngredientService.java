@@ -11,6 +11,12 @@ public class IngredientService {
         return DatabaseConnection.query("SELECT * FROM Ingredient;");
     }
 
+    public static ResultSet getIngredientById(int ingredientId)
+    {
+        String sqlQuery = String.format("SELECT * FROM Ingredient WHERE ingredient_id = %d", ingredientId);
+        return DatabaseConnection.query(sqlQuery);
+    }
+
     public static boolean addIngredient(String ingredientName)
     {
         String sqlQuery = String.format("INSERT INTO Ingredient (ingredient_name) VALUES (\"%s\")", ingredientName);

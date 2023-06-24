@@ -6,15 +6,15 @@ import java.sql.ResultSet;
 import src.util.DatabaseConnection;
 
 public class StatsService {
-    public static ResultSet getBestIngredients()
+    public static ResultSet GetMostPopularIngredient()
     {
-        CallableStatement statement = DatabaseConnection.prepareCall("{CALL GetBestIngredients()}");
+        CallableStatement statement = DatabaseConnection.prepareCall("{CALL GetMostPopularIngredient()}");
         return DatabaseConnection.queryStatement(statement);
     }
 
-    public static ResultSet getBestPizzas()
+    public static ResultSet GetMostOrderedPizza()
     {
-        CallableStatement statement = DatabaseConnection.prepareCall("{CALL GetBestPizzas()}");
+        CallableStatement statement = DatabaseConnection.prepareCall("{CALL GetMostOrderedPizza()}");
         return DatabaseConnection.queryStatement(statement);
     }
 
@@ -24,15 +24,15 @@ public class StatsService {
         return DatabaseConnection.queryStatement(statement);
     }
 
-    public static ResultSet getBestDeliveryPersons()
+    public static ResultSet GetBestDeliveryPerson()
     {
-        CallableStatement statement = DatabaseConnection.prepareCall("{CALL GetBestDeliveryPersons()}");
+        CallableStatement statement = DatabaseConnection.prepareCall("{CALL GetBestDeliveryPerson()}");
         return DatabaseConnection.queryStatement(statement);
     }
 
-    public static ResultSet getWorstDeliveryPersons()
+    public static ResultSet GetWorstDeliveryPerson()
     {
-        CallableStatement statement = DatabaseConnection.prepareCall("{CALL GetWorstDeliveryPersons()}");
+        CallableStatement statement = DatabaseConnection.prepareCall("{CALL GetWorstDeliveryPerson()}");
         return DatabaseConnection.queryStatement(statement);
     }
 }
