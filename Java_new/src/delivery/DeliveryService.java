@@ -1,30 +1,27 @@
 package src.delivery;
 
+import java.sql.CallableStatement;
 import java.sql.ResultSet;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import src.customer.CustomerService;
 import src.util.DatabaseConnection;
 import src.util.ResultSetUtil;
 
 public class DeliveryService {
 
-    public static ResultSet getDeliveries() 
+    public static ResultSet getDeliveries()
     {
-        return DatabaseConnection.query("SELECT * FROM Delivery;");
+        CallableStatement statement = DatabaseConnection.prepareCall("{CALL GetDeliveriesDetails()}");
+        return DatabaseConnection.queryStatement(statement);
     }
 
-    public static ResultSet getDeliveryById(int deliveryId) 
-    {
-        String sqlQuery = String.format("SELECT * FROM Delivery WHERE delivery_id = %d", deliveryId);
-        return DatabaseConnection.query(sqlQuery);
-    }
+    // public static ResultSet getDeliveryById(int deliveryId) 
+    // {
+    //     String sqlQuery = String.format("SELECT * FROM Delivery WHERE delivery_id = %d", deliveryId);
+    //     return DatabaseConnection.query(sqlQuery);
+    // }
 
-    public static int addDelivery(String deliveryStatus, int deliveryPersonId, int vehicleId, int orderId) 
+    public static int addDelivery(int deliveryPersonId, int orderId) 
     {
-        String sqlQuery = String.format("INSERT INTO Delivery (delivery_status, delivery_person_id, vehicle_id, order_id) VALUES (\"%s\", %d, %d, %d)", deliveryStatus, deliveryPersonId, vehicleId, orderId);
+        String sqlQuery = String.format("INSERT INTO Delivery (delivery_person_id, order_id) VALUES (%d, %d)", deliveryPersonId, orderId);
         int queryResult = DatabaseConnection.executeUpdate(sqlQuery);
         return queryResult;
     }
@@ -45,10 +42,10 @@ public class DeliveryService {
 
     public static void unitTest() 
     {
-        // Test getDeliveryById(int deliveryId)
-        System.out.println("#########################\nGET DELIVERY BY ID\n#########################\n");
-        ResultSet deliveryResult = DeliveryService.getDeliveryById(1);
-        ResultSetUtil.printResultSet(deliveryResult);
+        // // Test getDeliveryById(int deliveryId)
+        // System.out.println("#########################\nGET DELIVERY BY ID\n#########################\n");
+        // ResultSet deliveryResult = DeliveryService.getDeliveryById(1);
+        // ResultSetUtil.printResultSet(deliveryResult);
 
         // Test addDelivery(String deliveryStatus, String deliveryDatetime, int deliveryPersonId, int vehicleId, int orderId)
         String deliveryStatus = "LATE";
