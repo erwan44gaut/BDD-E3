@@ -1,4 +1,4 @@
-package src;
+package front.deliveryScene;
 import java.net.URL;
 import java.sql.Date;
 import java.sql.ResultSet;
@@ -49,7 +49,7 @@ public class DeliveryController implements Initializable {
     @FXML
     private TableColumn<Delivery, Date> delivery_deliveryDate;
     @FXML
-    private TableColumn<Delivery, Button> delivery_delete;
+    private TableColumn<Delivery, Button> delivery_cancel;
     @FXML
     private TableColumn<Delivery, Button> delivery_updateStatus;
 
@@ -73,18 +73,19 @@ public class DeliveryController implements Initializable {
         delivery_vehicleType.setCellValueFactory(new PropertyValueFactory<Delivery, String>("vehicleType"));
         delivery_deliveryStatus.setCellValueFactory(new PropertyValueFactory<Delivery, String>("deliveryStatus"));
         delivery_deliveryDate.setCellValueFactory(new PropertyValueFactory<Delivery, Date>("deliveryDate"));
-        delivery_delete.setCellValueFactory(new PropertyValueFactory<Delivery, Button>("delete"));
+        delivery_cancel.setCellValueFactory(new PropertyValueFactory<Delivery, Button>("cancel"));
         delivery_updateStatus.setCellValueFactory(new PropertyValueFactory<Delivery, Button>("updateStatus"));
         delivery_refreshButton.setOnAction(event -> refreshTable());
 
-        delivery_delete.setCellFactory(column -> {
+        delivery_cancel.setCellFactory(column -> {
             return new TableCell<Delivery, Button>() {
-                private final Button deleteButton = new Button("DELETE");
+                
+                private final Button deleteButton = new Button("CANCEL");
 
                 {
                     deleteButton.setOnAction(event -> {
                         Delivery delivery = getTableView().getItems().get(getIndex());
-                        DeliveryService.deleteDelivery(delivery.getDeliveryId());
+                        DeliveryService.cancelDelivery(delivery.getDeliveryId());
                         System.out.println("Delete delivery '"+delivery.getDeliveryId()+"'");
                         refreshTable();
                     });
@@ -97,8 +98,16 @@ public class DeliveryController implements Initializable {
                     if (button == null || empty) {
                         setGraphic(null);
                     } else {
-                        setGraphic(deleteButton);
-                        setAlignment(Pos.CENTER);
+                        Delivery delivery = getTableView().getItems().get(getIndex());
+                        if (delivery.isCancellable())
+                        {
+                            setGraphic(deleteButton);
+                            setAlignment(Pos.CENTER);
+                        }
+                        else
+                        {
+                            setGraphic(null);
+                        }
                     }
                 }
             };
@@ -111,41 +120,48 @@ public class DeliveryController implements Initializable {
                 @Override
                 protected void updateItem(Button item, boolean empty) {
                     super.updateItem(item, empty);
-                    if (empty) {
+                    if (empty ) {
                         setGraphic(null);
                     } else {
-                        setGraphic(btn);
-                        setAlignment(Pos.CENTER);
                         Delivery delivery = getTableView().getItems().get(getIndex());
-                        String orderStatus = delivery.getDeliveryStatus();
-                        btn.setOnAction(event -> {
-                            Dialog<String> dialog = new Dialog<>();
-                            dialog.setTitle("Update Status");
-
-                            ComboBox<String> statusComboBox = new ComboBox<>();
-                            statusComboBox.getItems().addAll("ACCEPTED", "IN_PROGRESS", "COMPLETE", "LATE"); // TODO
-                            statusComboBox.getSelectionModel().select(orderStatus);
-
-                            ButtonType applyButtonType = new ButtonType("Apply", ButtonBar.ButtonData.OK_DONE);
-                            ButtonType cancelButtonType = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
-                            dialog.getDialogPane().getButtonTypes().addAll(applyButtonType, cancelButtonType);
-                            dialog.getDialogPane().setContent(statusComboBox);
-
-                            dialog.setResultConverter(dialogButton -> {
-                                if (dialogButton == applyButtonType) {
-                                    return statusComboBox.getSelectionModel().getSelectedItem();
-                                }
-                                return null;
+                        String[] possibleUpdates = delivery.possibleUpdates();
+                        if (possibleUpdates.length == 0)
+                        {
+                            setGraphic(null);
+                        }
+                        else
+                        {
+                            setGraphic(btn);
+                            setAlignment(Pos.CENTER);
+                            btn.setOnAction(event -> {
+                                Dialog<String> dialog = new Dialog<>();
+                                dialog.setTitle("Update Status");
+    
+                                ComboBox<String> statusComboBox = new ComboBox<>();
+                                statusComboBox.getItems().addAll(possibleUpdates);
+                                statusComboBox.getSelectionModel().select(possibleUpdates[0]);
+    
+                                ButtonType applyButtonType = new ButtonType("Apply", ButtonBar.ButtonData.OK_DONE);
+                                ButtonType cancelButtonType = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+                                dialog.getDialogPane().getButtonTypes().addAll(applyButtonType, cancelButtonType);
+                                dialog.getDialogPane().setContent(statusComboBox);
+    
+                                dialog.setResultConverter(dialogButton -> {
+                                    if (dialogButton == applyButtonType) {
+                                        return statusComboBox.getSelectionModel().getSelectedItem();
+                                    }
+                                    return null;
+                                });
+    
+                                Optional<String> result = dialog.showAndWait();
+    
+                                result.ifPresent(selectedStatus -> {
+                                    System.out.println("Updating status: " + selectedStatus);
+                                    DeliveryService.updateDeliveryStatus(delivery.getDeliveryId(), selectedStatus);
+                                    refreshTable();
+                                });
                             });
-
-                            Optional<String> result = dialog.showAndWait();
-
-                            result.ifPresent(selectedStatus -> {
-                                System.out.println("Updating status: " + selectedStatus);
-                                DeliveryService.updateDeliveryStatus(delivery.getDeliveryId(), selectedStatus);
-                                refreshTable();
-                            });
-                        });
+                        }
                     }
                 }
             };

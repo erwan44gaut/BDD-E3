@@ -44,7 +44,7 @@ CREATE TABLE Delivery_Person(
 
 CREATE TABLE Delivery(
    delivery_id INT AUTO_INCREMENT PRIMARY KEY,
-   delivery_status ENUM('ACCEPTED', 'IN_PROGRESS', 'COMPLETE', 'LATE') DEFAULT "ACCEPTED",
+   delivery_status ENUM('ACCEPTED', 'IN_PROGRESS', 'COMPLETED', 'LATE') DEFAULT "ACCEPTED",
    delivery_datetime DATETIME,
    delivery_person_id INT,
    order_id INT,

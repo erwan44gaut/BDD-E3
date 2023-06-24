@@ -3,6 +3,8 @@ package src.order;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javafx.scene.control.Button;
 
@@ -76,6 +78,48 @@ public class PizzaOrder {
     
     public Button getAssignDelivery() {
         return assignDelivery;
+    }
+
+    public List<String> possibleUpdates() {
+        List<String> result = new ArrayList<>();
+        switch (orderStatus) {
+            case "COMPLETED":
+                return result;
+            case "CANCELED":
+                return result;
+            case "ACCEPTED":
+                result.add("IN_PREPARATION");
+                if (deliveryStatus != null)
+                {
+                    result.add("IN_DELIVERY");
+                }
+                result.add("COMPLETED");
+                result.add("CANCELED");
+                return result;
+            case "IN_PREPARATION":
+                if (deliveryStatus != null)
+                {
+                    result.add("IN_DELIVERY");
+                }
+                result.add("COMPLETED");
+                result.add("CANCELED");
+                return result;
+            case "IN_DELIVERY":
+                result.add("COMPLETED");
+                result.add("CANCELED");
+                return result;
+            default:
+                return result;
+        }
+    }
+
+
+    public boolean isCancellable() {
+        return orderStatus.equals("ACCEPTED");
+    }
+
+    public boolean canAssignDelivery() {
+        return "ACCEPTED, IN_PREPARATION".contains(orderStatus) && (deliveryStatus == null || deliveryStatus.equals(""));
     }
 
     public static PizzaOrder createOrderFromResultSet(ResultSet resultSet) throws SQLException {

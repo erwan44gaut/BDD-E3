@@ -3,7 +3,6 @@ package src.delivery;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 import javafx.scene.control.Button;
 
 public class Delivery {
@@ -16,7 +15,7 @@ public class Delivery {
     private String deliveryStatus;
     private Date deliveryDate;
 
-    private Button delete;
+    private Button cancel;
     private Button updateStatus;
 
     public Delivery(Integer deliveryId, Integer orderId, Integer deliveryPersonId, String deliveryPersonName,
@@ -31,7 +30,7 @@ public class Delivery {
         this.deliveryStatus = deliveryStatus;
         this.deliveryDate = deliveryDate;
 
-        this.delete = new Button("DELETE");
+        this.cancel = new Button("CANCEL");
         this.updateStatus = new Button("UPDATE STATUS");
     }
 
@@ -60,12 +59,32 @@ public class Delivery {
         return deliveryDate;
     }
 
-    public Button getDelete() {
-        return delete;
+    public Button getCancel() {
+        return cancel;
     }
 
     public Button getUpdateStatus() {
         return updateStatus;
+    }
+
+    public String[] possibleUpdates() {
+        switch (deliveryStatus) {
+            case "COMPLETED":
+                return new String[]{};
+            case "LATE":
+                return new String[]{};
+            case "ACCEPTED":
+                return new String[]{"IN_PROGRESS", "COMPLETED", "LATE"};
+            case "IN_PROGRESS":
+                return new String[]{"COMPLETED", "LATE"};
+            default:
+                return new String[]{};
+        }
+    }
+
+
+    public boolean isCancellable() {
+        return !deliveryStatus.equals("COMPLETED") && !deliveryStatus.equals("LATE");
     }
     
     public static Delivery createDeliveryFromResultSet(ResultSet resultSet) throws SQLException {

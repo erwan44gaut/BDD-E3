@@ -13,23 +13,29 @@ public class DeliveryService {
     }
 
     public static int addDelivery(int deliveryPersonId, int orderId) {
-        String sqlQuery = String.format("INSERT INTO Delivery (delivery_person_id, order_id) VALUES (%d, %d)",
-                deliveryPersonId, orderId);
-        int queryResult = DatabaseConnection.executeUpdate(sqlQuery);
-        return queryResult;
+        CallableStatement statement = DatabaseConnection.prepareCall("{CALL AssignDelivery(?, ?)}");
+        DatabaseConnection.setStatement(statement, 1, deliveryPersonId);
+        DatabaseConnection.setStatement(statement, 2, orderId);        
+        return DatabaseConnection.updateStatement(statement);
     }
 
     public static int updateDeliveryStatus(int deliveryId, String newStatus) {
-        String sqlQuery = String.format("UPDATE Delivery SET delivery_status = \"%s\" WHERE delivery_id = %d",
-                newStatus, deliveryId);
-        int queryResult = DatabaseConnection.executeUpdate(sqlQuery);
-        return queryResult;
+        CallableStatement statement = DatabaseConnection.prepareCall("{CALL UpdateDeliveryStatus(?, ?)}");
+        DatabaseConnection.setStatement(statement, 1, deliveryId);
+        DatabaseConnection.setStatement(statement, 2, newStatus);        
+        return DatabaseConnection.updateStatement(statement);
     }
 
     public static int deleteDelivery(int deliveryId) {
-        String sqlQuery = String.format("DELETE FROM Delivery WHERE delivery_id = %d", deliveryId);
-        int queryResult = DatabaseConnection.executeUpdate(sqlQuery);
-        return queryResult;
+        CallableStatement statement = DatabaseConnection.prepareCall("{CALL DeleteDelivery(?)}");
+        DatabaseConnection.setStatement(statement, 1, deliveryId);
+        return DatabaseConnection.updateStatement(statement);
+    }
+
+    public static int cancelDelivery(int deliveryId) {
+        CallableStatement statement = DatabaseConnection.prepareCall("{CALL CancelDelivery(?)}");
+        DatabaseConnection.setStatement(statement, 1, deliveryId);
+        return DatabaseConnection.updateStatement(statement);
     }
 
     public static void unitTest() 

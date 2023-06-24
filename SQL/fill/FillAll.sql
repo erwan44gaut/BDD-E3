@@ -74,16 +74,16 @@ VALUES
 -- Insert into Delivery table
 INSERT INTO Delivery (delivery_id, delivery_status, delivery_datetime, delivery_person_id, order_id)
 VALUES
-    (1, 'COMPLETE', NOW(), 1, 1),
-    (2, 'COMPLETE', NOW(), 2, 2),
+    (1, 'COMPLETED', NOW(), 1, 1),
+    (2, 'COMPLETED', NOW(), 2, 2),
     (3, 'LATE', NOW(), 4, 3),
     (4, 'LATE', NOW(), 4, 4),
     (5, 'LATE', NOW(), 5, 5),
-    (6, 'IN_PROGRESS', NOW(), 6, 6),
+    (6, 'IN_PROGRESS', NOW(), 6, 6), 
     (7, 'IN_PROGRESS', NOW(), 7, 7),
-    (8, 'COMPLETE', NOW(), 1, 8),
-    (9, 'IN_PROGRESS', NOW(), 9, 9),
-    (10, 'IN_PROGRESS', NOW(), 10, 10);
+    -- (8, 'COMPLETED', NOW(), 1, 8),
+    -- (9, 'ACCEPTED', NOW(), 9, 9),
+    (10, 'ACCEPTED', NOW(), 10, 10);
     
 -- Insert into Has_Ingredient table
 INSERT INTO Has_Ingredient (pizza_id, ingredient_id)

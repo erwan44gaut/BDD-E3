@@ -1,6 +1,7 @@
 
 DELIMITER //
 
+-- CUSTOMER PERSPECTIVE
 CREATE PROCEDURE CancelOrder(
     IN order_id INT
 )

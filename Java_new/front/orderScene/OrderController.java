@@ -3,6 +3,7 @@ import java.net.URL;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -85,39 +86,46 @@ public class OrderController implements Initializable {
                     if (empty) {
                         setGraphic(null);
                     } else {
-                        setGraphic(btn);
-                        setAlignment(Pos.CENTER);
                         PizzaOrder order = getTableView().getItems().get(getIndex());
                         String orderStatus = order.getOrderStatus();
-                        btn.setOnAction(event -> {
-                            Dialog<String> dialog = new Dialog<>();
-                            dialog.setTitle("Update Status");
-
-                            ComboBox<String> statusComboBox = new ComboBox<>();
-                            statusComboBox.getItems().addAll("ACCEPTED", "IN_PREPARATION", "IN_DELIVERY", "COMPLETED",
-                                    "CANCELED");
-                            statusComboBox.getSelectionModel().select(orderStatus);
-
-                            ButtonType applyButtonType = new ButtonType("Apply", ButtonBar.ButtonData.OK_DONE);
-                            ButtonType cancelButtonType = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
-                            dialog.getDialogPane().getButtonTypes().addAll(applyButtonType, cancelButtonType);
-                            dialog.getDialogPane().setContent(statusComboBox);
-
-                            dialog.setResultConverter(dialogButton -> {
-                                if (dialogButton == applyButtonType) {
-                                    return statusComboBox.getSelectionModel().getSelectedItem();
-                                }
-                                return null;
+                        List<String> possibleUpdates = order.possibleUpdates();
+                        if (possibleUpdates.size() == 0)
+                        {
+                            setGraphic(null);
+                        }
+                        else 
+                        {
+                            setGraphic(btn);
+                            setAlignment(Pos.CENTER);
+                            btn.setOnAction(event -> {
+                                Dialog<String> dialog = new Dialog<>();
+                                dialog.setTitle("Update Status");
+    
+                                ComboBox<String> statusComboBox = new ComboBox<>();
+                                statusComboBox.getItems().addAll(possibleUpdates);
+                                statusComboBox.getSelectionModel().select(possibleUpdates.get(0));
+    
+                                ButtonType applyButtonType = new ButtonType("Apply", ButtonBar.ButtonData.OK_DONE);
+                                ButtonType cancelButtonType = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+                                dialog.getDialogPane().getButtonTypes().addAll(applyButtonType, cancelButtonType);
+                                dialog.getDialogPane().setContent(statusComboBox);
+    
+                                dialog.setResultConverter(dialogButton -> {
+                                    if (dialogButton == applyButtonType) {
+                                        return statusComboBox.getSelectionModel().getSelectedItem();
+                                    }
+                                    return null;
+                                });
+    
+                                Optional<String> result = dialog.showAndWait();
+    
+                                result.ifPresent(selectedStatus -> {
+                                    System.out.println("Updating status: " + selectedStatus);
+                                    OrderService.updateStatus(order.getOrderId(), selectedStatus);
+                                    refreshTable();
+                                });
                             });
-
-                            Optional<String> result = dialog.showAndWait();
-
-                            result.ifPresent(selectedStatus -> {
-                                System.out.println("Updating status: " + selectedStatus);
-                                OrderService.updateStatus(order.getOrderId(), selectedStatus);
-                                refreshTable();
-                            });
-                        });
+                        }
                     }
                 }
             };
@@ -158,46 +166,53 @@ public class OrderController implements Initializable {
                     if (empty) {
                         setGraphic(null);
                     } else {
-                        setGraphic(btn);
-                        setAlignment(Pos.CENTER);
                         PizzaOrder order = getTableView().getItems().get(getIndex());
+                        if (order.canAssignDelivery())
+                        {
+                            setGraphic(btn);
+                            setAlignment(Pos.CENTER);
 
-                        btn.setOnAction(event -> {
-                            Dialog<String> dialog = new Dialog<>();
-                            dialog.setTitle("Select the delivery person's ID");
-
-                            ComboBox<String> deliveryComboBox = new ComboBox<>();
-                            ResultSet deliveryPersons = DeliveryPersonService.getDeliveryPersons();
-                            try {
-                                while (deliveryPersons.next()) {
-                                    String deliveryPersonId = Integer.toString(deliveryPersons.getInt("delivery_person_id"));
-                                    deliveryComboBox.getItems().add(deliveryPersonId);
+                            btn.setOnAction(event -> {
+                                Dialog<String> dialog = new Dialog<>();
+                                dialog.setTitle("Select the delivery person's ID");
+    
+                                ComboBox<String> deliveryComboBox = new ComboBox<>();
+                                ResultSet deliveryPersons = DeliveryPersonService.getDeliveryPersons();
+                                try {
+                                    while (deliveryPersons.next()) {
+                                        String deliveryPersonId = Integer.toString(deliveryPersons.getInt("delivery_person_id"));
+                                        deliveryComboBox.getItems().add(deliveryPersonId);
+                                    }
+                                } catch (SQLException e) {
+                                    e.printStackTrace();
                                 }
-                            } catch (SQLException e) {
-                                e.printStackTrace();
-                            }
-                            deliveryComboBox.getSelectionModel().selectFirst();
-
-                            ButtonType confirmButtonType = new ButtonType("Assign", ButtonBar.ButtonData.OK_DONE);
-                            ButtonType cancelButtonType = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
-                            dialog.getDialogPane().getButtonTypes().addAll(confirmButtonType, cancelButtonType);
-                            dialog.getDialogPane().setContent(deliveryComboBox);
-
-                            dialog.setResultConverter(dialogButton -> {
-                                if (dialogButton == confirmButtonType) {
-                                    return deliveryComboBox.getSelectionModel().getSelectedItem();
-                                }
-                                return null;
+                                deliveryComboBox.getSelectionModel().selectFirst();
+    
+                                ButtonType confirmButtonType = new ButtonType("Assign", ButtonBar.ButtonData.OK_DONE);
+                                ButtonType cancelButtonType = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+                                dialog.getDialogPane().getButtonTypes().addAll(confirmButtonType, cancelButtonType);
+                                dialog.getDialogPane().setContent(deliveryComboBox);
+    
+                                dialog.setResultConverter(dialogButton -> {
+                                    if (dialogButton == confirmButtonType) {
+                                        return deliveryComboBox.getSelectionModel().getSelectedItem();
+                                    }
+                                    return null;
+                                });
+    
+                                Optional<String> result = dialog.showAndWait();
+    
+                                result.ifPresent(selectedDeliveryPerson -> {
+                                    System.out.println("Assigned order to delivery person: " + selectedDeliveryPerson);
+                                    DeliveryService.addDelivery(Integer.parseInt(selectedDeliveryPerson), order.getOrderId());
+                                    refreshTable();
+                                });
                             });
-
-                            Optional<String> result = dialog.showAndWait();
-
-                            result.ifPresent(selectedDeliveryPerson -> {
-                                System.out.println("Assigned order to delivery person: " + selectedDeliveryPerson);
-                                DeliveryService.addDelivery(Integer.parseInt(selectedDeliveryPerson), order.getOrderId());
-                                refreshTable();
-                            });
-                        });
+                        }
+                        else
+                        {
+                            setGraphic(null);
+                        }
                     }
                 }
             };

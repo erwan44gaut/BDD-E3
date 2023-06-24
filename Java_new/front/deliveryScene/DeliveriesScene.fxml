@@ -18,7 +18,7 @@
             <TableColumn fx:id="delivery_deliveryStatus" prefWidth="88.0" text="status" />
             <TableColumn fx:id="delivery_deliveryDate" prefWidth="133.5999755859375" text="delivery date" />
             <TableColumn fx:id="delivery_updateStatus" prefWidth="115.2000732421875" text="update status" />
-            <TableColumn fx:id="delivery_delete" prefWidth="128.0" text="delete" />
+            <TableColumn fx:id="delivery_cancel" prefWidth="128.0" text="cancel" />
         </columns>
       </TableView>
       <Button fx:id="delivery_refreshButton" layoutX="959.0" layoutY="1.0" mnemonicParsing="false" text="Refresh" />
