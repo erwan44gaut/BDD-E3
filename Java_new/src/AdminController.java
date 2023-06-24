@@ -49,9 +49,10 @@ import src.pizza.Pizza;
 import src.pizza.PizzaService;
 import src.stats.StatsService;
 
-public class AdminController implements Initializable{
-
+public class AdminController implements Initializable {
+    //#region FXMl Variables
 // --------------------------------------------------- PIZZAS FXML  -----------------------------------------------------------------//
+
     @FXML
     private TableColumn<Pizza, String> pizza_name;
 
@@ -202,10 +203,13 @@ public class AdminController implements Initializable{
     private TableColumn<DeliveryPerson, String> deliveryPerson_name;
 
     @FXML
-    private TableColumn<DeliveryPerson, String> deliveryPerson_vehicle;
+    private TableColumn<DeliveryPerson, Integer> deliveryPerson_vehicle;
 
     @FXML
     private TableColumn<DeliveryPerson, Button> deliveryPerson_editName;
+
+    @FXML
+    private TableColumn<DeliveryPerson, String> deliveryPerson_editVehicle;
 
     @FXML
     private Button deliveryPerson_refreshButton;
@@ -214,10 +218,12 @@ public class AdminController implements Initializable{
     private TableView<DeliveryPerson> deliveryPerson_table;
 
     ObservableList<DeliveryPerson> deliveryPersons = FXCollections.observableArrayList();
+    //#endregion
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // ----------------------------------------- PIZZAS --------------------------------------------------------//
+        //#region pizzas
         pizza_table.setFixedCellSize(60.0);
         pizza_name.setCellValueFactory(new PropertyValueFactory<Pizza,String>("name"));
         pizza_price.setCellValueFactory(new PropertyValueFactory<Pizza,Float>("price"));
@@ -425,8 +431,10 @@ public class AdminController implements Initializable{
         });
 
         pizza_refreshButton.setOnAction(event -> refreshTable());
+        //#endregion
 
         // ---------------------------------------------- ORDERS --------------------------------------------------------//
+        //#region ORDERS
         order_table.setFixedCellSize(60.0);
         order_orderId.setCellValueFactory(new PropertyValueFactory<PizzaOrder, Integer>("orderId"));
         order_customerName.setCellValueFactory(new PropertyValueFactory<PizzaOrder, String>("customerName"));
@@ -521,7 +529,10 @@ public class AdminController implements Initializable{
                 }
             };
         });
+        //#endregion
+
         // ---------------------------------------------- CUSTOMERS --------------------------------------------------------//
+        //#region CUSTOMERS
         customer_table.setFixedCellSize(60.0);
         customer_customerId.setCellValueFactory(new PropertyValueFactory<Customer, Integer>("customerId"));
         customer_customerName.setCellValueFactory(new PropertyValueFactory<Customer, String>("customerName"));
@@ -683,12 +694,14 @@ public class AdminController implements Initializable{
                 }
             };
         });
+        //#endregion
 
         // ---------------------------------------------- DELIVERY PERSON --------------------------------------------------------//
-
+        //#region Delivery Person
         deliveryPerson_table.setFixedCellSize(60.0);
-        deliveryPerson_id.setCellValueFactory(new PropertyValueFactory<DeliveryPerson, Integer>("delivery_person_id"));
-        deliveryPerson_name.setCellValueFactory(new PropertyValueFactory<DeliveryPerson, String>("delivery_person_name"));
+        deliveryPerson_id.setCellValueFactory(new PropertyValueFactory<DeliveryPerson, Integer>("deliveryPersonId"));
+        deliveryPerson_name.setCellValueFactory(new PropertyValueFactory<DeliveryPerson, String>("deliveryPersonName"));
+        deliveryPerson_vehicle.setCellValueFactory(new PropertyValueFactory<DeliveryPerson, Integer>("deliveryPersonVehicle"));
         deliveryPerson_editName.setCellValueFactory(new PropertyValueFactory<DeliveryPerson, Button>("editName"));
         deliveryPerson_refreshButton.setOnAction(event -> refreshTable());
 
@@ -719,6 +732,30 @@ public class AdminController implements Initializable{
                 DeliveryPersonService.addDeliveryPerson(newName);
                 refreshTable();
             });
+        });
+
+        deliveryPerson_editVehicle.setCellFactory(column -> new TableCell<DeliveryPerson, String>() {
+            final ComboBox<String> comboBox = new ComboBox<>();
+
+            {
+                comboBox.getItems().addAll("CAR", "BIKE", "MOTORBIKE");
+                comboBox.setOnAction(event -> {
+                    DeliveryPerson deliveryPerson = getTableView().getItems().get(getIndex());
+                    String selectedVehicle = comboBox.getValue();
+                    System.out.println("Selected vehicle: " + selectedVehicle);
+                });
+            }
+
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    comboBox.setValue(item);
+                    setGraphic(comboBox);
+                }
+            }
         });
 
         deliveryPerson_editName.setCellFactory(column -> {
@@ -795,6 +832,7 @@ public class AdminController implements Initializable{
 
         refreshTable();
     }
+    //#endregion
 
     void refreshTable(){
         refreshStats();
@@ -843,22 +881,23 @@ public class AdminController implements Initializable{
 
         // ---------------------------------------------- DELIVERY PERSON --------------------------------------------------------//
 
-        /*deliveryPersons.clear();
+        deliveryPersons.clear();
         try 
         {
             ResultSet deliveryPersonsSet = DeliveryPersonService.getDeliveryPersons();
             while (deliveryPersonsSet.next()) {
-                DeliveryPerson order = DeliveryPerson.createDeliveryPersonFromResultSet(deliveryPersonsSet);
-                deliveryPersons.add(order);
+                DeliveryPerson deliveryPerson = DeliveryPerson.createDeliveryPersonFromResultSet(deliveryPersonsSet);
+                deliveryPersons.add(deliveryPerson);
             }
         } 
         catch (SQLException e) 
         {
             e.printStackTrace();
         }
-        deliveryPerson_table.setItems(deliveryPersons);*/
+        deliveryPerson_table.setItems(deliveryPersons);
     }
 
+    // ---------------------------------------------- STATS --------------------------------------------------------//
     public void refreshStats() {
         int customerId = -1;
         int worstDeliveryPersonId = -1;
@@ -889,53 +928,53 @@ public class AdminController implements Initializable{
         }
         //#endregion
 
-        //#region Worst delivery person
-        try {
-            ResultSet rs = StatsService.GetWorstDeliveryPerson();
-            if (rs.next()) {
-                worstDeliveryPersonId = rs.getInt(1);
-                stat_vehiculeWorstDeliveryPersonTextField.setText(rs.getString(2));
-                stat_totalCommandeWorstDeliveryPersonTextField.setText(rs.getString(3));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        // //#region Worst delivery person
+        // try {
+        //     ResultSet rs = StatsService.GetWorstDeliveryPerson();
+        //     if (rs.next()) {
+        //         worstDeliveryPersonId = rs.getInt(1);
+        //         stat_vehiculeWorstDeliveryPersonTextField.setText(rs.getString(2));
+        //         stat_totalCommandeWorstDeliveryPersonTextField.setText(rs.getString(3));
+        //     }
+        // } catch (SQLException e) {
+        //     e.printStackTrace();
+        // }
 
-        if (worstDeliveryPersonId != -1) {
-            try {
-                ResultSet rs = DeliveryPersonService.getDeliveryPersonById(worstDeliveryPersonId);
-                if (rs.next()) {
-                    stat_nameWorstDeliveryPersonTextField.setText(rs.getString("delivery_person_name"));
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        //#endregion
+        // if (worstDeliveryPersonId != -1) {
+        //     try {
+        //         ResultSet rs = DeliveryPersonService.getDeliveryPersonById(worstDeliveryPersonId);
+        //         if (rs.next()) {
+        //             stat_nameWorstDeliveryPersonTextField.setText(rs.getString("delivery_person_name"));
+        //         }
+        //     } catch (SQLException e) {
+        //         e.printStackTrace();
+        //     }
+        // }
+        // //#endregion
 
-        //#region Best delivery person
-        try {
-            ResultSet rs = StatsService.GetBestDeliveryPerson();
-            if (rs.next()) {
-                bestDeliveryPersonId = rs.getInt(1);
-                stat_vehiculeBestDeliveryPersonTextField.setText(rs.getString(2));
-                stat_totalCommandeBestDeliveryPersonTextField.setText(rs.getString(3));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        // //#region Best delivery person
+        // try {
+        //     ResultSet rs = StatsService.GetBestDeliveryPerson();
+        //     if (rs.next()) {
+        //         bestDeliveryPersonId = rs.getInt(1);
+        //         stat_vehiculeBestDeliveryPersonTextField.setText(rs.getString(2));
+        //         stat_totalCommandeBestDeliveryPersonTextField.setText(rs.getString(3));
+        //     }
+        // } catch (SQLException e) {
+        //     e.printStackTrace();
+        // }
 
-        if (worstDeliveryPersonId != -1) {
-            try {
-                ResultSet rs = DeliveryPersonService.getDeliveryPersonById(bestDeliveryPersonId);
-                if (rs.next()) {
-                    stat_nameBestDeliveryPersonTextField.setText(rs.getString("delivery_person_name"));
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        //#endregion
+        // if (worstDeliveryPersonId != -1) {
+        //     try {
+        //         ResultSet rs = DeliveryPersonService.getDeliveryPersonById(bestDeliveryPersonId);
+        //         if (rs.next()) {
+        //             stat_nameBestDeliveryPersonTextField.setText(rs.getString("delivery_person_name"));
+        //         }
+        //     } catch (SQLException e) {
+        //         e.printStackTrace();
+        //     }
+        // }
+        // //#endregion
 
         //#region Most ordered pizza
         try {
