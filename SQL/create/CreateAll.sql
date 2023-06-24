@@ -42,21 +42,9 @@ CREATE TABLE Delivery_Person(
    FOREIGN KEY(vehicle_id) REFERENCES Vehicle(vehicle_id)
 );
 
-CREATE TABLE Invoice(
-   invoice_id INT AUTO_INCREMENT PRIMARY KEY,
-   pizza_id INT,
-   pizza_name VARCHAR(50),
-   pizza_size VARCHAR(50),
-   total_price FLOAT,
-   customer_id INT,
-   customer_name VARCHAR(50),
-   order_time DATETIME,
-   delivery_time DATETIME
-);
-
 CREATE TABLE Delivery(
    delivery_id INT AUTO_INCREMENT PRIMARY KEY,
-   delivery_status ENUM('ACCEPTED', 'IN_PROGRESS', 'COMPLETE', 'LATE'),
+   delivery_status ENUM('ACCEPTED', 'IN_PROGRESS', 'COMPLETE', 'LATE') DEFAULT "ACCEPTED",
    delivery_datetime DATETIME,
    delivery_person_id INT,
    order_id INT,

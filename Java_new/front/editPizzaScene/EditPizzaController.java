@@ -130,11 +130,9 @@ public class EditPizzaController implements Initializable{
 
         // Configurer le ComboBox pour les ingrédients à ajouter
         addIngredient.setConverter(ingredientConverter);
-        addIngredient.getItems().addAll(/* Liste des ingrédients disponibles */);
 
         // Configurer le ComboBox pour les ingrédients à supprimer
         removeIngredient.setConverter(ingredientConverter);
-        removeIngredient.getItems().addAll(/* Liste des ingrédients de la pizza */);
 
         refreshAddIngredient();
         refreshRemoveIngredient();

@@ -24,11 +24,13 @@ import src.pizza.PizzaService;
 public class OrderPizzaController implements Initializable {
 
     Pizza pizza;
+    int clientId;
     String currentSize;
 
-    public OrderPizzaController(Pizza pizza){
+    public OrderPizzaController(Pizza pizza, int clientId){
         this.pizza = pizza;
         this.currentSize = "MEDIUM";
+        this.clientId = clientId;
     }
 
     @FXML
@@ -65,7 +67,7 @@ public class OrderPizzaController implements Initializable {
     void orderAction(ActionEvent event) {
         if(currentSize.equals("LARGE") ||currentSize.equals("MEDIUM") || currentSize.equals("SMALL"))
         {
-            OrderService.placeOrder(1, pizza.getPizzaId(), currentSize);
+            OrderService.placeOrder(clientId, pizza.getPizzaId(), currentSize);
 
             Scene scene = order.getScene();
 
