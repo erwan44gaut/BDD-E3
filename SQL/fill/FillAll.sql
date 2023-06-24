@@ -54,29 +54,22 @@ VALUES
 INSERT INTO Vehicle (vehicle_id, vehicle_type)
 VALUES
     (1, 'CAR'),
-    (2, 'CAR'),
-    (3, 'MOTORBIKE'),
-    (4, 'CAR'),
-    (5, 'MOTORBIKE'),
-    (6, 'MOTORBIKE'),
-    (7, 'CAR'),
-    (8, 'MOTORBIKE'),
-    (9, 'MOTORBIKE'),
-    (10, 'CAR');
+    (2, 'MOTORBIKE'),
+    (3, 'BIKE');
     
 -- Insert into Delivery_Person table
-INSERT INTO Delivery_Person (delivery_person_id, delivery_person_name)
+INSERT INTO Delivery_Person (delivery_person_id, delivery_person_name, vehicle_id)
 VALUES
-    (1, 'Mike'),
-    (2, 'Sarah'),
-    (3, 'David'),
-    (4, 'Emma'),
-    (5, 'John'),
-    (6, 'Emily'),
-    (7, 'Daniel'),
-    (8, 'Sophia'),
-    (9, 'William'),
-    (10, 'Olivia');
+    (1, 'Mike', 1),
+    (2, 'Sarah', 2),
+    (3, 'David', 3),
+    (4, 'Emma', 2),
+    (5, 'John', 1),
+    (6, 'Emily', 2),
+    (7, 'Daniel', 3),
+    (8, 'Sophia', 3),
+    (9, 'William', 2),
+    (10, 'Olivia', 2);
 
 -- Insert into Invoice table
 INSERT INTO Invoice (invoice_id, pizza_id, pizza_name, pizza_size, total_price, customer_id, customer_name, order_time, delivery_time)
@@ -93,18 +86,18 @@ VALUES
     (10, 10, 'Sausage', 'MEDIUM', 10.99, 10, 'Olivia Anderson', NOW(), NOW());
 
 -- Insert into Delivery table
-INSERT INTO Delivery (delivery_id, delivery_status, delivery_datetime, delivery_person_id, vehicle_id, order_id)
+INSERT INTO Delivery (delivery_id, delivery_status, delivery_datetime, delivery_person_id, order_id)
 VALUES
-    (1, 'COMPLETE', NOW(), 1, 1, 1),
-    (2, 'COMPLETE', NOW(), 2, 2, 2),
-    (3, 'LATE', NOW(), 4, 4, 3),
-    (4, 'LATE', NOW(), 4, 4, 4),
-    (5, 'LATE', NOW(), 5, 5, 5),
-    (6, 'IN_PROGRESS', NOW(), 6, 6, 6),
-    (7, 'IN_PROGRESS', NOW(), 7, 7, 7),
-    (8, 'COMPLETE', NOW(), 1, 1, 8),
-    (9, 'IN_PROGRESS', NOW(), 9, 9, 9),
-    (10, 'IN_PROGRESS', NOW(), 10, 10, 10);
+    (1, 'COMPLETE', NOW(), 1, 1),
+    (2, 'COMPLETE', NOW(), 2, 2),
+    (3, 'LATE', NOW(), 4, 3),
+    (4, 'LATE', NOW(), 4, 4),
+    (5, 'LATE', NOW(), 5, 5),
+    (6, 'IN_PROGRESS', NOW(), 6, 6),
+    (7, 'IN_PROGRESS', NOW(), 7, 7),
+    (8, 'COMPLETE', NOW(), 1, 8),
+    (9, 'IN_PROGRESS', NOW(), 9, 9),
+    (10, 'IN_PROGRESS', NOW(), 10, 10);
     
 -- Insert into Has_Ingredient table
 INSERT INTO Has_Ingredient (pizza_id, ingredient_id)

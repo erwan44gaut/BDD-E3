@@ -4,17 +4,20 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javafx.scene.control.Button;
+import src.vehicle.VehicleService;
 
 public class DeliveryPerson {
-    private Integer deliveryPersonId;
+  private Integer deliveryPersonId;
     private String deliveryPersonName;
+    private Integer deliveryPersonVehicle;
 
     private Button editName;
     private Button delete;
 
-    public DeliveryPerson(Integer deliveryPersonId, String deliveryPersonName) {
+    public DeliveryPerson(Integer deliveryPersonId, String deliveryPersonName, Integer deliveryPersonVehicle) {
         this.deliveryPersonId = deliveryPersonId;
         this.deliveryPersonName = deliveryPersonName;
+        this.deliveryPersonVehicle = deliveryPersonVehicle;
 
         this.editName = new Button("Edit name");
         this.delete = new Button("Delete");
@@ -30,6 +33,22 @@ public class DeliveryPerson {
         return deliveryPersonName;
     }
 
+    public String getDeliveryPersonVehicle()
+    {
+        String deliveryPersonVehicleType = "";
+        
+        try {
+            ResultSet rs = VehicleService.getVehicleById(deliveryPersonVehicle);
+            if (rs.next()) {
+                deliveryPersonVehicleType = rs.getString("vehicle_type");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return deliveryPersonVehicleType;
+    }
+
     public Button getEditName()
     {
         return editName;
@@ -38,7 +57,8 @@ public class DeliveryPerson {
     public static DeliveryPerson createDeliveryPersonFromResultSet(ResultSet resultSet) throws SQLException {
         int deliveryPersonId = resultSet.getInt("delivery_person_id");
         String deliveryPersonName = resultSet.getString("delivery_person_name");
+        int deliveryPersonVehicle = resultSet.getInt("vehicle_id");
 
-        return new DeliveryPerson(deliveryPersonId, deliveryPersonName);
+        return new DeliveryPerson(deliveryPersonId, deliveryPersonName, deliveryPersonVehicle);
     }
 }

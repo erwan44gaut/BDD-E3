@@ -32,12 +32,14 @@ CREATE TABLE Pizza_Order(
 
 CREATE TABLE Vehicle(
    vehicle_id INT AUTO_INCREMENT  PRIMARY KEY,
-   vehicle_type ENUM('CAR', 'MOTORBIKE') DEFAULT 'CAR'
+   vehicle_type ENUM('CAR', 'MOTORBIKE', 'BIKE') DEFAULT 'CAR'
 );
 
 CREATE TABLE Delivery_Person(
    delivery_person_id INT AUTO_INCREMENT PRIMARY KEY,
-   delivery_person_name VARCHAR(50) NOT NULL
+   delivery_person_name VARCHAR(50) NOT NULL,
+   vehicle_id INT,
+   FOREIGN KEY(vehicle_id) REFERENCES Vehicle(vehicle_id)
 );
 
 CREATE TABLE Invoice(
@@ -57,11 +59,9 @@ CREATE TABLE Delivery(
    delivery_status ENUM('ACCEPTED', 'IN_PROGRESS', 'COMPLETE', 'LATE'),
    delivery_datetime DATETIME,
    delivery_person_id INT,
-   vehicle_id INT,
    order_id INT,
    UNIQUE(order_id),
    FOREIGN KEY(delivery_person_id) REFERENCES Delivery_Person(delivery_person_id) ON DELETE SET NULL,
-   FOREIGN KEY(vehicle_id) REFERENCES Vehicle(vehicle_id) ON DELETE SET NULL,
    FOREIGN KEY(order_id) REFERENCES Pizza_Order(order_id) ON DELETE SET NULL
 );
 
