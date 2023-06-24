@@ -23,18 +23,18 @@
          <content>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
-                  <TableView fx:id="deliveryPerson_table" layoutX="-1.0" layoutY="35.0" prefHeight="476.0" prefWidth="966.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                  <TableView fx:id="deliveryPerson_table" layoutX="-1.0" layoutY="35.0" prefHeight="585.0" prefWidth="1055.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                     <columns>
                       <TableColumn fx:id="deliveryPerson_id" prefWidth="75.0" text="id" />
                       <TableColumn fx:id="deliveryPerson_name" prefWidth="163.0" text="name" />
-                        <TableColumn fx:id="deliveryPerson_vehicle" minWidth="0.0" prefWidth="88.0" text="vehicle" />
+                        <TableColumn fx:id="deliveryPerson_vehicle" minWidth="0.0" prefWidth="250.0" text="vehicle" />
                         <TableColumn fx:id="deliveryPerson_editName" minWidth="0.0" prefWidth="150.0" text="edit name" />
-                        <TableColumn fx:id="deliveryPerson_editVehicle" minWidth="0.0" prefWidth="150.0" text="edit vehicle" />
+                        <TableColumn fx:id="deliveryPerson_editVehicle" minWidth="0.0" prefWidth="200.0" text="edit vehicle" />
                         <TableColumn fx:id="deliveryPerson_delete" minWidth="0.0" prefWidth="150.0" text="delete" />
                     </columns>
                   </TableView>
-                  <Button fx:id="deliveryPerson_refreshButton" layoutX="890.0" layoutY="2.0" mnemonicParsing="false" text="Refresh" />
-                  <Button fx:id="deliveryPerson_addButton" layoutX="819.0" layoutY="2.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="55.0" text="Add" />
+                  <Button fx:id="deliveryPerson_refreshButton" layoutX="981.0" layoutY="2.0" mnemonicParsing="false" text="Refresh" />
+                  <Button fx:id="deliveryPerson_addButton" layoutX="916.0" layoutY="2.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="55.0" text="Add" />
                </children></AnchorPane>
          </content>
       </Tab>
@@ -42,7 +42,7 @@
          <content>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="540.0" prefWidth="960.0">
                <children>
-                  <VBox prefHeight="506.0" prefWidth="960.0">
+                  <VBox prefHeight="620.0" prefWidth="1055.0">
                      <children>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                            <children>
@@ -109,7 +109,7 @@
                               <Text layoutX="477.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="fois." textAlignment="CENTER" wrappingWidth="41.275390625" />
                            </children>
                         </HBox>
-                        <Button fx:id="stat_refreshButton" alignment="BOTTOM_CENTER" mnemonicParsing="false" onAction="#stat_onClick" prefHeight="29.0" prefWidth="960.0" text="Refresh" textAlignment="CENTER">
+                        <Button fx:id="stat_refreshButton" alignment="BOTTOM_CENTER" mnemonicParsing="false" onAction="#stat_onClick" prefHeight="40.0" prefWidth="1074.0" text="Refresh" textAlignment="CENTER">
                            <font>
                               <Font size="16.0" />
                            </font>
@@ -180,6 +180,25 @@
                   </TableView>
                   <Button fx:id="customer_refreshButton" layoutX="959.0" layoutY="1.0" mnemonicParsing="false" text="Refresh" />
                   <Button fx:id="customer_addButton" layoutX="920.0" layoutY="1.0" mnemonicParsing="false" text="Add" />
+               </children>
+            </AnchorPane>
+         </content>
+      </Tab>
+      <Tab text="Véhicules">
+         <content>
+            <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="628.0" prefWidth="1046.0">
+               <children>
+                  <TableView fx:id="vehicle_table" layoutX="25.0" layoutY="27.0" prefHeight="565.0" prefWidth="989.0">
+                     <columns>
+                        <TableColumn fx:id="vehicle_id" prefWidth="75.0" text="id" />
+                        <TableColumn fx:id="vehicle_type" prefWidth="163.0" text="type" />
+                        <TableColumn fx:id="vehicle_model" prefWidth="163.0" text="model" />
+                        <TableColumn fx:id="vehicle_editButton" prefWidth="149.5999755859375" text="edit" />
+                        <TableColumn fx:id="vehicle_deleteButton" prefWidth="149.5999755859375" text="delete" />
+                     </columns>
+                  </TableView>
+                  <Button fx:id="vehicle_refreshButton" layoutX="959.0" layoutY="1.0" mnemonicParsing="false" text="Refresh" />
+                  <Button fx:id="vehicle_addButton" layoutX="920.0" layoutY="1.0" mnemonicParsing="false" text="Add" />
                </children>
             </AnchorPane>
          </content>

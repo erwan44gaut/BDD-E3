@@ -7,9 +7,10 @@ import javafx.scene.control.Button;
 import src.vehicle.VehicleService;
 
 public class DeliveryPerson {
-  private Integer deliveryPersonId;
+    private Integer deliveryPersonId;
     private String deliveryPersonName;
     private Integer deliveryPersonVehicle;
+    private Integer deliveryPersonVehicleModel;
 
     private Button editName;
     private Button delete;
@@ -18,6 +19,7 @@ public class DeliveryPerson {
         this.deliveryPersonId = deliveryPersonId;
         this.deliveryPersonName = deliveryPersonName;
         this.deliveryPersonVehicle = deliveryPersonVehicle;
+        this.deliveryPersonVehicleModel = deliveryPersonVehicleModel;
 
         this.editName = new Button("Edit name");
         this.delete = new Button("Delete");
@@ -40,10 +42,10 @@ public class DeliveryPerson {
         try {
             ResultSet rs = VehicleService.getVehicleById(deliveryPersonVehicle);
             if (rs.next()) {
-                deliveryPersonVehicleType = rs.getString("vehicle_type");
+                deliveryPersonVehicleType = rs.getString("vehicle_type") + " - " + rs.getString("vehicle_model");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.printStackTrace(); 
         }
 
         return deliveryPersonVehicleType;
