@@ -32,7 +32,7 @@ CREATE TABLE Pizza_Order(
 
 CREATE TABLE Vehicle(
    vehicle_id INT AUTO_INCREMENT  PRIMARY KEY,
-   vehicle_type ENUM('CAR', 'MOTORBIKE', 'BIKE') DEFAULT 'CAR'
+   vehicle_type VARCHAR(50) UNIQUE
 );
 
 CREATE TABLE Delivery_Person(

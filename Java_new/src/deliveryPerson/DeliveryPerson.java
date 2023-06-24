@@ -7,7 +7,7 @@ import javafx.scene.control.Button;
 import src.vehicle.VehicleService;
 
 public class DeliveryPerson {
-  private Integer deliveryPersonId;
+    private Integer deliveryPersonId;
     private String deliveryPersonName;
     private Integer deliveryPersonVehicle;
 
