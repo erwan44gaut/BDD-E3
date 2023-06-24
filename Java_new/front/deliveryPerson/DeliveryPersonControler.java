@@ -6,11 +6,9 @@ import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-import com.fasterxml.jackson.databind.DeserializationConfig;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
@@ -29,41 +27,41 @@ import src.deliveryPerson.DeliveryPersonService;
 
 public class DeliveryPersonControler implements Initializable {
     @FXML
-    private Button addButton;
+    private Button deliveryPerson_addButton;
 
     @FXML
-    private TableColumn<DeliveryPerson, Button> delete;
+    private TableColumn<DeliveryPerson, Button> deliveryPerson_delete;
 
     @FXML
-    private TableColumn<DeliveryPerson, Integer> deliveryPersonId;
+    private TableColumn<DeliveryPerson, Integer> deliveryPerson_id;
 
     @FXML
-    private TableColumn<DeliveryPerson, String> deliveryPersonName;
+    private TableColumn<DeliveryPerson, String> deliveryPerson_name;
 
     @FXML
-    private TableColumn<DeliveryPerson, String> deliveryPersonVehicle;
+    private TableColumn<DeliveryPerson, String> deliveryPerson_vehicle;
 
     @FXML
-    private TableColumn<DeliveryPerson, Button> editName;
+    private TableColumn<DeliveryPerson, Button> deliveryPerson_editName;
 
     @FXML
-    private Button refreshButton;
+    private Button deliveryPerson_refreshButton;
 
     @FXML
-    private TableView<DeliveryPerson> table;
+    private TableView<DeliveryPerson> deliveryPerson_table;
 
     ObservableList<DeliveryPerson> deliveryPersons = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) 
     {
-        table.setFixedCellSize(60.0);
-        deliveryPersonId.setCellValueFactory(new PropertyValueFactory<DeliveryPerson, Integer>("delivery_person_id"));
-        deliveryPersonName.setCellValueFactory(new PropertyValueFactory<DeliveryPerson, String>("delivery_person_name"));
-        editName.setCellValueFactory(new PropertyValueFactory<DeliveryPerson, Button>("editName"));
-        refreshButton.setOnAction(event -> refreshTable());
+        deliveryPerson_table.setFixedCellSize(60.0);
+        deliveryPerson_id.setCellValueFactory(new PropertyValueFactory<DeliveryPerson, Integer>("delivery_person_id"));
+        deliveryPerson_name.setCellValueFactory(new PropertyValueFactory<DeliveryPerson, String>("delivery_person_name"));
+        deliveryPerson_editName.setCellValueFactory(new PropertyValueFactory<DeliveryPerson, Button>("editName"));
+        deliveryPerson_refreshButton.setOnAction(event -> refreshTable());
 
-        addButton.setOnAction(event -> {
+        deliveryPerson_addButton.setOnAction(event -> {
             Dialog<String> dialog = new Dialog<>();
             dialog.setTitle("Create new delivery person");
 
@@ -92,7 +90,7 @@ public class DeliveryPersonControler implements Initializable {
             });
         });
 
-        editName.setCellFactory(column -> {
+        deliveryPerson_editName.setCellFactory(column -> {
             return new TableCell<DeliveryPerson, Button>() {
                 final Button btn = new Button("Edit name");
 
@@ -139,7 +137,7 @@ public class DeliveryPersonControler implements Initializable {
             };
         });
                 
-        delete.setCellFactory(column -> {
+        deliveryPerson_delete.setCellFactory(column -> {
             return new TableCell<DeliveryPerson, Button>() {
                 final Button btn = new Button("Delete");
 
@@ -180,6 +178,6 @@ public class DeliveryPersonControler implements Initializable {
         {
             e.printStackTrace();
         }
-        table.setItems(deliveryPersons);
+        deliveryPerson_table.setItems(deliveryPersons);
     }
 }

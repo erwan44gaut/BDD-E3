@@ -16,43 +16,43 @@ import src.stats.StatsService;
 
 public class StatsSceneController {
     @FXML
-    private Text bestIngredientTextField;
+    private Text stat_bestIngredientTextField;
 
     @FXML
-    private Text bestPizzaTextField;
+    private Text stat_bestPizzaTextField;
 
     @FXML
-    private Text idBestCustomerTextField;
+    private Text stat_idBestCustomerTextField;
 
     @FXML
-    private Text nameBestCustomerTextField;
+    private Text stat_nameBestCustomerTextField;
 
     @FXML
-    private Text nameBestDeliveryPersonTextField;
+    private Text stat_nameBestDeliveryPersonTextField;
 
     @FXML
-    private Text nameWorstDeliveryPersonTextField;
+    private Text stat_nameWorstDeliveryPersonTextField;
 
     @FXML
-    private Text totalCommandeBestDeliveryPersonTextField;
+    private Text stat_totalCommandeBestDeliveryPersonTextField;
 
     @FXML
-    private Text totalCommandeBestPizzaTextField;
+    private Text stat_totalCommandeBestPizzaTextField;
 
     @FXML
-    private Text totalCommandeWorstDeliveryPersonTextField;
+    private Text stat_totalCommandeWorstDeliveryPersonTextField;
 
     @FXML
-    private Text vehiculeBestDeliveryPersonTextField;
+    private Text stat_vehiculeBestDeliveryPersonTextField;
 
     @FXML
-    private Text vehiculeWorstDeliveryPersonTextField;
+    private Text stat_vehiculeWorstDeliveryPersonTextField;
 
     @FXML
-    private Text numberBestIngredientTextField;
+    private Text stat_numberBestIngredientTextField;
 
     @FXML
-    private Button refreshButton;
+    private Button stat_refreshButton;
 
     @FXML
     void onClick(ActionEvent event) {
@@ -72,7 +72,7 @@ public class StatsSceneController {
             ResultSet rs = StatsService.GetBestCustomer();
             if (rs.next()) {
                 customerId = rs.getInt(1);
-                idBestCustomerTextField.setText(String.valueOf(customerId));
+                stat_idBestCustomerTextField.setText(String.valueOf(customerId));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -82,7 +82,7 @@ public class StatsSceneController {
             try {
                 ResultSet rs = CustomerService.getCustomer(customerId);
                 if (rs.next()) {
-                    nameBestCustomerTextField.setText(rs.getString("customer_name"));
+                    stat_nameBestCustomerTextField.setText(rs.getString("customer_name"));
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -95,8 +95,8 @@ public class StatsSceneController {
             ResultSet rs = StatsService.GetWorstDeliveryPerson();
             if (rs.next()) {
                 worstDeliveryPersonId = rs.getInt(1);
-                vehiculeWorstDeliveryPersonTextField.setText(rs.getString(2));
-                totalCommandeWorstDeliveryPersonTextField.setText(rs.getString(3));
+                stat_vehiculeWorstDeliveryPersonTextField.setText(rs.getString(2));
+                stat_totalCommandeWorstDeliveryPersonTextField.setText(rs.getString(3));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -106,7 +106,7 @@ public class StatsSceneController {
             try {
                 ResultSet rs = DeliveryPersonService.getDeliveryPersonById(worstDeliveryPersonId);
                 if (rs.next()) {
-                    nameWorstDeliveryPersonTextField.setText(rs.getString("delivery_person_name"));
+                    stat_nameWorstDeliveryPersonTextField.setText(rs.getString("delivery_person_name"));
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -119,8 +119,8 @@ public class StatsSceneController {
             ResultSet rs = StatsService.GetBestDeliveryPerson();
             if (rs.next()) {
                 bestDeliveryPersonId = rs.getInt(1);
-                vehiculeBestDeliveryPersonTextField.setText(rs.getString(2));
-                totalCommandeBestDeliveryPersonTextField.setText(rs.getString(3));
+                stat_vehiculeBestDeliveryPersonTextField.setText(rs.getString(2));
+                stat_totalCommandeBestDeliveryPersonTextField.setText(rs.getString(3));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -130,7 +130,7 @@ public class StatsSceneController {
             try {
                 ResultSet rs = DeliveryPersonService.getDeliveryPersonById(bestDeliveryPersonId);
                 if (rs.next()) {
-                    nameBestDeliveryPersonTextField.setText(rs.getString("delivery_person_name"));
+                    stat_nameBestDeliveryPersonTextField.setText(rs.getString("delivery_person_name"));
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -143,7 +143,7 @@ public class StatsSceneController {
             ResultSet rs = StatsService.GetMostOrderedPizza();
             if (rs.next()) {
                 mostOrderedPizza = rs.getInt(1);
-                totalCommandeBestPizzaTextField.setText(rs.getString(2));
+                stat_totalCommandeBestPizzaTextField.setText(rs.getString(2));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -153,7 +153,7 @@ public class StatsSceneController {
             try {
                 ResultSet rs = PizzaService.getPizzaById(mostOrderedPizza);
                 if (rs.next()) {
-                    bestPizzaTextField.setText(rs.getString("pizza_name"));
+                    stat_bestPizzaTextField.setText(rs.getString("pizza_name"));
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -166,7 +166,7 @@ public class StatsSceneController {
             ResultSet rs = StatsService.GetMostPopularIngredient();
             if (rs.next()) {
                 mostPopularIngredient = rs.getInt(1);
-                numberBestIngredientTextField.setText(rs.getString(2));
+                stat_numberBestIngredientTextField.setText(rs.getString(2));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -176,7 +176,7 @@ public class StatsSceneController {
             try {
                 ResultSet rs = IngredientService.getIngredientById(mostPopularIngredient);
                 if (rs.next()) {
-                    bestIngredientTextField.setText(rs.getString("ingredient_name"));
+                    stat_bestIngredientTextField.setText(rs.getString("ingredient_name"));
                 }
             } catch (SQLException e) {
                 e.printStackTrace();

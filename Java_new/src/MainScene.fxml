@@ -23,17 +23,17 @@
          <content>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
-                  <TableView fx:id="table" layoutX="-1.0" layoutY="35.0" prefHeight="476.0" prefWidth="966.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                  <TableView fx:id="deliveryPerson_table" layoutX="-1.0" layoutY="35.0" prefHeight="476.0" prefWidth="966.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                     <columns>
-                      <TableColumn fx:id="deliveryPersonId" prefWidth="75.0" text="id" />
-                      <TableColumn fx:id="deliveryPersonName" prefWidth="163.0" text="name" />
-                        <TableColumn fx:id="deliveryPersonVehicle" minWidth="0.0" prefWidth="88.0" text="vehicle" />
-                        <TableColumn fx:id="editName" minWidth="0.0" prefWidth="150.0" text="edit" />
-                        <TableColumn fx:id="delete" minWidth="0.0" prefWidth="150.0" text="delete" />
+                      <TableColumn fx:id="deliveryPerson_id" prefWidth="75.0" text="id" />
+                      <TableColumn fx:id="deliveryPerson_name" prefWidth="163.0" text="name" />
+                        <TableColumn fx:id="deliveryPerson_vehicle" minWidth="0.0" prefWidth="88.0" text="vehicle" />
+                        <TableColumn fx:id="deliveryPerson_editName" minWidth="0.0" prefWidth="150.0" text="edit" />
+                        <TableColumn fx:id="deliveryPerson_delete" minWidth="0.0" prefWidth="150.0" text="delete" />
                     </columns>
                   </TableView>
-                  <Button fx:id="refreshButton" layoutX="890.0" layoutY="2.0" mnemonicParsing="false" text="Refresh" />
-                  <Button fx:id="addButton" layoutX="819.0" layoutY="2.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="55.0" text="Add" />
+                  <Button fx:id="deliveryPerson_refreshButton" layoutX="890.0" layoutY="2.0" mnemonicParsing="false" text="Refresh" />
+                  <Button fx:id="deliveryPerson_addButton" layoutX="819.0" layoutY="2.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="55.0" text="Add" />
                </children></AnchorPane>
          </content>
       </Tab>
@@ -45,13 +45,13 @@
                      <children>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <Text fx:id="nameBestCustomerTextField" layoutX="595.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="144.275390625" />
+                              <Text fx:id="stat_nameBestCustomerTextField" layoutX="595.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="144.275390625" />
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="est le/la meilleur(e) client(e) et son id est le" textAlignment="CENTER" wrappingWidth="234.275390625">
                                  <HBox.margin>
                                     <Insets />
                                  </HBox.margin>
                               </Text>
-                              <Text fx:id="idBestCustomerTextField" layoutX="346.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="144.275390625" />
+                              <Text fx:id="stat_idBestCustomerTextField" layoutX="346.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="144.275390625" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="100.0" prefWidth="200.0">
@@ -61,11 +61,11 @@
                                     <Insets />
                                  </HBox.margin>
                               </Text>
-                              <Text fx:id="nameWorstDeliveryPersonTextField" layoutX="595.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="127.275390625" />
+                              <Text fx:id="stat_nameWorstDeliveryPersonTextField" layoutX="595.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="127.275390625" />
                               <Text layoutX="328.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="avec" textAlignment="CENTER" wrappingWidth="57.275390625" />
-                              <Text fx:id="totalCommandeWorstDeliveryPersonTextField" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="127.275390625" />
+                              <Text fx:id="stat_totalCommandeWorstDeliveryPersonTextField" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="127.275390625" />
                               <Text layoutX="490.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="commandes en retard en" textAlignment="CENTER" wrappingWidth="149.275390625" />
-                              <Text fx:id="vehiculeWorstDeliveryPersonTextField" layoutX="526.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="127.275390625" />
+                              <Text fx:id="stat_vehiculeWorstDeliveryPersonTextField" layoutX="526.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="127.275390625" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER" layoutX="10.0" layoutY="410.0" prefHeight="100.0" prefWidth="200.0">
@@ -75,11 +75,11 @@
                                     <Insets />
                                  </HBox.margin>
                               </Text>
-                              <Text fx:id="nameBestDeliveryPersonTextField" layoutX="93.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="140.275390625" />
+                              <Text fx:id="stat_nameBestDeliveryPersonTextField" layoutX="93.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="140.275390625" />
                               <Text layoutX="328.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="avec" textAlignment="CENTER" wrappingWidth="60.275390625" />
-                              <Text fx:id="totalCommandeBestDeliveryPersonTextField" layoutX="817.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="140.275390625" />
+                              <Text fx:id="stat_totalCommandeBestDeliveryPersonTextField" layoutX="817.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="140.275390625" />
                               <Text layoutX="490.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="commandes à l'heure en" textAlignment="CENTER" wrappingWidth="148.275390625" />
-                              <Text fx:id="vehiculeBestDeliveryPersonTextField" layoutX="534.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="140.275390625" />
+                              <Text fx:id="stat_vehiculeBestDeliveryPersonTextField" layoutX="534.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="140.275390625" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER" layoutX="10.0" layoutY="410.0" prefHeight="100.0" prefWidth="200.0">
@@ -89,9 +89,9 @@
                                     <Insets />
                                  </HBox.margin>
                               </Text>
-                              <Text fx:id="bestPizzaTextField" layoutX="101.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="140.275390625" />
+                              <Text fx:id="stat_bestPizzaTextField" layoutX="101.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="140.275390625" />
                               <Text layoutX="328.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="est la plus commandée avec" textAlignment="CENTER" wrappingWidth="183.275390625" />
-                              <Text fx:id="totalCommandeBestPizzaTextField" layoutX="809.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="140.275390625" />
+                              <Text fx:id="stat_totalCommandeBestPizzaTextField" layoutX="809.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="140.275390625" />
                               <Text layoutX="490.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="commandes." textAlignment="CENTER" wrappingWidth="96.275390625" />
                            </children>
                         </HBox>
@@ -102,13 +102,13 @@
                                     <Insets />
                                  </HBox.margin>
                               </Text>
-                              <Text fx:id="bestIngredientTextField" layoutX="237.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="140.275390625" />
+                              <Text fx:id="stat_bestIngredientTextField" layoutX="237.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="140.275390625" />
                               <Text layoutX="328.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="est le favoris et apparait" textAlignment="CENTER" wrappingWidth="140.275390625" />
-                              <Text fx:id="numberBestIngredientTextField" layoutX="406.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="35.275390625" />
+                              <Text fx:id="stat_numberBestIngredientTextField" layoutX="406.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="35.275390625" />
                               <Text layoutX="477.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="fois." textAlignment="CENTER" wrappingWidth="41.275390625" />
                            </children>
                         </HBox>
-                        <Button fx:id="refreshButton" alignment="BOTTOM_CENTER" mnemonicParsing="false" prefHeight="29.0" prefWidth="960.0" text="Refresh" textAlignment="CENTER">
+                        <Button fx:id="stat_refreshButton" alignment="BOTTOM_CENTER" mnemonicParsing="false" onAction="#stat_onClick" prefHeight="29.0" prefWidth="960.0" text="Refresh" textAlignment="CENTER">
                            <font>
                               <Font size="16.0" />
                            </font>

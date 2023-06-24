@@ -11,6 +11,7 @@ import front.OrderPizzaScene.OrderPizzaController;
 import front.editPizzaScene.EditPizzaController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -39,12 +40,16 @@ import javafx.stage.Stage;
 import javafx.util.Pair;
 import src.customer.Customer;
 import src.customer.CustomerService;
+import src.deliveryPerson.DeliveryPerson;
+import src.deliveryPerson.DeliveryPersonService;
+import src.ingredient.IngredientService;
 import src.order.OrderService;
 import src.order.PizzaOrder;
 import src.pizza.Pizza;
 import src.pizza.PizzaService;
+import src.stats.StatsService;
 
-public class PizzasController implements Initializable{
+public class AdminController implements Initializable{
 
 // --------------------------------------------------- PIZZAS FXML  -----------------------------------------------------------------//
     @FXML
@@ -134,6 +139,81 @@ public class PizzasController implements Initializable{
     private TableView<Customer> customer_table;
 
     ObservableList<Customer> customers = FXCollections.observableArrayList();
+
+    // --------------------------------------------------- STATS FXML  -----------------------------------------------------------------//
+
+    @FXML
+    private Text stat_bestIngredientTextField;
+
+    @FXML
+    private Text stat_bestPizzaTextField;
+
+    @FXML
+    private Text stat_idBestCustomerTextField;
+
+    @FXML
+    private Text stat_nameBestCustomerTextField;
+
+    @FXML
+    private Text stat_nameBestDeliveryPersonTextField;
+
+    @FXML
+    private Text stat_nameWorstDeliveryPersonTextField;
+
+    @FXML
+    private Text stat_totalCommandeBestDeliveryPersonTextField;
+
+    @FXML
+    private Text stat_totalCommandeBestPizzaTextField;
+
+    @FXML
+    private Text stat_totalCommandeWorstDeliveryPersonTextField;
+
+    @FXML
+    private Text stat_vehiculeBestDeliveryPersonTextField;
+
+    @FXML
+    private Text stat_vehiculeWorstDeliveryPersonTextField;
+
+    @FXML
+    private Text stat_numberBestIngredientTextField;
+
+    @FXML
+    private Button stat_refreshButton;
+
+    @FXML
+    void stat_onClick(ActionEvent event) {
+        refreshStats();
+        System.out.println("Refreshed");
+    }
+
+    // ----------------------------------------------- DELIVERY PERSON FXML  ----------------------------------------------------//
+    
+    @FXML
+    private Button deliveryPerson_addButton;
+
+    @FXML
+    private TableColumn<DeliveryPerson, Button> deliveryPerson_delete;
+
+    @FXML
+    private TableColumn<DeliveryPerson, Integer> deliveryPerson_id;
+
+    @FXML
+    private TableColumn<DeliveryPerson, String> deliveryPerson_name;
+
+    @FXML
+    private TableColumn<DeliveryPerson, String> deliveryPerson_vehicle;
+
+    @FXML
+    private TableColumn<DeliveryPerson, Button> deliveryPerson_editName;
+
+    @FXML
+    private Button deliveryPerson_refreshButton;
+
+    @FXML
+    private TableView<DeliveryPerson> deliveryPerson_table;
+
+    ObservableList<DeliveryPerson> deliveryPersons = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -604,12 +684,120 @@ public class PizzasController implements Initializable{
             };
         });
 
+        // ---------------------------------------------- DELIVERY PERSON --------------------------------------------------------//
+
+        deliveryPerson_table.setFixedCellSize(60.0);
+        deliveryPerson_id.setCellValueFactory(new PropertyValueFactory<DeliveryPerson, Integer>("delivery_person_id"));
+        deliveryPerson_name.setCellValueFactory(new PropertyValueFactory<DeliveryPerson, String>("delivery_person_name"));
+        deliveryPerson_editName.setCellValueFactory(new PropertyValueFactory<DeliveryPerson, Button>("editName"));
+        deliveryPerson_refreshButton.setOnAction(event -> refreshTable());
+
+        deliveryPerson_addButton.setOnAction(event -> {
+            Dialog<String> dialog = new Dialog<>();
+            dialog.setTitle("Create new delivery person");
+
+            TextField nameField = new TextField("");
+            nameField.setPromptText("Enter delivery person name");
+
+            dialog.getDialogPane().setContent(new VBox(nameField));
+
+            ButtonType applyButtonType = new ButtonType("Apply", ButtonBar.ButtonData.OK_DONE);
+            ButtonType cancelButtonType = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+            dialog.getDialogPane().getButtonTypes().addAll(applyButtonType, cancelButtonType);
+
+            dialog.setResultConverter(dialogButton -> {
+                if (dialogButton == applyButtonType) {
+                    return nameField.getText();
+                }
+                return null;
+            });
+
+            Optional<String> result = dialog.showAndWait();
+
+            result.ifPresent(newName -> {
+                System.out.println("Created new delivery person: " + newName);
+                DeliveryPersonService.addDeliveryPerson(newName);
+                refreshTable();
+            });
+        });
+
+        deliveryPerson_editName.setCellFactory(column -> {
+            return new TableCell<DeliveryPerson, Button>() {
+                final Button btn = new Button("Edit name");
+
+                @Override
+                protected void updateItem(Button item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty) {
+                        setGraphic(null);
+                    } else {
+                        setGraphic(btn);
+                        setAlignment(Pos.CENTER);
+                        DeliveryPerson customer = getTableView().getItems().get(getIndex());
+
+                        btn.setOnAction(event -> {
+                            Dialog<String> dialog = new Dialog<>();
+                            dialog.setTitle("Edit Delivery Person Name");
+
+                            TextField nameField = new TextField(customer.getDeliveryPersonName());
+                            nameField.setPromptText("Enter new name");
+
+                            dialog.getDialogPane().setContent(new VBox(nameField));
+
+                            ButtonType applyButtonType = new ButtonType("Apply", ButtonBar.ButtonData.OK_DONE);
+                            ButtonType cancelButtonType = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+                            dialog.getDialogPane().getButtonTypes().addAll(applyButtonType, cancelButtonType);
+
+                            dialog.setResultConverter(dialogButton -> {
+                                if (dialogButton == applyButtonType) {
+                                    return nameField.getText();
+                                }
+                                return null;
+                            });
+
+                            Optional<String> result = dialog.showAndWait();
+
+                            result.ifPresent(newName -> {
+                                System.out.println("Updating name to: " + newName);
+                                DeliveryPersonService.updateDeliveryPersonField(customer.getDeliveryPersonId(), "delivery_person_name", newName);
+                                refreshTable();
+                            });
+                        });
+                    }
+                }
+            };
+        });
+                
+        deliveryPerson_delete.setCellFactory(column -> {
+            return new TableCell<DeliveryPerson, Button>() {
+                final Button btn = new Button("Delete");
+
+                @Override
+                protected void updateItem(Button item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty) {
+                        setGraphic(null);
+                    } else {
+                        setGraphic(btn);
+                        setAlignment(Pos.CENTER);
+                        DeliveryPerson deliveryPerson = getTableView().getItems().get(getIndex());
+
+                        btn.setOnAction(event -> {
+                            System.out.println("Deleting delivery person n°" + deliveryPerson.getDeliveryPersonId());
+                            DeliveryPersonService.deleteDeliveryPerson(deliveryPerson.getDeliveryPersonId());
+                            refreshTable();
+                        });
+                    }
+                }
+            };
+        });
 
 
         refreshTable();
     }
 
     void refreshTable(){
+        refreshStats();
         // ---------------------------------------------- PIZZA --------------------------------------------------------//
         pizza_table.getItems().clear();
         try {
@@ -652,6 +840,148 @@ public class PizzasController implements Initializable{
             e.printStackTrace();
         }
         customer_table.setItems(customers);
+
+        // ---------------------------------------------- DELIVERY PERSON --------------------------------------------------------//
+
+        /*deliveryPersons.clear();
+        try 
+        {
+            ResultSet deliveryPersonsSet = DeliveryPersonService.getDeliveryPersons();
+            while (deliveryPersonsSet.next()) {
+                DeliveryPerson order = DeliveryPerson.createDeliveryPersonFromResultSet(deliveryPersonsSet);
+                deliveryPersons.add(order);
+            }
+        } 
+        catch (SQLException e) 
+        {
+            e.printStackTrace();
+        }
+        deliveryPerson_table.setItems(deliveryPersons);*/
+    }
+
+    public void refreshStats() {
+        int customerId = -1;
+        int worstDeliveryPersonId = -1;
+        int bestDeliveryPersonId = -1;
+        int mostOrderedPizza = -1;
+        int mostPopularIngredient = -1;
+
+        //#region Best delivery person
+        try {
+            ResultSet rs = StatsService.GetBestCustomer();
+            if (rs.next()) {
+                customerId = rs.getInt(1);
+                stat_idBestCustomerTextField.setText(String.valueOf(customerId));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        if (customerId != -1) {
+            try {
+                ResultSet rs = CustomerService.getCustomer(customerId);
+                if (rs.next()) {
+                    stat_nameBestCustomerTextField.setText(rs.getString("customer_name"));
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        //#endregion
+
+        //#region Worst delivery person
+        try {
+            ResultSet rs = StatsService.GetWorstDeliveryPerson();
+            if (rs.next()) {
+                worstDeliveryPersonId = rs.getInt(1);
+                stat_vehiculeWorstDeliveryPersonTextField.setText(rs.getString(2));
+                stat_totalCommandeWorstDeliveryPersonTextField.setText(rs.getString(3));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        if (worstDeliveryPersonId != -1) {
+            try {
+                ResultSet rs = DeliveryPersonService.getDeliveryPersonById(worstDeliveryPersonId);
+                if (rs.next()) {
+                    stat_nameWorstDeliveryPersonTextField.setText(rs.getString("delivery_person_name"));
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        //#endregion
+
+        //#region Best delivery person
+        try {
+            ResultSet rs = StatsService.GetBestDeliveryPerson();
+            if (rs.next()) {
+                bestDeliveryPersonId = rs.getInt(1);
+                stat_vehiculeBestDeliveryPersonTextField.setText(rs.getString(2));
+                stat_totalCommandeBestDeliveryPersonTextField.setText(rs.getString(3));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        if (worstDeliveryPersonId != -1) {
+            try {
+                ResultSet rs = DeliveryPersonService.getDeliveryPersonById(bestDeliveryPersonId);
+                if (rs.next()) {
+                    stat_nameBestDeliveryPersonTextField.setText(rs.getString("delivery_person_name"));
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        //#endregion
+
+        //#region Most ordered pizza
+        try {
+            ResultSet rs = StatsService.GetMostOrderedPizza();
+            if (rs.next()) {
+                mostOrderedPizza = rs.getInt(1);
+                stat_totalCommandeBestPizzaTextField.setText(rs.getString(2));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        if (worstDeliveryPersonId != -1) {
+            try {
+                ResultSet rs = PizzaService.getPizzaById(mostOrderedPizza);
+                if (rs.next()) {
+                    stat_bestPizzaTextField.setText(rs.getString("pizza_name"));
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        //#endregion
+
+        //#region Most ordered pizza ingredient
+        try {
+            ResultSet rs = StatsService.GetMostPopularIngredient();
+            if (rs.next()) {
+                mostPopularIngredient = rs.getInt(1);
+                stat_numberBestIngredientTextField.setText(rs.getString(2));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        if (worstDeliveryPersonId != -1) {
+            try {
+                ResultSet rs = IngredientService.getIngredientById(mostPopularIngredient);
+                if (rs.next()) {
+                    stat_bestIngredientTextField.setText(rs.getString("ingredient_name"));
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        //#endregion
     }
 
 }
