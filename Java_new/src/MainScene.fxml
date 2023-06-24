@@ -27,7 +27,7 @@
                     <columns>
                       <TableColumn fx:id="deliveryPerson_id" prefWidth="75.0" text="id" />
                       <TableColumn fx:id="deliveryPerson_name" prefWidth="163.0" text="name" />
-                        <TableColumn fx:id="deliveryPerson_vehicle" minWidth="0.0" prefWidth="100.0" text="vehicle" />
+                        <TableColumn fx:id="deliveryPerson_vehicle" minWidth="0.0" prefWidth="250.0" text="vehicle" />
                         <TableColumn fx:id="deliveryPerson_editName" minWidth="0.0" prefWidth="150.0" text="edit name" />
                         <TableColumn fx:id="deliveryPerson_editVehicle" minWidth="0.0" prefWidth="200.0" text="edit vehicle" />
                         <TableColumn fx:id="deliveryPerson_delete" minWidth="0.0" prefWidth="150.0" text="delete" />
@@ -192,6 +192,7 @@
                      <columns>
                         <TableColumn fx:id="vehicle_id" prefWidth="75.0" text="id" />
                         <TableColumn fx:id="vehicle_type" prefWidth="163.0" text="type" />
+                        <TableColumn fx:id="vehicle_model" prefWidth="163.0" text="model" />
                         <TableColumn fx:id="vehicle_editButton" prefWidth="149.5999755859375" text="edit" />
                         <TableColumn fx:id="vehicle_deleteButton" prefWidth="149.5999755859375" text="delete" />
                      </columns>

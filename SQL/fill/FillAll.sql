@@ -51,11 +51,24 @@ VALUES
     (10, 'IN_DELIVERY', NOW(), 10, 'MEDIUM', 10);
 
 -- Insert into Vehicle table
-INSERT INTO Vehicle (vehicle_id, vehicle_type)
+INSERT INTO Vehicle (vehicle_id, vehicle_type, vehicle_model)
 VALUES
-    (1, 'CAR'),
-    (2, 'MOTORBIKE'),
-    (3, 'BIKE');
+	(1, 'CAR', 'Toyota Camry'),
+	(2, 'MOTORBIKE', 'Honda CBR500R'),
+	(3, 'MOTORBIKE', 'Trek Fuel EX 8'),
+	(4, 'CAR', 'Ford Mustang'),
+	(5, 'MOTORBIKE', 'Kawasaki Ninja 650'),
+	(6, 'CAR', 'Giant Trance Advanced Pro 29'),
+	(7, 'CAR', 'Chevrolet Corvette'),
+	(8, 'MOTORBIKE', 'Yamaha MT-07'),
+	(9, 'CAR', 'Audi A4'),
+	(10, 'MOTORBIKE', 'Ducati Panigale V4'),
+	(11, 'CAR', 'BMW X5'),
+	(12, 'MOTORBIKE', 'Suzuki GSX-R1000'),
+	(13, 'CAR', 'Mercedes-Benz C-Class'),
+	(14, 'MOTORBIKE', 'Triumph Street Triple'),
+	(15, 'CAR', 'Volkswagen Golf'),
+	(16, 'MOTORBIKE', 'KTM Duke 390');
     
 -- Insert into Delivery_Person table
 INSERT INTO Delivery_Person (delivery_person_id, delivery_person_name, vehicle_id)
@@ -63,13 +76,11 @@ VALUES
     (1, 'Mike', 1),
     (2, 'Sarah', 2),
     (3, 'David', 3),
-    (4, 'Emma', 2),
-    (5, 'John', 1),
-    (6, 'Emily', 2),
-    (7, 'Daniel', 3),
-    (8, 'Sophia', 3),
-    (9, 'William', 2),
-    (10, 'Olivia', 2);
+    (4, 'Emma', 4),
+    (5, 'John', 5),
+    (6, 'Emily', 6),
+    (7, 'Daniel', 7),
+    (8, 'Sophia', 8);
 
 -- Insert into Delivery table
 INSERT INTO Delivery (delivery_id, delivery_status, delivery_datetime, delivery_person_id, order_id)
@@ -82,8 +93,8 @@ VALUES
     (6, 'IN_PROGRESS', NOW(), 6, 6),
     (7, 'IN_PROGRESS', NOW(), 7, 7),
     (8, 'COMPLETE', NOW(), 1, 8),
-    (9, 'IN_PROGRESS', NOW(), 9, 9),
-    (10, 'IN_PROGRESS', NOW(), 10, 10);
+    (9, 'IN_PROGRESS', NOW(), 2, 9),
+    (10, 'IN_PROGRESS', NOW(), 8, 10);
     
 -- Insert into Has_Ingredient table
 INSERT INTO Has_Ingredient (pizza_id, ingredient_id)

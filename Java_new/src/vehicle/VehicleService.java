@@ -39,6 +39,28 @@ public class VehicleService {
         return typesList.toArray(new String[0]);
     }
 
+    public static String[] getUnassignedVehicles() 
+    {
+        String sqlQuery = "SELECT CONCAT(vehicle_type, ' - ', vehicle_model) AS vehicle_info " +
+                        "FROM Vehicle " +
+                        "LEFT JOIN Delivery_Person ON Vehicle.vehicle_id = Delivery_Person.vehicle_id " +
+                        "WHERE Delivery_Person.delivery_person_id IS NULL";
+
+        ResultSet resultSet = DatabaseConnection.query(sqlQuery);
+        List<String> vehicleList = new ArrayList<>();
+
+        try {
+            while (resultSet.next()) {
+                String vehicleInfo = resultSet.getString("vehicle_info");
+                vehicleList.add(vehicleInfo);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return vehicleList.toArray(new String[0]);
+    }
+
 
     public static ResultSet getVehicleByName(String vehicleName)
     {

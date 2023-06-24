@@ -23,6 +23,7 @@ import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Dialog;
+import javafx.scene.control.Label;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -31,6 +32,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -242,6 +244,9 @@ public class AdminController implements Initializable {
 
     @FXML
     private TableView<Vehicle> vehicle_table;
+
+    @FXML
+    private TableColumn<Vehicle, String> vehicle_model;
 
     ObservableList<Vehicle> vehicles = FXCollections.observableArrayList();
     //#endregion
@@ -722,17 +727,12 @@ public class AdminController implements Initializable {
         });
         //#endregion
 
-
-
-
-
-
-
         // ---------------------------------------------- VEHICLE --------------------------------------------------------//
         //#region Vehicle
         vehicle_table.setFixedCellSize(60.0);
         vehicle_id.setCellValueFactory(new PropertyValueFactory<Vehicle, Integer>("vehicleId"));
         vehicle_type.setCellValueFactory(new PropertyValueFactory<Vehicle, String>("vehicleType"));
+        vehicle_model.setCellValueFactory(new PropertyValueFactory<Vehicle, String>("vehicleModel"));
         vehicle_editButton.setCellValueFactory(new PropertyValueFactory<Vehicle, Button>("editName"));
         vehicle_refreshButton.setOnAction(event -> refreshTable());
 
@@ -777,16 +777,24 @@ public class AdminController implements Initializable {
                     } else {
                         setGraphic(btn);
                         setAlignment(Pos.CENTER);
-                        Vehicle customer = getTableView().getItems().get(getIndex());
+                        Vehicle customer = getTableView().getItems().get(getIndex());   
+                            btn.setOnAction(event -> {
+                            Dialog<Pair<String, String>> dialog = new Dialog<>();
+                            dialog.setTitle("Edit Vehicle Details");
 
-                        btn.setOnAction(event -> {
-                            Dialog<String> dialog = new Dialog<>();
-                            dialog.setTitle("Edit Type Name");
+                            TextField modelField = new TextField(customer.getVehicleModel());
+                            modelField.setPromptText("Enter new model");
 
-                            TextField nameField = new TextField(customer.getVehicleType());
-                            nameField.setPromptText("Enter new type");
+                            ComboBox<String> typeComboBox = new ComboBox<>();
+                            typeComboBox.getItems().addAll("CAR", "MOTORBIKE");
+                            typeComboBox.setValue(customer.getVehicleType());
 
-                            dialog.getDialogPane().setContent(new VBox(nameField));
+                            GridPane gridPane = new GridPane();
+                            gridPane.setHgap(10);
+                            gridPane.setVgap(10);
+                            gridPane.addRow(0, new Label("Select type:"), typeComboBox);
+                            gridPane.addRow(1, new Label("Enter new model:"), modelField);
+                            dialog.getDialogPane().setContent(gridPane);
 
                             ButtonType applyButtonType = new ButtonType("Apply", ButtonBar.ButtonData.OK_DONE);
                             ButtonType cancelButtonType = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
@@ -794,16 +802,18 @@ public class AdminController implements Initializable {
 
                             dialog.setResultConverter(dialogButton -> {
                                 if (dialogButton == applyButtonType) {
-                                    return nameField.getText();
+                                    return new Pair<>(typeComboBox.getValue(), modelField.getText());
                                 }
                                 return null;
                             });
 
-                            Optional<String> result = dialog.showAndWait();
+                            Optional<Pair<String, String>> result = dialog.showAndWait();
 
-                            result.ifPresent(newType -> {
-                                System.out.println("Updating type to: " + newType);
-                                VehicleService.updateVehicleField(customer.getVehicleId(), "vehicle_type", newType);
+                            result.ifPresent(newDetails -> {
+                                System.out.println("Updating type to: " + newDetails.getKey());
+                                System.out.println("Updating model to: " + newDetails.getValue());
+                                VehicleService.updateVehicleField(customer.getVehicleId(), "vehicle_type", newDetails.getKey());
+                                VehicleService.updateVehicleField(customer.getVehicleId(), "vehicle_model", newDetails.getValue());
                                 refreshTable();
                             });
                         });
@@ -838,17 +848,6 @@ public class AdminController implements Initializable {
 
         refreshTable();
     //#endregion
-
-
-
-
-
-
-
-
-
-
-
         
         // ---------------------------------------------- DELIVERY PERSON --------------------------------------------------------//
         //#region Delivery Person
