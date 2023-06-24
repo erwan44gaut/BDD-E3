@@ -280,7 +280,7 @@ public class AdminController implements Initializable{
                         System.out.println("ORDER");
                         Stage stage = new Stage();
                         FXMLLoader loader = new FXMLLoader(getClass().getResource("../front/OrderPizzaScene/OrderPizza.fxml"));
-                        loader.setController(new OrderPizzaController(pizza));
+                        loader.setController(new OrderPizzaController(pizza,1));
                         Parent root;
                         try {
                             root = loader.load();

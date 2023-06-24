@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="649.0" prefWidth="885.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+  <tabs>
+      <Tab text="Pizzas">
+         <content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <TableView fx:id="pizza_table" layoutX="61.0" layoutY="59.0" prefHeight="503.0" prefWidth="763.0">
+                  <columns>
+                     <TableColumn fx:id="pizza_name" prefWidth="75.0" text="name" />
+                     <TableColumn fx:id="pizza_price" prefWidth="75.0" text="price" />
+                        <TableColumn fx:id="pizza_image" prefWidth="163.0" text="image" />
+                        <TableColumn fx:id="pizza_ingredients" prefWidth="333.0" text="ingredients" />
+                        <TableColumn fx:id="pizza_order" prefWidth="114.0" text="order" />
+                  </columns>
+                  </TableView>
+                  <Button fx:id="pizza_refreshButton" layoutX="768.0" layoutY="20.0" mnemonicParsing="false" text="Refresh" />
+               </children>
+            </AnchorPane>
+         </content>
+      </Tab>
+      <Tab text="Orders">
+         <content>
+            <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="628.0" prefWidth="878.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+               <children>
+                  <Button fx:id="order_refreshButton" layoutX="741.0" layoutY="25.0" mnemonicParsing="false" text="Refresh" />
+                  <TableView fx:id="order_table" layoutX="81.0" layoutY="63.0" prefHeight="540.0" prefWidth="716.0">
+                  <columns>
+                     <TableColumn fx:id="order_orderId" prefWidth="48.000057220458984" text="id" />
+                        <TableColumn fx:id="order_pizzaName" prefWidth="101.59999084472656" text="pizza name" />
+                        <TableColumn fx:id="order_pizzaSize" prefWidth="127.2000732421875" text="pizza size" />
+                        <TableColumn fx:id="order_totalPrice" prefWidth="81.60009765625" text="total price" />
+                        <TableColumn fx:id="order_orderStatus" prefWidth="81.60009765625" text="order status" />
+                        <TableColumn fx:id="order_deliveryStatus" prefWidth="108.0001220703125" text="delivery status" />
+                        <TableColumn fx:id="order_orderDate" prefWidth="63.9998779296875" text="order date" />
+                        <TableColumn fx:id="order_cancel" prefWidth="95.199951171875" text="cancel" />
+                  </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
+         </content>
+      </Tab>
+      <Tab text="Profile">
+         <content>
+            <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="628.0" prefWidth="1046.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+               <children>
+                  <Button fx:id="customer_refreshButton" layoutX="959.0" layoutY="1.0" mnemonicParsing="false" text="Refresh" />
+                  <Button fx:id="customer_addButton" layoutX="920.0" layoutY="1.0" mnemonicParsing="false" text="Add" />
+                  <Text fx:id="profile_name" layoutX="50.0" layoutY="246.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name : " wrappingWidth="392.869140625">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="profile_balance" layoutX="50.0" layoutY="321.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Balance : " wrappingWidth="392.869140625">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="profile_id" layoutX="50.0" layoutY="167.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Id : " wrappingWidth="392.869140625">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+                  <Button fx:id="profile_edit" layoutX="176.0" layoutY="410.0" mnemonicParsing="false" onAction="#profile_editAction" prefHeight="74.0" prefWidth="210.0" text="EDIT NAME" />
+                  <Button fx:id="profile_recharge" layoutX="523.0" layoutY="410.0" mnemonicParsing="false" onAction="#profile_rechargeAction" prefHeight="74.0" prefWidth="210.0" text="RECHARGE BALANCE" />
+                  <Button fx:id="profile_refresh" layoutX="746.0" layoutY="26.0" mnemonicParsing="false" onAction="#profile_refreshAction" text="Refresh" />
+                  <Text layoutX="377.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PROFILE" underline="true">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </Text>
+               </children>
+            </AnchorPane>
+         </content>
+      </Tab>
+  </tabs>
+</TabPane>
