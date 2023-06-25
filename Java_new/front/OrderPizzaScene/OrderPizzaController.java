@@ -43,7 +43,7 @@ public class OrderPizzaController implements Initializable {
     private Button order;
 
     @FXML
-    private TableColumn<Object[], Float> price;
+    private TableColumn<Object[], String> price;
 
     @FXML
     private TableColumn<Object[], Button> select;
@@ -84,9 +84,9 @@ public class OrderPizzaController implements Initializable {
         select_name.setText("Name : "+pizza.getName());
         id.setText("ID : "+pizza.getPizzaId());
         select_size.setText("SIZE : "+currentSize);
-        select_price.setText("PRICE : "+PizzaService.getAdjustedPrice(pizza.getPizzaId(), currentSize));
+        select_price.setText("PRICE : "+PizzaService.getAdjustedPrice(pizza.getPizzaId(), currentSize) +" $");
         size.setCellValueFactory(cellData -> new SimpleStringProperty((String) cellData.getValue()[0]));
-        price.setCellValueFactory(cellData -> new SimpleObjectProperty<>((Float) cellData.getValue()[1]));
+        price.setCellValueFactory(cellData ->  new SimpleStringProperty( cellData.getValue()[1] + " $"));
         select.setCellValueFactory(cellData -> new SimpleObjectProperty<>(new Button((String) cellData.getValue()[2])));
         select.setCellFactory(column -> {
             return new TableCell<Object[], Button>() {
@@ -97,7 +97,7 @@ public class OrderPizzaController implements Initializable {
                         Object[] rowData = getTableRow().getItem();
                         currentSize = rowData[0].toString(); // Récupère la valeur de la colonne "size"
                         select_size.setText("SIZE : "+currentSize);
-                        select_price.setText("PRICE : "+rowData[1].toString());
+                        select_price.setText("PRICE : "+rowData[1].toString()+ " $");
                     });
                 }
 

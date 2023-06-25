@@ -136,8 +136,10 @@ public class StartController implements Initializable{
         try {
             ResultSet customerSet =CustomerService.getCustomers();
             while (customerSet.next()) {
-                Customer customer = Customer.createCustomerFromResultSet(customerSet);
-                customerList.add(customer);
+                if (customerSet.getInt(1)>1){
+                    Customer customer = Customer.createCustomerFromResultSet(customerSet);
+                    customerList.add(customer);
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -150,8 +152,10 @@ public class StartController implements Initializable{
         try {
             ResultSet deliveryPersonSet =DeliveryPersonService.getDeliveryPersons();
             while (deliveryPersonSet.next()) {
-                DeliveryPerson deliveryPerson = DeliveryPerson.createDeliveryPersonFromResultSet(deliveryPersonSet);
-                deliveryPersonList.add(deliveryPerson);
+                if(deliveryPersonSet.getInt(1)>1){
+                    DeliveryPerson deliveryPerson = DeliveryPerson.createDeliveryPersonFromResultSet(deliveryPersonSet);
+                    deliveryPersonList.add(deliveryPerson);
+                }
             }
         } catch (SQLException e) {
             System.out.println("ERROR REFRESH DELIVERY PERSON");

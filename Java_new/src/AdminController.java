@@ -10,6 +10,7 @@ import java.util.ResourceBundle;
 
 import front.OrderPizzaScene.OrderPizzaController;
 import front.editPizzaScene.EditPizzaController;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -63,7 +64,7 @@ public class AdminController implements Initializable {
     private TableColumn<Pizza, String> pizza_name;
 
     @FXML
-    private TableColumn<Pizza, Float> pizza_price;
+    private TableColumn<Pizza, String> pizza_price;
 
     @FXML
     private TableColumn<Pizza, Image> pizza_image;
@@ -287,7 +288,7 @@ public class AdminController implements Initializable {
         //#region pizzas
         pizza_table.setFixedCellSize(60.0);
         pizza_name.setCellValueFactory(new PropertyValueFactory<Pizza,String>("name"));
-        pizza_price.setCellValueFactory(new PropertyValueFactory<Pizza,Float>("price"));
+        pizza_price.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPrice() + " $"));
         pizza_image.setCellValueFactory(new PropertyValueFactory<Pizza,Image>("image"));
         pizza_image.setCellFactory(column -> {
             return new TableCell<>() {
@@ -353,8 +354,8 @@ public class AdminController implements Initializable {
                             root = loader.load();
                             Scene scene = new Scene(root);
                             stage.setScene(scene);
-                            stage.setOnCloseRequest(e -> {
-                            refreshTable();
+                            stage.setOnHiding(e -> {
+                                refreshTable();
                             });
                             System.out.println("Order menu of pizza '"+pizza.getName()+"'");
                             stage.show();
@@ -1372,7 +1373,7 @@ public class AdminController implements Initializable {
                 String vehicleType = rs.getString(3);
                 String vehicleModel = rs.getString(4);
                 int totalLate = rs.getInt(5);
-                stat_WorstDeliveryPerson.setText(String.format("The worst delivery person is %s (id:%d) with %d late delivery. He drives with a '%s' (%s).", deliveryPersonName,deliveryPersonId,totalLate,vehicleModel,vehicleType));
+                stat_WorstDeliveryPerson.setText(String.format("The worst delivery person is %s (id:%d) with %d late delivery(ies), driving a '%s' (%s).", deliveryPersonName,deliveryPersonId,totalLate,vehicleModel,vehicleType));
             }
             else stat_WorstDeliveryPerson.setText("No Late Deliveries for the moment");
         } catch (SQLException e) {
@@ -1389,7 +1390,7 @@ public class AdminController implements Initializable {
                 String vehicleType = rs.getString(3);
                 String vehicleModel = rs.getString(4);
                 int totalLate = rs.getInt(5);
-                stat_BestDeliveryPerson.setText(String.format("The best delivery person is %s (id:%d) with %d late delivery. He drives with a '%s' (%s).", deliveryPersonName,deliveryPersonId,totalLate,vehicleModel,vehicleType));
+                stat_BestDeliveryPerson.setText(String.format("The best delivery person is %s (id:%d) with %d completed delivery(ies), driving a '%s' (%s).", deliveryPersonName,deliveryPersonId,totalLate,vehicleModel,vehicleType));
             }
             else stat_BestDeliveryPerson.setText("No Complete Deliveries for the moment");
         } catch (SQLException e) {
@@ -1445,7 +1446,7 @@ public class AdminController implements Initializable {
             ResultSet rs = DiversService.getTotalRevenue();
             if (rs.next()) {
                 float totalRevenue = rs.getFloat(1);
-                stat_TotalRevenue.setText(String.format("The total turnover is  : %,.2f.", totalRevenue));
+                stat_TotalRevenue.setText(String.format("The total turnover is  : %,.2f $.", totalRevenue));
             }
             else stat_TotalRevenue.setText("No pizza sales.");
         } catch (SQLException e) {
@@ -1458,7 +1459,7 @@ public class AdminController implements Initializable {
             ResultSet rs = DiversService.getAverageOrderPrice();
             if (rs.next()) {
                 float averagePrice = rs.getFloat(1);
-                stat_AverageOrderPrice.setText(String.format("The average order price is  : %,.2f.", averagePrice));
+                stat_AverageOrderPrice.setText(String.format("The average order price is  : %,.2f $.", averagePrice));
             }
             else stat_AverageOrderPrice.setText("No pizza sales.");
         } catch (SQLException e) {

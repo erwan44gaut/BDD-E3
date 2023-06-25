@@ -24,7 +24,7 @@
                         <TableColumn fx:id="pizza_order" prefWidth="114.0" text="order" />
                   </columns>
                   </TableView>
-                  <Button fx:id="pizza_refreshButton" layoutX="768.0" layoutY="20.0" mnemonicParsing="false" text="Refresh" />
+                  <Button fx:id="pizza_refreshButton" layoutX="768.0" layoutY="20.0" mnemonicParsing="false" onAction="#pizza_refreshAction" text="Refresh" />
                </children>
             </AnchorPane>
          </content>
@@ -33,7 +33,7 @@
          <content>
             <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="628.0" prefWidth="878.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
                <children>
-                  <Button fx:id="order_refreshButton" layoutX="741.0" layoutY="25.0" mnemonicParsing="false" text="Refresh" />
+                  <Button fx:id="order_refreshButton" layoutX="741.0" layoutY="25.0" mnemonicParsing="false" onAction="#order_refreshAction" text="Refresh" />
                   <TableView fx:id="order_table" layoutX="81.0" layoutY="63.0" prefHeight="540.0" prefWidth="716.0">
                   <columns>
                      <TableColumn fx:id="order_orderId" prefWidth="48.000057220458984" text="id" />
