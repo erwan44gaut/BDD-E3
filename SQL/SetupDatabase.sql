@@ -107,18 +107,18 @@ VALUES
 -- Insert into Pizza_Order table
 INSERT INTO Pizza_Order (order_id, order_status, order_datetime, pizza_id, pizza_size, customer_id)
 VALUES
-    (1, 'ACCEPTED', NOW(), 1, 'MEDIUM', 1),
-    (2, 'IN_PREPARATION', NOW(), 2, 'LARGE', 2),
-    (3, 'IN_DELIVERY', NOW(), 3, 'SMALL', 3),
-    (4, 'COMPLETED', NOW(), 8, 'MEDIUM', 8),
-    (5, 'COMPLETED', NOW(), 5, 'LARGE', 5),
-    (6, 'IN_PREPARATION', NOW(), 6, 'SMALL', 6),
-    (7, 'ACCEPTED', NOW(), 7, 'MEDIUM', 7),
+    (1, 'COMPLETED', DATE_SUB(NOW(), INTERVAL 3 HOUR), 1, 'MEDIUM', 1),
+    (2, 'COMPLETED', DATE_SUB(NOW(), INTERVAL 2 HOUR), 2, 'LARGE', 2),
+    (3, 'COMPLETED', NOW(), 3, 'SMALL', 3),
+    (4, 'COMPLETED', DATE_SUB(NOW(), INTERVAL 4 HOUR), 8, 'MEDIUM', 8),
+    (5, 'COMPLETED', DATE_SUB(NOW(), INTERVAL 5 HOUR), 5, 'LARGE', 5),
+    (6, 'IN_DELIVERY', NOW(), 6, 'SMALL', 6),
+    (7, 'IN_DELIVERY', DATE_SUB(NOW(), INTERVAL 1 HOUR), 7, 'MEDIUM', 7),
     (8, 'COMPLETED', NOW(), 8, 'LARGE', 8),
     (9, 'IN_DELIVERY', NOW(), 9, 'SMALL', 9),
-    (10, 'IN_DELIVERY', NOW(), 10, 'MEDIUM', 10),
+    (10, 'IN_DELIVERY', DATE_SUB(NOW(), INTERVAL 6 HOUR), 10, 'MEDIUM', 10),
     (11, 'ACCEPTED', NOW(), 8, 'LARGE', 8),
-    (12, 'IN_PREPARATION', NOW(), 9, 'SMALL', 9),
+    (12, 'IN_PREPARATION', DATE_SUB(NOW(), INTERVAL 2 HOUR), 9, 'SMALL', 9),
     (13, 'ACCEPTED', NOW(), 10, 'MEDIUM', 10);
 
 -- Insert into Vehicle table
@@ -161,11 +161,11 @@ VALUES
     (3, 'LATE', NOW(), 4, 3),
     (4, 'LATE', NOW(), 4, 4),
     (5, 'LATE', NOW(), 5, 5),
-    (6, 'IN_PROGRESS', NOW(), 6, 6), 
-    (7, 'IN_PROGRESS', NOW(), 7, 7),
+    (6, 'IN_PROGRESS', NULL, 6, 6),
+    (7, 'IN_PROGRESS', NULL, 7, 7),
     (8, 'COMPLETED', NOW(), 1, 8),
-    (9, 'IN_PROGRESS', NOW(), 2, 9),
-    (10, 'ACCEPTED', NOW(), 8, 10);
+    (9, 'IN_PROGRESS', NULL, 2, 9),
+    (10, 'ACCEPTED', NULL, 8, 10);
     
 -- Insert into Has_Ingredient table
 INSERT INTO Has_Ingredient (pizza_id, ingredient_id)
