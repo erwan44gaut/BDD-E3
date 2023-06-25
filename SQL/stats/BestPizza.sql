@@ -6,6 +6,7 @@ BEGIN
    SELECT PO.pizza_id, P.pizza_name, COUNT(*) AS order_count
    FROM Pizza_Order PO
    JOIN Pizza P ON PO.pizza_id = P.pizza_id
+   WHERE PO.order_status = 'COMPLETED'
    GROUP BY PO.pizza_id, P.pizza_name
    ORDER BY order_count DESC
    LIMIT 1;

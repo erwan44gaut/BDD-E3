@@ -1,19 +1,10 @@
 package src;
 
 import java.io.IOException;
-import java.sql.ResultSet;
-import src.util.ResultSetUtil;
-import src.vehicle.VehicleService;
-import src.delivery.DeliveryService;
-import src.deliveryPerson.DeliveryPersonService;
-import src.order.OrderService;
-import src.customer.CustomerService;
 import src.util.Config;
 import src.util.DatabaseConnection;
 
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;

@@ -13,8 +13,6 @@ public class DeliveryPerson {
     private Integer deliveryPersonVehicleModel;
 
     private Button editName;
-    private Button delete;
-
     public DeliveryPerson(Integer deliveryPersonId, String deliveryPersonName, Integer deliveryPersonVehicle) {
         this.deliveryPersonId = deliveryPersonId;
         this.deliveryPersonName = deliveryPersonName;
@@ -22,7 +20,7 @@ public class DeliveryPerson {
         this.deliveryPersonVehicleModel = deliveryPersonVehicleModel;
 
         this.editName = new Button("Edit name");
-        this.delete = new Button("Delete");
+        new Button("Delete");
     }
 
     public Integer getDeliveryPersonId()

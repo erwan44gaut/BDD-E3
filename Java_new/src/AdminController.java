@@ -1,7 +1,6 @@
 package src;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -34,7 +33,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -49,8 +47,6 @@ import src.delivery.DeliveryService;
 import src.deliveryPerson.DeliveryPerson;
 import src.deliveryPerson.DeliveryPersonService;
 import src.divers.DiversService;
-import src.ingredient.Ingredient;
-import src.ingredient.IngredientService;
 import src.order.OrderService;
 import src.order.PizzaOrder;
 import src.pizza.Pizza;
@@ -635,15 +631,16 @@ public class AdminController implements Initializable {
                             setAlignment(Pos.CENTER);
 
                             btn.setOnAction(event -> {
-                                Dialog<String> dialog = new Dialog<>();
+                                Dialog<DeliveryPerson> dialog = new Dialog<>();
                                 dialog.setTitle("Select the delivery person's ID");
     
-                                ComboBox<String> deliveryComboBox = new ComboBox<>();
+                                ComboBox<DeliveryPerson> deliveryComboBox = new ComboBox<>();
+                                deliveryComboBox.setConverter(deliveryPersonConverter);
                                 ResultSet deliveryPersons = DeliveryPersonService.getDeliveryPersons();
                                 try {
                                     while (deliveryPersons.next()) {
-                                        String deliveryPersonId = Integer.toString(deliveryPersons.getInt("delivery_person_id"));
-                                        deliveryComboBox.getItems().add(deliveryPersonId);
+
+                                        deliveryComboBox.getItems().add(DeliveryPerson.createDeliveryPersonFromResultSet(deliveryPersons));
                                     }
                                 } catch (SQLException e) {
                                     e.printStackTrace();
@@ -662,11 +659,11 @@ public class AdminController implements Initializable {
                                     return null;
                                 });
     
-                                Optional<String> result = dialog.showAndWait();
+                                Optional<DeliveryPerson> result = dialog.showAndWait();
     
                                 result.ifPresent(selectedDeliveryPerson -> {
-                                    System.out.println("Assigned order to delivery person: " + selectedDeliveryPerson);
-                                    DeliveryService.addDelivery(Integer.parseInt(selectedDeliveryPerson), order.getOrderId());
+                                    System.out.println("Assigned order to delivery person: " + selectedDeliveryPerson.getDeliveryPersonName());
+                                    DeliveryService.addDelivery(selectedDeliveryPerson.getDeliveryPersonId(), order.getOrderId());
                                     refreshTable();
                                 });
                             });
@@ -1492,7 +1489,7 @@ public class AdminController implements Initializable {
                 int customerId = rs.getInt(1);
                 String customerName = rs.getString(2);
                 int totalOrders = rs.getInt(3);
-                stat_BestCustomer.setText(String.format("The best customer is %s (id:%d) with a total of %d order(s).", customerName, customerId, totalOrders));
+                stat_BestCustomer.setText(String.format("The best customer is %s (id:%d) with a total of %d completed order(s).", customerName, customerId, totalOrders));
             }
             else stat_BestCustomer.setText("No Best Customer Stats");
         } catch (SQLException e) {
@@ -1541,7 +1538,7 @@ public class AdminController implements Initializable {
                 int pizzaId = rs.getInt(1);
                 String pizzaName = rs.getString(2);
                 int totalOrders = rs.getInt(3);
-                stat_BestPizza.setText(String.format("The best pizza is %s (id:%d) with a total of %d order(s).", pizzaName, pizzaId, totalOrders));
+                stat_BestPizza.setText(String.format("The best pizza is %s (id:%d) with a total of %d completedorder(s).", pizzaName, pizzaId, totalOrders));
             }
             else stat_BestPizza.setText("No Best Pizza Stats");
         } catch (SQLException e) {
@@ -1556,7 +1553,7 @@ public class AdminController implements Initializable {
                 int ingredientId = rs.getInt(1);
                 String ingredientName = rs.getString(2);
                 int totalOrders = rs.getInt(3);
-                stat_BestIngredient.setText(String.format("The best ingredient is %s (id:%d) present in pizzas with a total of %d order(s).", ingredientName, ingredientId, totalOrders));
+                stat_BestIngredient.setText(String.format("The best ingredient is %s (id:%d) present in pizzas with a total of %d completed order(s).", ingredientName, ingredientId, totalOrders));
             }
             else stat_BestIngredient.setText("No ingredient present in all pizzas");
         } catch (SQLException e) {
@@ -1569,7 +1566,7 @@ public class AdminController implements Initializable {
             ResultSet rs = DiversService.getMonthlyRevenue();
             if (rs.next()) {
                 float monthlyRevenue = rs.getFloat(1);
-                stat_MonthlyRevenue.setText(String.format("The turnover for this month is  : %,.2f.", monthlyRevenue));
+                stat_MonthlyRevenue.setText(String.format("The turnover for this month is  : %,.2f $.", monthlyRevenue));
             }
             else stat_MonthlyRevenue.setText("No pizza sales this month.");
         } catch (SQLException e) {
@@ -1634,7 +1631,7 @@ public class AdminController implements Initializable {
         //#endregion
     }
 
-     StringConverter<Vehicle> vehicleConverter = new StringConverter<Vehicle>() {
+    StringConverter<Vehicle> vehicleConverter = new StringConverter<Vehicle>() {
         @Override
         public String toString(Vehicle vehicle) {
             return vehicle.getVehicleType() + " - " + vehicle.getVehicleModel();
@@ -1642,6 +1639,19 @@ public class AdminController implements Initializable {
 
         @Override
         public Vehicle fromString(String string) {
+            // Conversion inverse non nécessaire pour ce cas
+            return null;
+        }
+    };
+
+    StringConverter<DeliveryPerson> deliveryPersonConverter = new StringConverter<DeliveryPerson>() {
+        @Override
+        public String toString(DeliveryPerson deliveryPerson) {
+            return deliveryPerson.getDeliveryPersonName();
+        }
+
+        @Override
+        public DeliveryPerson fromString(String string) {
             // Conversion inverse non nécessaire pour ce cas
             return null;
         }

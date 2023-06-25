@@ -3,8 +3,6 @@ package front.editPizzaScene;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
@@ -18,7 +16,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.util.StringConverter;
 import src.ingredient.Ingredient;
-import src.ingredient.IngredientService;
 import src.pizza.Pizza;
 import src.pizza.PizzaService;
 
@@ -82,7 +79,7 @@ public class EditPizzaController implements Initializable{
         try{
             Float.parseFloat(newPriceText);
             PizzaService.updatePizzaField(pizza.getPizzaId(), "pizza_base_price", newPriceText);
-            price.setText("UNIT PRICE : "+newPriceText+ " $");
+            price.setText("BASE PRICE : "+newPriceText+ " $");
             System.out.println("Change the price of the pizza to "+newPriceText+ " $.");
         }catch(Exception e){
             System.out.println("ERROR: INVALID INPUT");
@@ -126,7 +123,7 @@ public class EditPizzaController implements Initializable{
     {
         id.setText("ID : " + this.pizza.getPizzaId());
         name.setText("NAME : "+pizza.getName());
-        price.setText("UNIT PRICE : "+pizza.getPrice() + " $");
+        price.setText("BASE PRICE : "+pizza.getPrice() + " $");
         ingredients.setText("Ingredients : "+pizza.getIngredients());
 
         // Configurer le ComboBox pour les ingrédients à ajouter

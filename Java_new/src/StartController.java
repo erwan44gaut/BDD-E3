@@ -5,7 +5,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-import front.OrderPizzaScene.OrderPizzaController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -23,9 +22,6 @@ import src.customer.Customer;
 import src.customer.CustomerService;
 import src.deliveryPerson.DeliveryPerson;
 import src.deliveryPerson.DeliveryPersonService;
-import src.ingredient.Ingredient;
-import src.pizza.PizzaService;
-import src.vehicle.Vehicle;
 
 public class StartController implements Initializable{
 
@@ -158,10 +154,8 @@ public class StartController implements Initializable{
         try {
             ResultSet customerSet =CustomerService.getCustomers();
             while (customerSet.next()) {
-                if (customerSet.getInt(1)>1){
-                    Customer customer = Customer.createCustomerFromResultSet(customerSet);
-                    customerList.add(customer);
-                }
+                Customer customer = Customer.createCustomerFromResultSet(customerSet);
+                customerList.add(customer);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -174,10 +168,8 @@ public class StartController implements Initializable{
         try {
             ResultSet deliveryPersonSet =DeliveryPersonService.getDeliveryPersons();
             while (deliveryPersonSet.next()) {
-                if(deliveryPersonSet.getInt(1)>1){
-                    DeliveryPerson deliveryPerson = DeliveryPerson.createDeliveryPersonFromResultSet(deliveryPersonSet);
-                    deliveryPersonList.add(deliveryPerson);
-                }
+                DeliveryPerson deliveryPerson = DeliveryPerson.createDeliveryPersonFromResultSet(deliveryPersonSet);
+                deliveryPersonList.add(deliveryPerson);
             }
         } catch (SQLException e) {
             System.out.println("ERROR REFRESH DELIVERY PERSON");
