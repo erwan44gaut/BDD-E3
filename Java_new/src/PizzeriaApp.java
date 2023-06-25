@@ -43,7 +43,7 @@ public class PizzeriaApp extends Application
         Config.load();
         DatabaseConnection.connect();
 
-        // DeliveryService.unitTest();
+        // VehicleService.unitTest();
 
         launch(args);
         DatabaseConnection.disconnect();

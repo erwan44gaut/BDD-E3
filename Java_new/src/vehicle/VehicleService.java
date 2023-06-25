@@ -1,5 +1,6 @@
 package src.vehicle;
 
+import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -39,41 +40,19 @@ public class VehicleService {
         return typesList.toArray(new String[0]);
     }
 
-    public static String[] getUnassignedVehicles() 
+    public static ResultSet getVehicleByModel(String vehicleModel)
     {
-        String sqlQuery = "SELECT CONCAT(vehicle_type, ' - ', vehicle_model) AS vehicle_info " +
-                        "FROM Vehicle " +
-                        "LEFT JOIN Delivery_Person ON Vehicle.vehicle_id = Delivery_Person.vehicle_id " +
-                        "WHERE Delivery_Person.delivery_person_id IS NULL";
-
-        ResultSet resultSet = DatabaseConnection.query(sqlQuery);
-        List<String> vehicleList = new ArrayList<>();
-
-        try {
-            while (resultSet.next()) {
-                String vehicleInfo = resultSet.getString("vehicle_info");
-                vehicleList.add(vehicleInfo);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return vehicleList.toArray(new String[0]);
-    }
-
-
-    public static ResultSet getVehicleByName(String vehicleName)
-    {
-        String sqlQuery = String.format("SELECT * FROM Vehicle WHERE vehicle_type = '%s';", vehicleName);
+        String sqlQuery = String.format("SELECT * FROM Vehicle WHERE vehicle_model = '%s';", vehicleModel);
         return DatabaseConnection.query(sqlQuery);
     }
 
-    public static int addVehicle(String vehicleType) 
+    public static int addVehicle(String vehicleType, String vehicleModel)
     {
-        String sqlQuery = String.format("INSERT INTO Vehicle (vehicle_type) VALUES (\"%s\")", vehicleType);
+        String sqlQuery = String.format("INSERT INTO Vehicle (vehicle_type, vehicle_model) VALUES ('%s', '%s')", vehicleType, vehicleModel);
         int queryResult = DatabaseConnection.executeUpdate(sqlQuery);
         return queryResult;
     }
+
 
     public static int deleteVehicle(int vehicleId) 
     {
@@ -89,6 +68,43 @@ public class VehicleService {
         return queryResult;
     }
 
+    public static List<String> getAllVehicleModelUnassigned() {
+        CallableStatement statement = null;
+        ResultSet resultSet = null;
+        List<String> vehicleModels = new ArrayList<>();
+
+        try {
+            statement = DatabaseConnection.prepareCall("{CALL GetAllVehicleModelUnassigned()}");
+            resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                String vehicleType = resultSet.getString("vehicle_type");
+                String vehicleModel = resultSet.getString("vehicle_model");
+                String vehicleInfo = vehicleType + " - " + vehicleModel;
+                vehicleModels.add(vehicleInfo);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return vehicleModels;
+    }
+
     public static void unitTest() 
     {
         // Test getVehicleById(int vehicleId)
@@ -98,7 +114,7 @@ public class VehicleService {
 
         // Test addVehicle(String vehicleType)
         System.out.println("#########################\nADD VEHICLE\n#########################\n");
-        int addResult = VehicleService.addVehicle("CAR");
+        int addResult = VehicleService.addVehicle("CAR", "TOYOTA");
         System.out.println("Add Vehicle result: " + addResult);
 
         // Test getVehicles()
@@ -110,5 +126,12 @@ public class VehicleService {
         System.out.println("#########################\nDELETE VEHICLE\n#########################\n");
         int deleteResult = VehicleService.deleteVehicle(11);
         System.out.println("Delete Vehicle result: " + deleteResult);
+
+        // Test GetAllVehicleModelUnassigned()
+        System.out.println("#########################\nGET ALL VEHICLE MODEL UNASSIGNED\n#########################\n");
+        List<String> vehicleModels = VehicleService.getAllVehicleModelUnassigned();
+        for (String vehicleModel : vehicleModels) {
+            System.out.println(vehicleModel);
+        }
     }
 }
