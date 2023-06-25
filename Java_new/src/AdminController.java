@@ -32,6 +32,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -44,6 +45,7 @@ import src.customer.Customer;
 import src.customer.CustomerService;
 import src.deliveryPerson.DeliveryPerson;
 import src.deliveryPerson.DeliveryPersonService;
+import src.divers.DiversService;
 import src.ingredient.IngredientService;
 import src.order.OrderService;
 import src.order.PizzaOrder;
@@ -147,44 +149,38 @@ public class AdminController implements Initializable {
 
     // --------------------------------------------------- STATS FXML  -----------------------------------------------------------------//
 
-    @FXML
-    private Text stat_bestIngredientTextField;
+    @FXML 
+    private Text stat_AverageDeliveryTime;
 
     @FXML
-    private Text stat_bestPizzaTextField;
+    private Text stat_AverageOrderPrice;
 
     @FXML
-    private Text stat_idBestCustomerTextField;
+    private Text stat_BestCustomer;
 
     @FXML
-    private Text stat_nameBestCustomerTextField;
+    private Text stat_BestDeliveryPerson;
 
     @FXML
-    private Text stat_nameBestDeliveryPersonTextField;
+    private Text stat_BestIngredient;
 
     @FXML
-    private Text stat_nameWorstDeliveryPersonTextField;
+    private Text stat_BestPizza;
 
     @FXML
-    private Text stat_totalCommandeBestDeliveryPersonTextField;
+    private Text stat_BestPizza1;
 
     @FXML
-    private Text stat_totalCommandeBestPizzaTextField;
+    private Text stat_MonthlyRevenue;
 
     @FXML
-    private Text stat_totalCommandeWorstDeliveryPersonTextField;
+    private Text stat_SalesByPizzaSize;
 
     @FXML
-    private Text stat_vehiculeBestDeliveryPersonTextField;
+    private Text stat_TotalRevenue;
 
     @FXML
-    private Text stat_vehiculeWorstDeliveryPersonTextField;
-
-    @FXML
-    private Text stat_numberBestIngredientTextField;
-
-    @FXML
-    private Button stat_refreshButton;
+    private Text stat_WorstDeliveryPerson;
 
     @FXML
     void stat_onClick(ActionEvent event) {
@@ -1097,128 +1093,154 @@ public class AdminController implements Initializable {
 
     // ---------------------------------------------- STATS --------------------------------------------------------//
     public void refreshStats() {
-        int customerId = -1;
-        int worstDeliveryPersonId = -1;
-        int bestDeliveryPersonId = -1;
-        int mostOrderedPizza = -1;
-        int mostPopularIngredient = -1;
 
-        //#region Best delivery person
+        //#region Best Customer
         try {
             ResultSet rs = StatsService.GetBestCustomer();
             if (rs.next()) {
-                customerId = rs.getInt(1);
-                stat_idBestCustomerTextField.setText(String.valueOf(customerId));
+                int customerId = rs.getInt(1);
+                String customerName = rs.getString(2);
+                int totalOrders = rs.getInt(3);
+                stat_BestCustomer.setText(String.format("The best customer is %s (id:%d) with a total of %d order(s).", customerName, customerId, totalOrders));
             }
+            else stat_BestCustomer.setText("No Best Customer Stats");
         } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        if (customerId != -1) {
-            try {
-                ResultSet rs = CustomerService.getCustomer(customerId);
-                if (rs.next()) {
-                    stat_nameBestCustomerTextField.setText(rs.getString("customer_name"));
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            stat_BestCustomer.setText("ERROR : Best Customer Stats");
         }
         //#endregion
 
-        // //#region Worst delivery person
-        // try {
-        //     ResultSet rs = StatsService.GetWorstDeliveryPerson();
-        //     if (rs.next()) {
-        //         worstDeliveryPersonId = rs.getInt(1);
-        //         stat_vehiculeWorstDeliveryPersonTextField.setText(rs.getString(2));
-        //         stat_totalCommandeWorstDeliveryPersonTextField.setText(rs.getString(3));
-        //     }
-        // } catch (SQLException e) {
-        //     e.printStackTrace();
-        // }
+        //#region Worst Delivery Person
+        try {
+            ResultSet rs = StatsService.GetWorstDeliveryPerson();
+            if (rs.next()) {
+                int deliveryPersonId = rs.getInt(1);
+                String deliveryPersonName = rs.getString(2);
+                String vehicleType = rs.getString(3);
+                String vehicleModel = rs.getString(4);
+                int totalLate = rs.getInt(5);
+                stat_WorstDeliveryPerson.setText(String.format("The worst delivery person is %s (id:%d) with %d late delivery. He drives with a '%s' (%s).", deliveryPersonName,deliveryPersonId,totalLate,vehicleModel,vehicleType));
+            }
+            else stat_WorstDeliveryPerson.setText("No Late Deliveries for the moment");
+        } catch (SQLException e) {
+            stat_WorstDeliveryPerson.setText("ERROR : Worst Delivery Person");
+        }
+        //#endregion
 
-        // if (worstDeliveryPersonId != -1) {
-        //     try {
-        //         ResultSet rs = DeliveryPersonService.getDeliveryPersonById(worstDeliveryPersonId);
-        //         if (rs.next()) {
-        //             stat_nameWorstDeliveryPersonTextField.setText(rs.getString("delivery_person_name"));
-        //         }
-        //     } catch (SQLException e) {
-        //         e.printStackTrace();
-        //     }
-        // }
-        // //#endregion
+        //#region Best Delivery Person
+        try {
+            ResultSet rs = StatsService.GetBestDeliveryPerson();
+            if (rs.next()) {
+                int deliveryPersonId = rs.getInt(1);
+                String deliveryPersonName = rs.getString(2);
+                String vehicleType = rs.getString(3);
+                String vehicleModel = rs.getString(4);
+                int totalLate = rs.getInt(5);
+                stat_BestDeliveryPerson.setText(String.format("The best delivery person is %s (id:%d) with %d late delivery. He drives with a '%s' (%s).", deliveryPersonName,deliveryPersonId,totalLate,vehicleModel,vehicleType));
+            }
+            else stat_BestDeliveryPerson.setText("No Complete Deliveries for the moment");
+        } catch (SQLException e) {
+            stat_BestDeliveryPerson.setText("ERROR : Best Delivery Person");
+        }
+        //#endregion
 
-        // //#region Best delivery person
-        // try {
-        //     ResultSet rs = StatsService.GetBestDeliveryPerson();
-        //     if (rs.next()) {
-        //         bestDeliveryPersonId = rs.getInt(1);
-        //         stat_vehiculeBestDeliveryPersonTextField.setText(rs.getString(2));
-        //         stat_totalCommandeBestDeliveryPersonTextField.setText(rs.getString(3));
-        //     }
-        // } catch (SQLException e) {
-        //     e.printStackTrace();
-        // }
-
-        // if (worstDeliveryPersonId != -1) {
-        //     try {
-        //         ResultSet rs = DeliveryPersonService.getDeliveryPersonById(bestDeliveryPersonId);
-        //         if (rs.next()) {
-        //             stat_nameBestDeliveryPersonTextField.setText(rs.getString("delivery_person_name"));
-        //         }
-        //     } catch (SQLException e) {
-        //         e.printStackTrace();
-        //     }
-        // }
-        // //#endregion
-
-        //#region Most ordered pizza
+        //#region Best Pizza
         try {
             ResultSet rs = StatsService.GetMostOrderedPizza();
             if (rs.next()) {
-                mostOrderedPizza = rs.getInt(1);
-                stat_totalCommandeBestPizzaTextField.setText(rs.getString(2));
+                int pizzaId = rs.getInt(1);
+                String pizzaName = rs.getString(2);
+                int totalOrders = rs.getInt(3);
+                stat_BestPizza.setText(String.format("The best pizza is %s (id:%d) with a total of %d order(s).", pizzaName, pizzaId, totalOrders));
             }
+            else stat_BestPizza.setText("No Best Pizza Stats");
         } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        if (worstDeliveryPersonId != -1) {
-            try {
-                ResultSet rs = PizzaService.getPizzaById(mostOrderedPizza);
-                if (rs.next()) {
-                    stat_bestPizzaTextField.setText(rs.getString("pizza_name"));
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            stat_BestPizza.setText("ERROR : Best Pizza Stats");
         }
         //#endregion
 
-        //#region Most ordered pizza ingredient
+        //#region Best Ingredient
         try {
             ResultSet rs = StatsService.GetMostPopularIngredient();
             if (rs.next()) {
-                mostPopularIngredient = rs.getInt(1);
-                stat_numberBestIngredientTextField.setText(rs.getString(2));
+                int ingredientId = rs.getInt(1);
+                String ingredientName = rs.getString(2);
+                int totalOrders = rs.getInt(3);
+                stat_BestIngredient.setText(String.format("The best ingredient is %s (id:%d) present in pizzas with a total of %d order(s).", ingredientName, ingredientId, totalOrders));
             }
+            else stat_BestIngredient.setText("No ingredient present in all pizzas");
         } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        if (worstDeliveryPersonId != -1) {
-            try {
-                ResultSet rs = IngredientService.getIngredientById(mostPopularIngredient);
-                if (rs.next()) {
-                    stat_bestIngredientTextField.setText(rs.getString("ingredient_name"));
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            stat_BestIngredient.setText("ERROR : Best Ingredient Stats");
         }
         //#endregion
-    }
 
+        //#region Monthly Revenue
+        try {
+            ResultSet rs = DiversService.getMonthlyRevenue();
+            if (rs.next()) {
+                float monthlyRevenue = rs.getFloat(1);
+                stat_MonthlyRevenue.setText(String.format("The turnover for this month is  : %,.2f.", monthlyRevenue));
+            }
+            else stat_MonthlyRevenue.setText("No pizza sales this month.");
+        } catch (SQLException e) {
+            stat_MonthlyRevenue.setText("ERROR : Monthly Revenue");
+        }
+        //#endregion
+
+        //#region Total Revenue
+        try {
+            ResultSet rs = DiversService.getTotalRevenue();
+            if (rs.next()) {
+                float totalRevenue = rs.getFloat(1);
+                stat_TotalRevenue.setText(String.format("The total turnover is  : %,.2f.", totalRevenue));
+            }
+            else stat_TotalRevenue.setText("No pizza sales.");
+        } catch (SQLException e) {
+            stat_TotalRevenue.setText("ERROR : Total Revenue");
+        }
+        //#endregion
+
+        //#region Total Revenue
+        try {
+            ResultSet rs = DiversService.getAverageOrderPrice();
+            if (rs.next()) {
+                float averagePrice = rs.getFloat(1);
+                stat_AverageOrderPrice.setText(String.format("The average order price is  : %,.2f.", averagePrice));
+            }
+            else stat_AverageOrderPrice.setText("No pizza sales.");
+        } catch (SQLException e) {
+            stat_AverageOrderPrice.setText("ERROR : Average order price");
+        }
+        //#endregion
+
+        //#region Sales by pizza side
+        try {
+            ResultSet rs = DiversService.getSalesByPizzaSize();
+            String text = "Repartition of sales by pizza size :";
+            while (rs.next()) {
+                String pizzaSize = rs.getString(1);
+                int salesCount = rs.getInt(2);
+                float percentSales = rs.getFloat(3);
+                text += String.format("\n- '%s' : %d pizza(s) saled -> %,.2f %% of total pizzas saled.",pizzaSize,salesCount,percentSales);
+            }
+            stat_SalesByPizzaSize.setText(text);
+        } catch (SQLException e) {
+            stat_SalesByPizzaSize.setText("ERROR : Sales by pizza size");
+        }
+        //#endregion
+
+        //#region Average Delivery Time
+        try {
+            ResultSet rs = DiversService.getAverageDeliveryTime();
+            if (rs.next()) {
+                int time = rs.getInt(1);
+                if(time==0)stat_AverageDeliveryTime.setText("No delivery completed for the moment");
+                else stat_AverageDeliveryTime.setText(String.format("The delivery time average is %d minute(s).",time));
+            }
+            else stat_AverageDeliveryTime.setText("No delivery completed for the moment");
+        } catch (SQLException e) {
+            stat_AverageDeliveryTime.setText("ERROR : Average delivery time");
+        }
+        //#endregion
+
+    }
 }

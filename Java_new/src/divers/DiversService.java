@@ -21,8 +21,13 @@ public class DiversService {
         return DatabaseConnection.queryStatement(statement);
     }
 
-    public static ResultSet getSalesByPizzaSide(){
+    public static ResultSet getSalesByPizzaSize(){
         CallableStatement statement = DatabaseConnection.prepareCall("{CALL GenerateSalesDistributionByPizzaSize()}");
+        return DatabaseConnection.queryStatement(statement);
+    }
+
+    public static ResultSet getAverageDeliveryTime(){
+        CallableStatement statement = DatabaseConnection.prepareCall("{CALL CalculateAverageDeliveryTime()}");
         return DatabaseConnection.queryStatement(statement);
     }
 }
