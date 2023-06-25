@@ -20,6 +20,12 @@ public class OrderService
         return DatabaseConnection.queryStatement(statement);
     }
 
+    public static ResultSet getOrdersWaitingForDelivery()
+    {
+        CallableStatement statement = DatabaseConnection.prepareCall("{CALL GetWaitingForDeliveryOrdersDetails()}");
+        return DatabaseConnection.queryStatement(statement);
+    }
+
     public static ResultSet getOrdersForCustomer(int id)
     {
         CallableStatement statement = DatabaseConnection.prepareCall("{CALL GetOrdersDetailsForCustomer(?)}");

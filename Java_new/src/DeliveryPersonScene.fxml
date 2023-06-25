@@ -15,7 +15,7 @@
          <content>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
-                  <Button fx:id="pizza_refreshButton" layoutX="768.0" layoutY="20.0" mnemonicParsing="false" text="Refresh" />
+                  <Button fx:id="order_refreshButton" layoutX="768.0" layoutY="20.0" mnemonicParsing="false" text="Refresh" />
                   <TableView fx:id="order_table" layoutX="36.0" layoutY="67.0" prefHeight="486.0" prefWidth="813.0">
                      <columns>
                         <TableColumn fx:id="order_orderId" prefWidth="48.000057220458984" text="id" />
@@ -35,14 +35,14 @@
          <content>
             <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="628.0" prefWidth="878.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
                <children>
-                  <Button fx:id="order_refreshButton" layoutX="804.0" layoutY="25.0" mnemonicParsing="false" text="Refresh" />
+                  <Button fx:id="delivery_refreshButton" layoutX="804.0" layoutY="25.0" mnemonicParsing="false" text="Refresh" />
                   <TableView fx:id="delivery_table" layoutX="18.0" layoutY="51.0" prefHeight="525.0" prefWidth="842.0">
                      <columns>
                         <TableColumn id="deliveryId" fx:id="delivery_deliveryId" prefWidth="48.000057220458984" text="id" />
                         <TableColumn fx:id="delivery_orderId" prefWidth="59.20001220703125" text="order id" />
                         <TableColumn fx:id="delivery_deliveryStatus" prefWidth="88.0" text="status" />
-                        <TableColumn fx:id="delivery_updateStatus" prefWidth="115.2000732421875" text="update status" />
                         <TableColumn fx:id="delivery_deliveryDate" prefWidth="133.5999755859375" text="delivery date" />
+                        <TableColumn fx:id="delivery_updateStatus" prefWidth="115.2000732421875" text="update status" />
                         <TableColumn fx:id="delivery_cancel" prefWidth="128.0" text="cancel" />
                      </columns>
                   </TableView>
@@ -71,13 +71,19 @@
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Button fx:id="profile_edit" layoutX="176.0" layoutY="410.0" mnemonicParsing="false" onAction="#profile_editAction" prefHeight="74.0" prefWidth="555.0" text="EDIT NAME" />
+                  <Button fx:id="profile_editName" layoutX="176.0" layoutY="410.0" mnemonicParsing="false" onAction="#profile_editNameAction" prefHeight="74.0" prefWidth="275.0" text="EDIT NAME" />
                   <Button fx:id="profile_refresh" layoutX="746.0" layoutY="26.0" mnemonicParsing="false" onAction="#profile_refreshAction" text="Refresh" />
                   <Text layoutX="377.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PROFILE" underline="true">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </Text>
+                  <Text fx:id="profile_vehicle" layoutX="50.0" layoutY="296.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Vehicle :" wrappingWidth="392.869140625">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+                  <Button fx:id="profile_editVehicle" layoutX="470.0" layoutY="410.0" mnemonicParsing="false" onAction="#profile_editVehicleAction" prefHeight="74.0" prefWidth="275.0" text="EDIT VEHICLE" />
                </children>
             </AnchorPane>
          </content>

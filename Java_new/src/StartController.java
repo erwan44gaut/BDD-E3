@@ -49,21 +49,21 @@ public class StartController implements Initializable{
 
     @FXML
     void admin_startAction(ActionEvent event) {
-                    Stage stage = new Stage();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("MainScene.fxml"));
-            loader.setController(new AdminController());
-            Parent root;
-            try {
-                root = loader.load();
-                Scene scene = new Scene(root);
-                stage.setScene(scene);
-                System.out.println("Admin Interface");
-                stage.show();
-                closeWindow();
-            } catch (IOException e) {
-                e.printStackTrace();
-                System.out.println("ERROR : CAN NOT GO TO ADMIN INTERFACE");
-            }
+        Stage stage = new Stage();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("MainScene.fxml"));
+        loader.setController(new AdminController());
+        Parent root;
+        try {
+            root = loader.load();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            System.out.println("Admin Interface");
+            stage.show();
+            closeWindow();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("ERROR : CAN NOT GO TO ADMIN INTERFACE");
+        }
     }
 
     @FXML
@@ -92,7 +92,27 @@ public class StartController implements Initializable{
 
     @FXML
     void deliveryPerson_startAction(ActionEvent event) {
-        closeWindow();
+            DeliveryPerson deliveryPerson = deliveryPerson_select.getValue();
+            if(deliveryPerson!=null){
+                Stage stage = new Stage();
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("DeliveryPersonScene.fxml"));
+                loader.setController(new DeliveryPersonController(deliveryPerson.getDeliveryPersonId()));
+                Parent root;
+                try {
+                    root = loader.load();
+                    Scene scene = new Scene(root);
+                    stage.setScene(scene);
+                    System.out.println("Delivery person Interface of '"+deliveryPerson.getDeliveryPersonName()+"'");
+                    stage.show();
+                    closeWindow();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    System.out.println("ERROR : CAN NOT GO TO DELIVERY PERSON INTERFACE");
+                }
+            }
+            else {
+                System.out.println("NO DELIVERY PERSON SELECTED");
+            }
     }
 
     ObservableList<Customer> customerList = FXCollections.observableArrayList();

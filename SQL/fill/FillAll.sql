@@ -48,7 +48,10 @@ VALUES
     (7, 'ACCEPTED', NOW(), 7, 'MEDIUM', 7),
     (8, 'COMPLETED', NOW(), 8, 'LARGE', 8),
     (9, 'IN_DELIVERY', NOW(), 9, 'SMALL', 9),
-    (10, 'IN_DELIVERY', NOW(), 10, 'MEDIUM', 10);
+    (10, 'IN_DELIVERY', NOW(), 10, 'MEDIUM', 10),
+    (11, 'ACCEPTED', NOW(), 8, 'LARGE', 8),
+    (12, 'IN_PREPARATION', NOW(), 9, 'SMALL', 9),
+    (13, 'ACCEPTED', NOW(), 10, 'MEDIUM', 10);
 
 -- Insert into Vehicle table
 INSERT INTO Vehicle (vehicle_id, vehicle_type, vehicle_model)
