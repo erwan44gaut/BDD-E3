@@ -3,6 +3,7 @@ package src.order;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,13 +17,13 @@ public class PizzaOrder {
     private Float totalPrice;
     private String orderStatus;
     private String deliveryStatus;
-    private Date orderDate;
+    private Timestamp orderDate;
 
     private Button updateStatus;
     private Button cancel;
     private Button assignDelivery;
 
-    public PizzaOrder(int orderId, String customerName, String pizzaName, String pizzaSize, Float totalPrice, String orderStatus, String deliveryStatus, Date orderDate) {
+    public PizzaOrder(int orderId, String customerName, String pizzaName, String pizzaSize, Float totalPrice, String orderStatus, String deliveryStatus, Timestamp orderDate) {
         this.orderId = orderId;
         this.customerName = customerName;
         this.pizzaName = pizzaName;
@@ -64,7 +65,7 @@ public class PizzaOrder {
         return deliveryStatus;
     }
 
-    public Date getOrderDate() {
+    public Timestamp getOrderDate() {
         return orderDate;
     }
 
@@ -130,7 +131,7 @@ public class PizzaOrder {
         float totalPrice = resultSet.getInt("adjusted_price");
         String orderStatus = resultSet.getString("order_status");
         String deliveryStatus = resultSet.getString("delivery_status");
-        Date orderDate = resultSet.getDate("order_datetime");
+        Timestamp orderDate = resultSet.getTimestamp("order_datetime");
 
         return new PizzaOrder(orderId, customerName, pizzaName, pizzaSize, totalPrice, orderStatus, deliveryStatus, orderDate);
     }

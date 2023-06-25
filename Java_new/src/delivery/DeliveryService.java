@@ -12,6 +12,12 @@ public class DeliveryService {
         return DatabaseConnection.queryStatement(statement);
     }
 
+    public static ResultSet getDeliveriesOfDeliveryPerson(int deliveryPersonId) {
+        CallableStatement statement = DatabaseConnection.prepareCall("{CALL GetDeliveriesDetailsOfDeliveryPerson(?)}");
+        DatabaseConnection.setStatement(statement, 1, deliveryPersonId);
+        return DatabaseConnection.queryStatement(statement);
+    }
+
     public static int addDelivery(int deliveryPersonId, int orderId) {
         CallableStatement statement = DatabaseConnection.prepareCall("{CALL AssignDelivery(?, ?)}");
         DatabaseConnection.setStatement(statement, 1, deliveryPersonId);
@@ -34,6 +40,12 @@ public class DeliveryService {
 
     public static int cancelDelivery(int deliveryId) {
         CallableStatement statement = DatabaseConnection.prepareCall("{CALL CancelDelivery(?)}");
+        DatabaseConnection.setStatement(statement, 1, deliveryId);
+        return DatabaseConnection.updateStatement(statement);
+    }
+
+    public static int finishDelivery(int deliveryId) {
+        CallableStatement statement = DatabaseConnection.prepareCall("{CALL FinishDelivery(?)}");
         DatabaseConnection.setStatement(statement, 1, deliveryId);
         return DatabaseConnection.updateStatement(statement);
     }

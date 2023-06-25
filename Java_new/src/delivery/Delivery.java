@@ -3,6 +3,8 @@ package src.delivery;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+
 import javafx.scene.control.Button;
 
 public class Delivery {
@@ -13,13 +15,13 @@ public class Delivery {
     private Integer vehicleId;
     private String vehicleType;
     private String deliveryStatus;
-    private Date deliveryDate;
+    private Timestamp deliveryDate;
 
     private Button cancel;
     private Button updateStatus;
 
     public Delivery(Integer deliveryId, Integer orderId, Integer deliveryPersonId, String deliveryPersonName,
-            Integer vehicleId, String vehicleType, String deliveryStatus, Date deliveryDate) 
+            Integer vehicleId, String vehicleType, String deliveryStatus, Timestamp deliveryDate) 
     {
         this.deliveryId = deliveryId;
         this.orderId = orderId;
@@ -55,7 +57,7 @@ public class Delivery {
     public String getDeliveryStatus() {
         return deliveryStatus;
     }
-    public Date getDeliveryDate() {
+    public Timestamp getDeliveryDate() {
         return deliveryDate;
     }
 
@@ -95,8 +97,8 @@ public class Delivery {
         int vehicleId = resultSet.getInt("vehicle_id");
         String vehicleType = resultSet.getString("vehicle_type");
         String deliveryStatus = resultSet.getString("delivery_status");
-        Date deliveryDate = resultSet.getDate("delivery_datetime");
-
+        Timestamp deliveryDate = resultSet.getTimestamp("delivery_datetime");
+        System.out.println(deliveryDate);
         return new Delivery(deliveryId, orderId, deliveryPersonId, deliveryPersonName, vehicleId, vehicleType, deliveryStatus, deliveryDate);
     }
 }

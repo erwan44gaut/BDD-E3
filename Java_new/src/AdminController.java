@@ -4,6 +4,7 @@ import java.net.URL;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -106,7 +107,7 @@ public class AdminController implements Initializable {
     @FXML
     private TableColumn<PizzaOrder, String> order_deliveryStatus;
     @FXML
-    private TableColumn<PizzaOrder, Date> order_orderDate;
+    private TableColumn<PizzaOrder, Timestamp> order_orderDate;
     @FXML
     private TableColumn<PizzaOrder, Button> order_cancel;
     @FXML
@@ -270,7 +271,7 @@ public class AdminController implements Initializable {
     @FXML
     private TableColumn<Delivery, String> delivery_deliveryStatus;
     @FXML
-    private TableColumn<Delivery, Date> delivery_deliveryDate;
+    private TableColumn<Delivery, Timestamp> delivery_deliveryDate;
     @FXML
     private TableColumn<Delivery, Button> delivery_cancel;
     @FXML
@@ -509,7 +510,7 @@ public class AdminController implements Initializable {
         order_totalPrice.setCellValueFactory(new PropertyValueFactory<PizzaOrder, Float>("totalPrice"));
         order_orderStatus.setCellValueFactory(new PropertyValueFactory<PizzaOrder, String>("orderStatus"));
         order_deliveryStatus.setCellValueFactory(new PropertyValueFactory<PizzaOrder, String>("deliveryStatus"));
-        order_orderDate.setCellValueFactory(new PropertyValueFactory<PizzaOrder, Date>("orderDate"));
+        order_orderDate.setCellValueFactory(new PropertyValueFactory<PizzaOrder, Timestamp>("orderDate"));
         order_cancel.setCellValueFactory(new PropertyValueFactory<PizzaOrder, Button>("cancel"));
         order_updateStatus.setCellValueFactory(new PropertyValueFactory<PizzaOrder, Button>("updateStatus"));
         order_assignDelivery.setCellValueFactory(new PropertyValueFactory<PizzaOrder, Button>("assignDelivery"));
@@ -1149,7 +1150,7 @@ public class AdminController implements Initializable {
         delivery_vehicleId.setCellValueFactory(new PropertyValueFactory<Delivery, Integer>("vehicleId"));
         delivery_vehicleType.setCellValueFactory(new PropertyValueFactory<Delivery, String>("vehicleType"));
         delivery_deliveryStatus.setCellValueFactory(new PropertyValueFactory<Delivery, String>("deliveryStatus"));
-        delivery_deliveryDate.setCellValueFactory(new PropertyValueFactory<Delivery, Date>("deliveryDate"));
+        delivery_deliveryDate.setCellValueFactory(new PropertyValueFactory<Delivery, Timestamp>("deliveryDate"));
         delivery_cancel.setCellValueFactory(new PropertyValueFactory<Delivery, Button>("cancel"));
         delivery_updateStatus.setCellValueFactory(new PropertyValueFactory<Delivery, Button>("updateStatus"));
         delivery_refreshButton.setOnAction(event -> refreshTable());
@@ -1162,9 +1163,12 @@ public class AdminController implements Initializable {
                 {
                     deleteButton.setOnAction(event -> {
                         Delivery delivery = getTableView().getItems().get(getIndex());
-                        DeliveryService.cancelDelivery(delivery.getDeliveryId());
-                        System.out.println("Delete delivery '"+delivery.getDeliveryId()+"'");
-                        refreshTable();
+                        if (delivery.isCancellable())
+                        {
+                            DeliveryService.cancelDelivery(delivery.getDeliveryId());
+                            System.out.println("Delete delivery '"+delivery.getDeliveryId()+"'");
+                            refreshTable();
+                        }
                     });
                 }
 
