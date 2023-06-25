@@ -73,6 +73,9 @@ public class OrderPizzaController implements Initializable {
     private Text freePizza;
 
     @FXML
+    private Text notEnoughMoney;
+
+    @FXML
     private TableColumn<Object[],String> size;
 
     @FXML
@@ -90,7 +93,9 @@ public class OrderPizzaController implements Initializable {
 
                 stage.close();
             }
-
+            else{
+                notEnoughMoney.setText("NOT ENOUGH MONEY IN YOUR BALANCE ! RECHARGE PLEASE !");
+            }
         }
     }
 
