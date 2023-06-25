@@ -10,6 +10,7 @@ import java.util.ResourceBundle;
 
 
 import front.OrderPizzaScene.OrderPizzaController;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -79,7 +80,7 @@ public class ClientController implements Initializable{
     private TableColumn<Pizza, String> pizza_name;
 
     @FXML
-    private TableColumn<Pizza, Float> pizza_price;
+    private TableColumn<Pizza, String> pizza_price;
 
     @FXML
     private TableColumn<Pizza, Image> pizza_image;
@@ -188,13 +189,24 @@ public class ClientController implements Initializable{
         refreshTable();
     }
 
+    @FXML
+    void pizza_refreshAction(ActionEvent event) {
+        refreshTable();
+    }
+
+    @FXML
+    void order_refreshAction(ActionEvent event) {
+        refreshTable();
+    }
+
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
     
         // ----------------------------------------- PIZZAS --------------------------------------------------------//
         pizza_table.setFixedCellSize(60.0);
         pizza_name.setCellValueFactory(new PropertyValueFactory<Pizza,String>("name"));
-        pizza_price.setCellValueFactory(new PropertyValueFactory<Pizza,Float>("price"));
+        pizza_price.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPrice() + " $"));
         pizza_image.setCellValueFactory(new PropertyValueFactory<Pizza,Image>("image"));
         pizza_image.setCellFactory(column -> {
             return new TableCell<>() {
@@ -260,8 +272,8 @@ public class ClientController implements Initializable{
                             root = loader.load();
                             Scene scene = new Scene(root);
                             stage.setScene(scene);
-                            stage.setOnCloseRequest(e -> {
-                            refreshTable();
+                            stage.setOnHiding(e -> {
+                                refreshTable();
                             });
                             System.out.println("Order menu of pizza '"+pizza.getName()+"'");
                             stage.show();
@@ -350,7 +362,7 @@ public class ClientController implements Initializable{
         orders.clear();
         try 
         {
-            ResultSet ordersSet = OrderService.getOrdersForCustomer(1);
+            ResultSet ordersSet = OrderService.getOrdersForCustomer(clientId);
             while (ordersSet.next()) {
                 PizzaOrder order = PizzaOrder.createOrderFromResultSet(ordersSet);
                 orders.add(order);
@@ -371,7 +383,7 @@ public class ClientController implements Initializable{
                 String customerName = customerSet.getString("customer_name");
                 Float customerBalance = customerSet.getFloat("customer_balance");
                 profile_name.setText("Name : "+customerName);
-                profile_balance.setText("Balance : "+customerBalance);
+                profile_balance.setText("Balance : "+customerBalance+" $");
             }
             else{
                 System.out.println("aaaaa");

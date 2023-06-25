@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="649.0" prefWidth="1055.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
@@ -37,80 +33,16 @@
          <content>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="540.0" prefWidth="960.0">
                <children>
-                  <VBox prefHeight="620.0" prefWidth="1055.0">
-                     <children>
-                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                           <children>
-                              <Text fx:id="stat_nameBestCustomerTextField" layoutX="595.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="144.275390625" />
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="est le/la meilleur(e) client(e) et son id est le" textAlignment="CENTER" wrappingWidth="234.275390625">
-                                 <HBox.margin>
-                                    <Insets />
-                                 </HBox.margin>
-                              </Text>
-                              <Text fx:id="stat_idBestCustomerTextField" layoutX="346.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="144.275390625" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="100.0" prefWidth="200.0">
-                           <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Le pire livreur est" textAlignment="CENTER" wrappingWidth="140.275390625">
-                                 <HBox.margin>
-                                    <Insets />
-                                 </HBox.margin>
-                              </Text>
-                              <Text fx:id="stat_nameWorstDeliveryPersonTextField" layoutX="595.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="127.275390625" />
-                              <Text layoutX="328.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="avec" textAlignment="CENTER" wrappingWidth="57.275390625" />
-                              <Text fx:id="stat_totalCommandeWorstDeliveryPersonTextField" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="127.275390625" />
-                              <Text layoutX="490.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="commandes en retard en" textAlignment="CENTER" wrappingWidth="149.275390625" />
-                              <Text fx:id="stat_vehiculeWorstDeliveryPersonTextField" layoutX="526.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="127.275390625" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER" layoutX="10.0" layoutY="410.0" prefHeight="100.0" prefWidth="200.0">
-                           <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Le meilleur livreur est" textAlignment="CENTER" wrappingWidth="140.275390625">
-                                 <HBox.margin>
-                                    <Insets />
-                                 </HBox.margin>
-                              </Text>
-                              <Text fx:id="stat_nameBestDeliveryPersonTextField" layoutX="93.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="140.275390625" />
-                              <Text layoutX="328.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="avec" textAlignment="CENTER" wrappingWidth="60.275390625" />
-                              <Text fx:id="stat_totalCommandeBestDeliveryPersonTextField" layoutX="817.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="140.275390625" />
-                              <Text layoutX="490.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="commandes à l'heure en" textAlignment="CENTER" wrappingWidth="148.275390625" />
-                              <Text fx:id="stat_vehiculeBestDeliveryPersonTextField" layoutX="534.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="140.275390625" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER" layoutX="10.0" layoutY="410.0" prefHeight="100.0" prefWidth="200.0">
-                           <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="La pizza" textAlignment="CENTER" wrappingWidth="73.275390625">
-                                 <HBox.margin>
-                                    <Insets />
-                                 </HBox.margin>
-                              </Text>
-                              <Text fx:id="stat_bestPizzaTextField" layoutX="101.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="140.275390625" />
-                              <Text layoutX="328.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="est la plus commandée avec" textAlignment="CENTER" wrappingWidth="183.275390625" />
-                              <Text fx:id="stat_totalCommandeBestPizzaTextField" layoutX="809.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="140.275390625" />
-                              <Text layoutX="490.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="commandes." textAlignment="CENTER" wrappingWidth="96.275390625" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER" layoutX="10.0" layoutY="410.0" prefHeight="100.0" prefWidth="200.0">
-                           <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="L'ingrédient" textAlignment="CENTER" wrappingWidth="91.275390625">
-                                 <HBox.margin>
-                                    <Insets />
-                                 </HBox.margin>
-                              </Text>
-                              <Text fx:id="stat_bestIngredientTextField" layoutX="237.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="140.275390625" />
-                              <Text layoutX="328.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="est le favoris et apparait" textAlignment="CENTER" wrappingWidth="140.275390625" />
-                              <Text fx:id="stat_numberBestIngredientTextField" layoutX="406.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="35.275390625" />
-                              <Text layoutX="477.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="fois." textAlignment="CENTER" wrappingWidth="41.275390625" />
-                           </children>
-                        </HBox>
-                        <Button fx:id="stat_refreshButton" alignment="BOTTOM_CENTER" mnemonicParsing="false" onAction="#stat_onClick" prefHeight="40.0" prefWidth="1074.0" text="Refresh" textAlignment="CENTER">
-                           <font>
-                              <Font size="16.0" />
-                           </font>
-                        </Button>
-                     </children>
-                  </VBox>
+                  <Text fx:id="stat_BestCustomer" layoutX="51.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Best customer Text" wrappingWidth="794.275390625" />
+                  <Text fx:id="stat_WorstDeliveryPerson" layoutX="51.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Worst delivery person Text" wrappingWidth="794.275390625" />
+                  <Text fx:id="stat_BestDeliveryPerson" layoutX="51.0" layoutY="120.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Best delivery person Text" wrappingWidth="794.275390625" />
+                  <Text fx:id="stat_BestPizza" layoutX="51.0" layoutY="159.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Best pizza Text" wrappingWidth="794.275390625" />
+                  <Text fx:id="stat_BestIngredient" layoutX="51.0" layoutY="198.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Best ingredient Text" wrappingWidth="794.275390625" />
+                  <Text fx:id="stat_MonthlyRevenue" layoutX="51.0" layoutY="232.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Monthly Revenue Text" wrappingWidth="794.275390625" />
+                  <Text fx:id="stat_TotalRevenue" layoutX="51.0" layoutY="274.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total Revenue Text" wrappingWidth="794.275390625" />
+                  <Text fx:id="stat_AverageOrderPrice" layoutX="51.0" layoutY="315.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Average Order Price Text" wrappingWidth="794.275390625" />
+                  <Text fx:id="stat_SalesByPizzaSize" layoutX="51.0" layoutY="402.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sales By Pizza Size Text" wrappingWidth="794.275390625" />
+                  <Text fx:id="stat_AverageDeliveryTime" layoutX="51.0" layoutY="358.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Average Delivery Time Text" wrappingWidth="794.275390625" />
                </children>
             </AnchorPane>
          </content>

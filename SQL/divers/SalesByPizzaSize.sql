@@ -15,12 +15,11 @@ BEGIN
    WHERE order_status = 'COMPLETED'
    GROUP BY pizza_size;
 
-   -- Calculer le total des ventes
-   DECLARE total_sales INT;
-   SELECT SUM(sales_count) INTO total_sales FROM temp_sales_distribution;
+   -- Sélectionner le total des ventes
+   SET @total_sales := (SELECT SUM(sales_count) FROM temp_sales_distribution);
 
    -- Sélectionner la répartition des ventes par taille de pizza avec la part dans le total des ventes
-   SELECT pizza_size, sales_count, (sales_count / total_sales) * 100 AS sales_percentage
+   SELECT pizza_size, sales_count, (sales_count / @total_sales) * 100 AS sales_percentage
    FROM temp_sales_distribution;
 
    -- Supprimer la table temporaire
