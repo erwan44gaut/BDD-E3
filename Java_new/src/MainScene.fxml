@@ -160,6 +160,29 @@
             </AnchorPane>
          </content>
       </Tab>
+      <Tab text="Deliveries">
+         <content>
+            <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="628.0" prefWidth="1046.0">
+               <children>
+                  <TableView fx:id="delivery_table" layoutX="25.0" layoutY="27.0" prefHeight="565.0" prefWidth="989.0">
+                     <columns>
+                        <TableColumn id="deliveryId" fx:id="delivery_deliveryId" prefWidth="48.000057220458984" text="id" />
+                        <TableColumn fx:id="delivery_orderId" prefWidth="59.20001220703125" text="order id" />
+                        <TableColumn fx:id="delivery_deliveryPersonId" prefWidth="108.79998779296875" text="delivery person id" />
+                        <TableColumn fx:id="delivery_deliveryPersonName" prefWidth="130.4000244140625" text="delivery person name" />
+                        <TableColumn fx:id="delivery_vehicleId" prefWidth="75.19998168945312" text="vehicle id" />
+                        <TableColumn fx:id="delivery_vehicleType" prefWidth="96.80001831054688" text="vehicle type" />
+                        <TableColumn fx:id="delivery_deliveryStatus" prefWidth="88.0" text="status" />
+                        <TableColumn fx:id="delivery_deliveryDate" prefWidth="133.5999755859375" text="delivery date" />
+                        <TableColumn fx:id="delivery_updateStatus" prefWidth="115.2000732421875" text="update status" />
+                        <TableColumn fx:id="delivery_cancel" prefWidth="128.0" text="cancel" />
+                     </columns>
+                  </TableView>
+                  <Button fx:id="delivery_refreshButton" layoutX="959.0" layoutY="1.0" mnemonicParsing="false" text="Refresh" />
+               </children>
+            </AnchorPane>
+         </content>
+      </Tab>
       <Tab text="Customers">
          <content>
             <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="628.0" prefWidth="1046.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">

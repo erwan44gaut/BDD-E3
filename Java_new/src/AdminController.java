@@ -25,7 +25,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
-import javafx.scene.control.TabPane;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -34,8 +33,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
@@ -43,6 +40,7 @@ import javafx.stage.Stage;
 import javafx.util.Pair;
 import src.customer.Customer;
 import src.customer.CustomerService;
+import src.delivery.Delivery;
 import src.delivery.DeliveryService;
 import src.deliveryPerson.DeliveryPerson;
 import src.deliveryPerson.DeliveryPersonService;
@@ -252,6 +250,39 @@ public class AdminController implements Initializable {
     private TableColumn<Vehicle, String> vehicle_model;
 
     ObservableList<Vehicle> vehicles = FXCollections.observableArrayList();
+    //#endregion
+
+    // ----------------------------------------------- DELIVERY FXML  ----------------------------------------------------//
+
+    //#region deliveries FXML
+    @FXML
+    private TableColumn<Delivery, Integer> delivery_deliveryId;
+    @FXML
+    private TableColumn<Delivery, Integer> delivery_orderId;
+    @FXML
+    private TableColumn<Delivery, Integer> delivery_deliveryPersonId;
+    @FXML
+    private TableColumn<Delivery, String> delivery_deliveryPersonName;
+    @FXML
+    private TableColumn<Delivery, Integer> delivery_vehicleId;
+    @FXML
+    private TableColumn<Delivery, String> delivery_vehicleType;
+    @FXML
+    private TableColumn<Delivery, String> delivery_deliveryStatus;
+    @FXML
+    private TableColumn<Delivery, Date> delivery_deliveryDate;
+    @FXML
+    private TableColumn<Delivery, Button> delivery_cancel;
+    @FXML
+    private TableColumn<Delivery, Button> delivery_updateStatus;
+
+    @FXML
+    private Button delivery_refreshButton;
+
+    @FXML
+    private TableView<Delivery> delivery_table;
+
+    ObservableList<Delivery> deliveries = FXCollections.observableArrayList();
     //#endregion
 
     @Override
@@ -677,38 +708,46 @@ public class AdminController implements Initializable {
                     if (empty) {
                         setGraphic(null);
                     } else {
-                        setGraphic(btn);
-                        setAlignment(Pos.CENTER);
                         Customer customer = getTableView().getItems().get(getIndex());
 
-                        btn.setOnAction(event -> {
-                            Dialog<String> dialog = new Dialog<>();
-                            dialog.setTitle("Edit Customer Name");
-
-                            TextField nameField = new TextField(customer.getCustomerName());
-                            nameField.setPromptText("Enter new name");
-
-                            dialog.getDialogPane().setContent(new VBox(nameField));
-
-                            ButtonType applyButtonType = new ButtonType("Apply", ButtonBar.ButtonData.OK_DONE);
-                            ButtonType cancelButtonType = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
-                            dialog.getDialogPane().getButtonTypes().addAll(applyButtonType, cancelButtonType);
-
-                            dialog.setResultConverter(dialogButton -> {
-                                if (dialogButton == applyButtonType) {
-                                    return nameField.getText();
-                                }
-                                return null;
+                        if (customer.getCustomerId() == 1)
+                        {
+                            setGraphic(null);
+                        }
+                        else 
+                        {
+                            setGraphic(btn);
+                            setAlignment(Pos.CENTER);
+    
+                            btn.setOnAction(event -> {
+                                Dialog<String> dialog = new Dialog<>();
+                                dialog.setTitle("Edit Customer Name");
+    
+                                TextField nameField = new TextField(customer.getCustomerName());
+                                nameField.setPromptText("Enter new name");
+    
+                                dialog.getDialogPane().setContent(new VBox(nameField));
+    
+                                ButtonType applyButtonType = new ButtonType("Apply", ButtonBar.ButtonData.OK_DONE);
+                                ButtonType cancelButtonType = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+                                dialog.getDialogPane().getButtonTypes().addAll(applyButtonType, cancelButtonType);
+    
+                                dialog.setResultConverter(dialogButton -> {
+                                    if (dialogButton == applyButtonType) {
+                                        return nameField.getText();
+                                    }
+                                    return null;
+                                });
+    
+                                Optional<String> result = dialog.showAndWait();
+    
+                                result.ifPresent(newName -> {
+                                    System.out.println("Updating name to: " + newName);
+                                    CustomerService.updateCustomerField(customer.getCustomerId(), "customer_name", newName);
+                                    refreshTable();
+                                });
                             });
-
-                            Optional<String> result = dialog.showAndWait();
-
-                            result.ifPresent(newName -> {
-                                System.out.println("Updating name to: " + newName);
-                                CustomerService.updateCustomerField(customer.getCustomerId(), "customer_name", newName);
-                                refreshTable();
-                            });
-                        });
+                        }
                     }
                 }
             };
@@ -778,15 +817,22 @@ public class AdminController implements Initializable {
                     if (empty) {
                         setGraphic(null);
                     } else {
-                        setGraphic(btn);
-                        setAlignment(Pos.CENTER);
                         Customer customer = getTableView().getItems().get(getIndex());
-
-                        btn.setOnAction(event -> {
-                            System.out.println("Deleting customer n°" + customer.getCustomerId());
-                            CustomerService.deleteCustomer(customer.getCustomerId());
-                            refreshTable();
-                        });
+                        if (customer.getCustomerId() == 1)
+                        {
+                            setGraphic(null);
+                        }
+                        else 
+                        {
+                            setGraphic(btn);
+                            setAlignment(Pos.CENTER);
+    
+                            btn.setOnAction(event -> {
+                                System.out.println("Deleting customer n°" + customer.getCustomerId());
+                                CustomerService.deleteCustomer(customer.getCustomerId());
+                                refreshTable();
+                            });
+                        }
                     }
                 }
             };
@@ -927,7 +973,7 @@ public class AdminController implements Initializable {
     //#endregion
         
         // ---------------------------------------------- DELIVERY PERSON --------------------------------------------------------//
-        //#region Delivery Person
+        //#region DeliveryPerson
         deliveryPerson_table.setFixedCellSize(60.0);
         deliveryPerson_id.setCellValueFactory(new PropertyValueFactory<DeliveryPerson, Integer>("deliveryPersonId"));
         deliveryPerson_name.setCellValueFactory(new PropertyValueFactory<DeliveryPerson, String>("deliveryPersonName"));
@@ -971,19 +1017,22 @@ public class AdminController implements Initializable {
                 comboBox.setOnAction(event -> {
                     DeliveryPerson deliveryPerson = getTableView().getItems().get(getIndex());
                     String selectedVehicle = comboBox.getValue();
-                    String[] parts = selectedVehicle.split(" - ");
-                    String vehicleType = parts[0];
-                    String vehicleModel = parts[1];
-                    String vehicleId = null;
-                    try {  
-                        ResultSet vehicle = VehicleService.getVehicleByModel(vehicleModel);
-                        if (vehicle.next()) vehicleId = vehicle.getString("vehicle_id");
-                    } catch (Exception e) {
-                        System.out.println("Error while getting vehicle id");
-                        e.printStackTrace();
+                    if (selectedVehicle != null)
+                    {
+                        String[] parts = selectedVehicle.split(" - ");
+                        String vehicleType = parts[0];
+                        String vehicleModel = parts[1];
+                        int vehicleId = -1;
+                        try {  
+                            ResultSet vehicle = VehicleService.getVehicleByModel(vehicleModel);
+                            if (vehicle.next()) vehicleId = vehicle.getInt("vehicle_id");
+                        } catch (Exception e) {
+                            System.out.println("Error while getting vehicle id");
+                            e.printStackTrace();
+                        }
+                        DeliveryPersonService.updateDeliveryPersonVehicle(deliveryPerson.getDeliveryPersonId(), vehicleId);
+                        refreshTable();
                     }
-                    DeliveryPersonService.updateDeliveryPersonField(deliveryPerson.getDeliveryPersonId(), "vehicle_id", vehicleId);
-                    refreshTable();
                 });
             }
 
@@ -1012,38 +1061,46 @@ public class AdminController implements Initializable {
                     if (empty) {
                         setGraphic(null);
                     } else {
-                        setGraphic(btn);
-                        setAlignment(Pos.CENTER);
-                        DeliveryPerson customer = getTableView().getItems().get(getIndex());
+                        DeliveryPerson deliveryPerson = getTableView().getItems().get(getIndex());
+                        if (deliveryPerson.getDeliveryPersonId() == 1)
+                        {
+                            setGraphic(null);
+                        }
+                        else 
+                        {
+                            setGraphic(btn);
+                            setAlignment(Pos.CENTER);
 
-                        btn.setOnAction(event -> {
-                            Dialog<String> dialog = new Dialog<>();
-                            dialog.setTitle("Edit Delivery Person Name");
+                            btn.setOnAction(event -> {
+                                Dialog<String> dialog = new Dialog<>();
+                                dialog.setTitle("Edit Delivery Person Name");
 
-                            TextField nameField = new TextField(customer.getDeliveryPersonName());
-                            nameField.setPromptText("Enter new name");
+                                TextField nameField = new TextField(deliveryPerson.getDeliveryPersonName());
+                                nameField.setPromptText("Enter new name");
 
-                            dialog.getDialogPane().setContent(new VBox(nameField));
+                                dialog.getDialogPane().setContent(new VBox(nameField));
 
-                            ButtonType applyButtonType = new ButtonType("Apply", ButtonBar.ButtonData.OK_DONE);
-                            ButtonType cancelButtonType = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
-                            dialog.getDialogPane().getButtonTypes().addAll(applyButtonType, cancelButtonType);
+                                ButtonType applyButtonType = new ButtonType("Apply", ButtonBar.ButtonData.OK_DONE);
+                                ButtonType cancelButtonType = new ButtonType("Cancel",
+                                        ButtonBar.ButtonData.CANCEL_CLOSE);
+                                dialog.getDialogPane().getButtonTypes().addAll(applyButtonType, cancelButtonType);
 
-                            dialog.setResultConverter(dialogButton -> {
-                                if (dialogButton == applyButtonType) {
-                                    return nameField.getText();
-                                }
-                                return null;
+                                dialog.setResultConverter(dialogButton -> {
+                                    if (dialogButton == applyButtonType) {
+                                        return nameField.getText();
+                                    }
+                                    return null;
+                                });
+
+                                Optional<String> result = dialog.showAndWait();
+
+                                result.ifPresent(newName -> {
+                                    System.out.println("Updating name to: " + newName);
+                                    DeliveryPersonService.updateDeliveryPersonName(deliveryPerson.getDeliveryPersonId(), newName);
+                                    refreshTable();
+                                });
                             });
-
-                            Optional<String> result = dialog.showAndWait();
-
-                            result.ifPresent(newName -> {
-                                System.out.println("Updating name to: " + newName);
-                                DeliveryPersonService.updateDeliveryPersonField(customer.getDeliveryPersonId(), "delivery_person_name", newName);
-                                refreshTable();
-                            });
-                        });
+                        }
                     }
                 }
             };
@@ -1059,20 +1116,134 @@ public class AdminController implements Initializable {
                     if (empty) {
                         setGraphic(null);
                     } else {
-                        setGraphic(btn);
-                        setAlignment(Pos.CENTER);
                         DeliveryPerson deliveryPerson = getTableView().getItems().get(getIndex());
+                        if (deliveryPerson.getDeliveryPersonId() == 1)
+                        {
+                            setGraphic(null);
+                        }
+                        else 
+                        {
+                            setGraphic(btn);
+                            setAlignment(Pos.CENTER);
 
-                        btn.setOnAction(event -> {
-                            System.out.println("Deleting delivery person n°" + deliveryPerson.getDeliveryPersonId());
-                            DeliveryPersonService.deleteDeliveryPerson(deliveryPerson.getDeliveryPersonId());
-                            refreshTable();
-                        });
+                            btn.setOnAction(event -> {
+                                System.out
+                                        .println("Deleting delivery person n°" + deliveryPerson.getDeliveryPersonId());
+                                DeliveryPersonService.deleteDeliveryPerson(deliveryPerson.getDeliveryPersonId());
+                                refreshTable();
+                            });
+                        }
+                    }
+                }
+            };
+        });
+        //#endregion
+
+        // ---------------------------------------------- DELIVERY --------------------------------------------------------//
+        //#region Delivery
+        delivery_table.setFixedCellSize(60.0);
+        delivery_deliveryId.setCellValueFactory(new PropertyValueFactory<Delivery, Integer>("deliveryId"));
+        delivery_orderId.setCellValueFactory(new PropertyValueFactory<Delivery, Integer>("orderId"));
+        delivery_deliveryPersonId.setCellValueFactory(new PropertyValueFactory<Delivery, Integer>("deliveryPersonId"));
+        delivery_deliveryPersonName.setCellValueFactory(new PropertyValueFactory<Delivery, String>("deliveryPersonName"));
+        delivery_vehicleId.setCellValueFactory(new PropertyValueFactory<Delivery, Integer>("vehicleId"));
+        delivery_vehicleType.setCellValueFactory(new PropertyValueFactory<Delivery, String>("vehicleType"));
+        delivery_deliveryStatus.setCellValueFactory(new PropertyValueFactory<Delivery, String>("deliveryStatus"));
+        delivery_deliveryDate.setCellValueFactory(new PropertyValueFactory<Delivery, Date>("deliveryDate"));
+        delivery_cancel.setCellValueFactory(new PropertyValueFactory<Delivery, Button>("cancel"));
+        delivery_updateStatus.setCellValueFactory(new PropertyValueFactory<Delivery, Button>("updateStatus"));
+        delivery_refreshButton.setOnAction(event -> refreshTable());
+
+        delivery_cancel.setCellFactory(column -> {
+            return new TableCell<Delivery, Button>() {
+                
+                private final Button deleteButton = new Button("CANCEL");
+
+                {
+                    deleteButton.setOnAction(event -> {
+                        Delivery delivery = getTableView().getItems().get(getIndex());
+                        DeliveryService.cancelDelivery(delivery.getDeliveryId());
+                        System.out.println("Delete delivery '"+delivery.getDeliveryId()+"'");
+                        refreshTable();
+                    });
+                }
+
+                @Override
+                protected void updateItem(Button button, boolean empty) {
+                    super.updateItem(button, empty);
+
+                    if (button == null || empty) {
+                        setGraphic(null);
+                    } else {
+                        Delivery delivery = getTableView().getItems().get(getIndex());
+                        if (delivery.isCancellable())
+                        {
+                            setGraphic(deleteButton);
+                            setAlignment(Pos.CENTER);
+                        }
+                        else
+                        {
+                            setGraphic(null);
+                        }
                     }
                 }
             };
         });
 
+        delivery_updateStatus.setCellFactory(column -> {
+            return new TableCell<Delivery, Button>() {
+                final Button btn = new Button("Update Status");
+
+                @Override
+                protected void updateItem(Button item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty ) {
+                        setGraphic(null);
+                    } else {
+                        Delivery delivery = getTableView().getItems().get(getIndex());
+                        String[] possibleUpdates = delivery.possibleUpdates();
+                        if (possibleUpdates.length == 0)
+                        {
+                            setGraphic(null);
+                        }
+                        else
+                        {
+                            setGraphic(btn);
+                            setAlignment(Pos.CENTER);
+                            btn.setOnAction(event -> {
+                                Dialog<String> dialog = new Dialog<>();
+                                dialog.setTitle("Update Status");
+    
+                                ComboBox<String> statusComboBox = new ComboBox<>();
+                                statusComboBox.getItems().addAll(possibleUpdates);
+                                statusComboBox.getSelectionModel().select(possibleUpdates[0]);
+    
+                                ButtonType applyButtonType = new ButtonType("Apply", ButtonBar.ButtonData.OK_DONE);
+                                ButtonType cancelButtonType = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+                                dialog.getDialogPane().getButtonTypes().addAll(applyButtonType, cancelButtonType);
+                                dialog.getDialogPane().setContent(statusComboBox);
+    
+                                dialog.setResultConverter(dialogButton -> {
+                                    if (dialogButton == applyButtonType) {
+                                        return statusComboBox.getSelectionModel().getSelectedItem();
+                                    }
+                                    return null;
+                                });
+    
+                                Optional<String> result = dialog.showAndWait();
+    
+                                result.ifPresent(selectedStatus -> {
+                                    System.out.println("Updating status: " + selectedStatus);
+                                    DeliveryService.updateDeliveryStatus(delivery.getDeliveryId(), selectedStatus);
+                                    refreshTable();
+                                });
+                            });
+                        }
+                    }
+                }
+            };
+        });
+        //#endregion
 
         refreshTable();
     }
@@ -1109,6 +1280,24 @@ public class AdminController implements Initializable {
             e.printStackTrace();
         }
         order_table.setItems(orders);
+
+        // ---------------------------------------------- DELIVERY --------------------------------------------------------//
+
+        deliveries.clear();
+        try 
+        {
+            ResultSet ordersSet = DeliveryService.getDeliveries();
+            while (ordersSet.next()) {
+                Delivery order = Delivery.createDeliveryFromResultSet(ordersSet);
+                deliveries.add(order);
+            }
+        } 
+        catch (SQLException e) 
+        {
+            e.printStackTrace();
+        }
+        delivery_table.setItems(deliveries);
+
         // ---------------------------------------------- CUSTOMERS --------------------------------------------------------//
         customers.clear();
         try 
