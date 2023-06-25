@@ -82,7 +82,7 @@ public class EditPizzaController implements Initializable{
         try{
             Float.parseFloat(newPriceText);
             PizzaService.updatePizzaField(pizza.getPizzaId(), "pizza_base_price", newPriceText);
-            price.setText("UNIT PRICE : "+newPriceText+ " $");
+            price.setText("BASE PRICE : "+newPriceText+ " $");
             System.out.println("Change the price of the pizza to "+newPriceText+ " $.");
         }catch(Exception e){
 
@@ -125,7 +125,7 @@ public class EditPizzaController implements Initializable{
     {
         id.setText("ID : " + this.pizza.getPizzaId());
         name.setText("NAME : "+pizza.getName());
-        price.setText("UNIT PRICE : "+pizza.getPrice() + " $");
+        price.setText("BASE PRICE : "+pizza.getPrice() + " $");
         ingredients.setText("Ingredients : "+pizza.getIngredients());
 
         // Configurer le ComboBox pour les ingrédients à ajouter
