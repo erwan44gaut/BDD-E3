@@ -25,6 +25,7 @@ public class CustomerService
 
     public static int deleteCustomer(int customerId)
     {
+        if (customerId == 1) return -1; // Prevent deleting the admin
         String sqlQuery = String.format("DELETE FROM Customer WHERE customer_id=%d", customerId);
         int queryResult = DatabaseConnection.executeUpdate(sqlQuery);
         return queryResult;
@@ -32,6 +33,7 @@ public class CustomerService
 
     public static int updateCustomerField(int customerId, String field, String value) 
     {
+        if (customerId == 1) return -1; // Prevent editing the admin
         String sqlQuery = String.format("UPDATE Customer SET %s = '%s' WHERE customer_id = %d", field, value, customerId);
         int queryResult = DatabaseConnection.executeUpdate(sqlQuery);
         return queryResult;

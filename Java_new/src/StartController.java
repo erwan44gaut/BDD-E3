@@ -60,6 +60,7 @@ public class StartController implements Initializable{
                 stage.show();
                 closeWindow();
             } catch (IOException e) {
+                e.printStackTrace();
                 System.out.println("ERROR : CAN NOT GO TO ADMIN INTERFACE");
             }
     }

@@ -25,7 +25,7 @@ VALUES
 -- Insert into Customer table
 INSERT INTO Customer (customer_id, customer_name, customer_balance)
 VALUES
-    (1, 'John Doe', 100.00),
+    (1, 'ADMIN', 1000000.00),
     (2, 'Jane Smith', 150.00),
     (3, 'Michael Johnson', 200.00),
     (4, 'Sarah Davis', 120.00),
@@ -73,7 +73,7 @@ VALUES
 -- Insert into Delivery_Person table
 INSERT INTO Delivery_Person (delivery_person_id, delivery_person_name, vehicle_id)
 VALUES
-    (1, 'Mike', 1),
+    (1, 'ADMIN', 1),
     (2, 'Sarah', 2),
     (3, 'David', 3),
     (4, 'Emma', 4),
@@ -92,7 +92,7 @@ VALUES
     (5, 'LATE', NOW(), 5, 5),
     (6, 'IN_PROGRESS', NOW(), 6, 6), 
     (7, 'IN_PROGRESS', NOW(), 7, 7),
-    (8, 'COMPLETE', NOW(), 1, 8),
+    (8, 'COMPLETED', NOW(), 1, 8),
     (9, 'IN_PROGRESS', NOW(), 2, 9),
     (10, 'ACCEPTED', NOW(), 8, 10);
     

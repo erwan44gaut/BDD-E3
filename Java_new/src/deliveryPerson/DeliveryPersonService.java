@@ -26,14 +26,23 @@ public class DeliveryPersonService {
 
     public static int deleteDeliveryPerson(int deliveryPersonId)
     {
+        if (deliveryPersonId == 1) return -1; // Prevent deleting the admin
         String sqlQuery = String.format("DELETE FROM Delivery_Person WHERE delivery_person_id=%d", deliveryPersonId);
         int queryResult = DatabaseConnection.executeUpdate(sqlQuery);
         return queryResult;
     }
 
-    public static int updateDeliveryPersonField(int deliveryPersonId, String field, String value) 
+    public static int updateDeliveryPersonVehicle(int deliveryPersonId, int vehicle_id) 
     {
-        String sqlQuery = String.format("UPDATE Delivery_Person SET %s = '%s' WHERE delivery_person_id = %d", field, value, deliveryPersonId);
+        String sqlQuery = String.format("UPDATE Delivery_Person SET vehicle_id = '%d' WHERE delivery_person_id = %d", vehicle_id, deliveryPersonId);
+        int queryResult = DatabaseConnection.executeUpdate(sqlQuery);
+        return queryResult;
+    }
+
+    public static int updateDeliveryPersonName(int deliveryPersonId, String name) 
+    {
+        if (deliveryPersonId == 1) return -1; // Prevent editing the admin
+        String sqlQuery = String.format("UPDATE Delivery_Person SET delivery_person_name = '%s' WHERE delivery_person_id = %d", name, deliveryPersonId);
         int queryResult = DatabaseConnection.executeUpdate(sqlQuery);
         return queryResult;
     }
