@@ -1,8 +1,8 @@
 DELIMITER //
 
-CREATE PROCEDURE GetOrderCountByCustomerId(IN p_customer_id INT, OUT p_order_count INT)
+CREATE PROCEDURE GetOrderCountByCustomerId(IN p_customer_id INT)
 BEGIN
-   SELECT COUNT(*) INTO p_order_count
+   SELECT COUNT(*) AS order_count
    FROM Pizza_Order
    WHERE customer_id = p_customer_id;
 END //
