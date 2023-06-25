@@ -4,23 +4,24 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javafx.scene.control.Button;
-import src.vehicle.VehicleService;
+import src.vehicle.Vehicle;
 
 public class DeliveryPerson {
     private Integer deliveryPersonId;
     private String deliveryPersonName;
-    private Integer deliveryPersonVehicle;
-    private Integer deliveryPersonVehicleModel;
+    private Integer deliveryPersonVehicleId;
+    private String deliveryPersonVehicleDescription;
 
-    private Button editName;
-    public DeliveryPerson(Integer deliveryPersonId, String deliveryPersonName, Integer deliveryPersonVehicle) {
+    private Button editNameButton;
+
+    public DeliveryPerson(Integer deliveryPersonId, String deliveryPersonName, Integer deliveryPersonVehicleId) {
         this.deliveryPersonId = deliveryPersonId;
         this.deliveryPersonName = deliveryPersonName;
-        this.deliveryPersonVehicle = deliveryPersonVehicle;
-        this.deliveryPersonVehicleModel = deliveryPersonVehicleModel;
+        this.deliveryPersonVehicleId = deliveryPersonVehicleId;
 
-        this.editName = new Button("Edit name");
-        new Button("Delete");
+        this.deliveryPersonVehicleDescription = Vehicle.getVehicleDescription(deliveryPersonVehicleId);
+
+        this.editNameButton = new Button("Edit name");
     }
 
     public Integer getDeliveryPersonId()
@@ -33,25 +34,19 @@ public class DeliveryPerson {
         return deliveryPersonName;
     }
 
-    public String getDeliveryPersonVehicle()
+    public Integer getDeliveryPersonVehicleId()
     {
-        String deliveryPersonVehicleType = "";
-        
-        try {
-            ResultSet rs = VehicleService.getVehicleById(deliveryPersonVehicle);
-            if (rs.next()) {
-                deliveryPersonVehicleType = rs.getString("vehicle_type") + " - " + rs.getString("vehicle_model");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace(); 
-        }
-
-        return deliveryPersonVehicleType;
+        return deliveryPersonVehicleId;
     }
 
-    public Button getEditName()
+    public String getDeliveryPersonVehicleDescription()
     {
-        return editName;
+        return deliveryPersonVehicleDescription;
+    }
+
+    public Button getEditNameButton()
+    {
+        return editNameButton;
     }
 
     public static DeliveryPerson createDeliveryPersonFromResultSet(ResultSet resultSet) throws SQLException {

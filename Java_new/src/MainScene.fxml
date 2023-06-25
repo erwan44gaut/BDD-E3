@@ -19,8 +19,8 @@
                       <TableColumn fx:id="deliveryPerson_id" prefWidth="75.0" text="id" />
                       <TableColumn fx:id="deliveryPerson_name" prefWidth="163.0" text="name" />
                         <TableColumn fx:id="deliveryPerson_vehicle" minWidth="0.0" prefWidth="250.0" text="vehicle" />
-                        <TableColumn fx:id="deliveryPerson_editName" minWidth="0.0" prefWidth="150.0" text="edit name" />
-                        <TableColumn fx:id="deliveryPerson_editVehicle" minWidth="0.0" prefWidth="200.0" text="edit vehicle" />
+                        <TableColumn fx:id="deliveryPerson_editNameButton" minWidth="0.0" prefWidth="150.0" text="edit name" />
+                        <TableColumn fx:id="deliveryPerson_editVehicleButton" minWidth="0.0" prefWidth="200.0" text="edit vehicle" />
                         <TableColumn fx:id="deliveryPerson_delete" minWidth="0.0" prefWidth="150.0" text="delete" />
                     </columns>
                   </TableView>

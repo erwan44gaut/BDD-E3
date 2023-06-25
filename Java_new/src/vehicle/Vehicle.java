@@ -5,6 +5,9 @@ import java.sql.SQLException;
 
 import javafx.scene.control.Button;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Vehicle {
     private Integer vehicleId;
     private String vehicleType;
@@ -40,11 +43,43 @@ public class Vehicle {
         return editName;
     }
 
+    public static String getVehicleDescription(Integer vehicleId)
+    {
+        try {
+            ResultSet rs = VehicleService.getVehicleById(vehicleId);
+            if (rs.next()) {
+                String description = rs.getString("vehicle_type") + " - " + rs.getString("vehicle_model");
+                return description;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); 
+        }
+
+        return "Error getting vehicle n° " + vehicleId + " description";
+    }
+
     public static Vehicle createVehicleFromResultSet(ResultSet resultSet) throws SQLException {
         int vehicleId = resultSet.getInt("vehicle_id");
         String vehicleType = resultSet.getString("vehicle_type");
         String vehicleModel = resultSet.getString("vehicle_model");
 
         return new Vehicle(vehicleId, vehicleType, vehicleModel);
+    }
+
+    public static List<Vehicle> vehiclesFromResultSet(ResultSet resultSet) {
+        List<Vehicle> vehicles = new ArrayList<>();
+        try {
+            while (resultSet.next()) {
+                int vehicleId = resultSet.getInt("vehicle_id");
+                String vehicleType = resultSet.getString("vehicle_type");
+                String vehicleModel = resultSet.getString("vehicle_model");
+
+                Vehicle vehicle = new Vehicle(vehicleId, vehicleType, vehicleModel);
+                vehicles.add(vehicle);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return vehicles;
     }
 }

@@ -47,6 +47,8 @@ import src.delivery.DeliveryService;
 import src.deliveryPerson.DeliveryPerson;
 import src.deliveryPerson.DeliveryPersonService;
 import src.divers.DiversService;
+import src.ingredient.Ingredient;
+import src.ingredient.IngredientService;
 import src.order.OrderService;
 import src.order.PizzaOrder;
 import src.pizza.Pizza;
@@ -204,13 +206,13 @@ public class AdminController implements Initializable {
     private TableColumn<DeliveryPerson, String> deliveryPerson_name;
 
     @FXML
-    private TableColumn<DeliveryPerson, Integer> deliveryPerson_vehicle;
+    private TableColumn<DeliveryPerson, String> deliveryPerson_vehicle;
 
     @FXML
-    private TableColumn<DeliveryPerson, Button> deliveryPerson_editName;
+    private TableColumn<DeliveryPerson, Button> deliveryPerson_editNameButton;
 
     @FXML
-    private TableColumn<DeliveryPerson, Button> deliveryPerson_editVehicle;
+    private TableColumn<DeliveryPerson, Button> deliveryPerson_editVehicleButton;
 
     @FXML
     private Button deliveryPerson_refreshButton;
@@ -874,7 +876,7 @@ public class AdminController implements Initializable {
 
             ComboBox<String> typeComboBox = new ComboBox<>();
             typeComboBox.getItems().addAll("CAR", "MOTORBIKE");
-            typeComboBox.setPromptText("Select vehicle type");
+            typeComboBox.setValue("CAR");
 
             TextField modelField = new TextField();
             modelField.setPromptText("Enter vehicle model");
@@ -909,8 +911,7 @@ public class AdminController implements Initializable {
                 refreshTable();
             });
         });
-
-
+             
         vehicle_editButton.setCellFactory(column -> {
             return new TableCell<Vehicle, Button>() {
                 final Button btn = new Button("Edit");
@@ -923,17 +924,17 @@ public class AdminController implements Initializable {
                     } else {
                         setGraphic(btn);
                         setAlignment(Pos.CENTER);
-                        Vehicle customer = getTableView().getItems().get(getIndex());   
+                        Vehicle vehicle = getTableView().getItems().get(getIndex());   
                             btn.setOnAction(event -> {
                             Dialog<Pair<String, String>> dialog = new Dialog<>();
                             dialog.setTitle("Edit Vehicle Details");
 
-                            TextField modelField = new TextField(customer.getVehicleModel());
+                            TextField modelField = new TextField(vehicle.getVehicleModel());
                             modelField.setPromptText("Enter new model");
 
                             ComboBox<String> typeComboBox = new ComboBox<>();
                             typeComboBox.getItems().addAll("CAR", "MOTORBIKE");
-                            typeComboBox.setValue(customer.getVehicleType());
+                            typeComboBox.setValue(vehicle.getVehicleType());
 
                             GridPane gridPane = new GridPane();
                             gridPane.setHgap(10);
@@ -956,8 +957,8 @@ public class AdminController implements Initializable {
                             Optional<Pair<String, String>> result = dialog.showAndWait();
 
                             result.ifPresent(newDetails -> {
-                                VehicleService.updateVehicleField(customer.getVehicleId(), "vehicle_type", newDetails.getKey());
-                                VehicleService.updateVehicleField(customer.getVehicleId(), "vehicle_model", newDetails.getValue());
+                                VehicleService.updateVehicleField(vehicle.getVehicleId(), "vehicle_type", newDetails.getKey());
+                                VehicleService.updateVehicleField(vehicle.getVehicleId(), "vehicle_model", newDetails.getValue());
                                 refreshTable();
                             });
                         });
@@ -965,7 +966,9 @@ public class AdminController implements Initializable {
                 }
             };
         });
-                
+              
+
+        
         vehicle_deleteButton.setCellFactory(column -> {
             return new TableCell<Vehicle, Button>() {
                 final Button btn = new Button("Delete");
@@ -1061,8 +1064,8 @@ public class AdminController implements Initializable {
         deliveryPerson_table.setFixedCellSize(60.0);
         deliveryPerson_id.setCellValueFactory(new PropertyValueFactory<DeliveryPerson, Integer>("deliveryPersonId"));
         deliveryPerson_name.setCellValueFactory(new PropertyValueFactory<DeliveryPerson, String>("deliveryPersonName"));
-        deliveryPerson_vehicle.setCellValueFactory(new PropertyValueFactory<DeliveryPerson, Integer>("deliveryPersonVehicle"));
-        deliveryPerson_editName.setCellValueFactory(new PropertyValueFactory<DeliveryPerson, Button>("editName"));
+        deliveryPerson_vehicle.setCellValueFactory(new PropertyValueFactory<DeliveryPerson, String>("deliveryPersonVehicleDescription"));
+        deliveryPerson_editNameButton.setCellValueFactory(new PropertyValueFactory<DeliveryPerson, Button>("editNameButton"));
         deliveryPerson_refreshButton.setOnAction(event -> refreshTable());
 
         deliveryPerson_addButton.setOnAction(event -> {
@@ -1095,7 +1098,7 @@ public class AdminController implements Initializable {
         });
 
 
-        deliveryPerson_editVehicle.setCellFactory(column -> {
+        deliveryPerson_editVehicleButton.setCellFactory(column -> {
             return new TableCell<DeliveryPerson, Button>() {
                 final Button btn = new Button("Change vehicle");
 
@@ -1105,33 +1108,42 @@ public class AdminController implements Initializable {
                     if (empty) {
                         setGraphic(null);
                     } else {
-                        // get all vehicles
+                        DeliveryPerson deliveryPerson = getTableView().getItems().get(getIndex());
                         setGraphic(btn);
                         setAlignment(Pos.CENTER);
                         btn.setOnAction(event -> {
-                            Dialog<String> dialog = new Dialog<>();
-                            dialog.setTitle("Update Status");
+                            Dialog<Vehicle> dialog = new Dialog<>();
+                            dialog.setTitle("Change vehicle");
+                            
+                            ComboBox<Vehicle> vehicleComboBox = new ComboBox<>();
+                            ResultSet vehicleSet = VehicleService.getVehicles();
+                            List<Vehicle> vehicles = Vehicle.vehiclesFromResultSet(vehicleSet);
+                            vehicleComboBox.setConverter(vehicleConverter);
+                            vehicleComboBox.getItems().addAll(vehicles);
 
-                            ComboBox<String> statusComboBox = new ComboBox<>();
-                            statusComboBox.getItems().addAll();
-                            // statusComboBox.getSelectionModel().select();
+                            if (vehicles.size() != 0)
+                            {
+                                vehicleComboBox.getSelectionModel().select(vehicles.get(0));
+                            }
 
                             ButtonType applyButtonType = new ButtonType("Apply", ButtonBar.ButtonData.OK_DONE);
                             ButtonType cancelButtonType = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
                             dialog.getDialogPane().getButtonTypes().addAll(applyButtonType, cancelButtonType);
-                            dialog.getDialogPane().setContent(statusComboBox);
+                            dialog.getDialogPane().setContent(vehicleComboBox);
 
                             dialog.setResultConverter(dialogButton -> {
                                 if (dialogButton == applyButtonType) {
-                                    return statusComboBox.getSelectionModel().getSelectedItem();
+                                    return vehicleComboBox.getSelectionModel().getSelectedItem();
                                 }
                                 return null;
                             });
 
-                            Optional<String> result = dialog.showAndWait();
+                            Optional<Vehicle> result = dialog.showAndWait();
 
-                            result.ifPresent(selectedStatus -> {
-
+                            result.ifPresent(selectedVehicle -> {
+                                // UPDATE vehicle
+                                System.out.println(selectedVehicle.getVehicleId());
+                                DeliveryPersonService.updateDeliveryPersonVehicle(deliveryPerson.getDeliveryPersonId(), selectedVehicle.getVehicleId());
                                 refreshTable();
                             });
                         });
@@ -1140,45 +1152,8 @@ public class AdminController implements Initializable {
             };
         });
 
-        // deliveryPerson_editVehicle.setCellFactory(column -> new TableCell<DeliveryPerson, String>() {
-        //     final ComboBox<Vehicle> comboBox = new ComboBox<>();
-        //     {
-        //         comboBox.setConverter(vehicleConverter);
-        //         comboBox.setPromptText("Change vehicle");
-        //         comboBox.setOnAction(event -> {
-        //             Vehicle selectedVehicle = comboBox.getValue();
-        //             DeliveryPerson deliveryPerson = getTableView().getItems().get(getIndex());
-        //             DeliveryPersonService.updateDeliveryPersonVehicle(deliveryPerson.getDeliveryPersonId(), selectedVehicle.getVehicleId());
-        //             refreshTable();
-        //         });
-        //     }
 
-        //     @Override
-        //     protected void updateItem(String item, boolean empty) {
-        //         super.updateItem(item, empty);
-        //         if (empty) {
-        //             setGraphic(null);
-        //         } else {
-
-        //             ObservableList<Vehicle> vehiclesList = FXCollections.observableArrayList();
-        //             try {
-        //                 ResultSet vehicles = VehicleService.getAllVehicleModelUnassigned();
-        //                 while (vehicles.next()) {
-        //                     vehiclesList.add(Vehicle.createVehicleFromResultSet(vehicles));
-        //                 }
-        //                 comboBox.setItems(vehiclesList);
-        //                 comboBox.getSelectionModel().selectFirst(); // Set first item as default selection
-        //             } catch (Exception e) {
-        //                 e.printStackTrace();
-        //             }
-        //             setGraphic(comboBox);
-        //             setAlignment(Pos.CENTER);
-        //         }
-        //     }
-        // });
-
-
-        deliveryPerson_editName.setCellFactory(column -> {
+        deliveryPerson_editNameButton.setCellFactory(column -> {
             return new TableCell<DeliveryPerson, Button>() {
                 final Button btn = new Button("Edit name");
 
