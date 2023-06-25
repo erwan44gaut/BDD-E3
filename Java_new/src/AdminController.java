@@ -1037,6 +1037,7 @@ public class AdminController implements Initializable {
                         }
                         comboBox.setItems(vehiclesList);
                     } catch (Exception e) {
+                        e.printStackTrace();
                     }
                     setGraphic(comboBox);
                     setAlignment(Pos.CENTER);

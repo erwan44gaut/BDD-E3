@@ -3,6 +3,7 @@ import java.net.URL;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -47,7 +48,7 @@ public class DeliveryController implements Initializable {
     @FXML
     private TableColumn<Delivery, String> delivery_deliveryStatus;
     @FXML
-    private TableColumn<Delivery, Date> delivery_deliveryDate;
+    private TableColumn<Delivery, Timestamp> delivery_deliveryDate;
     @FXML
     private TableColumn<Delivery, Button> delivery_cancel;
     @FXML
@@ -59,7 +60,7 @@ public class DeliveryController implements Initializable {
     @FXML
     private TableView<Delivery> delivery_table;
 
-    ObservableList<Delivery> orders = FXCollections.observableArrayList();
+    ObservableList<Delivery> deliveries = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) 
@@ -72,7 +73,7 @@ public class DeliveryController implements Initializable {
         delivery_vehicleId.setCellValueFactory(new PropertyValueFactory<Delivery, Integer>("vehicleId"));
         delivery_vehicleType.setCellValueFactory(new PropertyValueFactory<Delivery, String>("vehicleType"));
         delivery_deliveryStatus.setCellValueFactory(new PropertyValueFactory<Delivery, String>("deliveryStatus"));
-        delivery_deliveryDate.setCellValueFactory(new PropertyValueFactory<Delivery, Date>("deliveryDate"));
+        delivery_deliveryDate.setCellValueFactory(new PropertyValueFactory<Delivery, Timestamp>("deliveryDate"));
         delivery_cancel.setCellValueFactory(new PropertyValueFactory<Delivery, Button>("cancel"));
         delivery_updateStatus.setCellValueFactory(new PropertyValueFactory<Delivery, Button>("updateStatus"));
         delivery_refreshButton.setOnAction(event -> refreshTable());
@@ -171,19 +172,19 @@ public class DeliveryController implements Initializable {
 
     void refreshTable() 
     {
-        orders.clear();
+        deliveries.clear();
         try 
         {
             ResultSet ordersSet = DeliveryService.getDeliveries();
             while (ordersSet.next()) {
                 Delivery order = Delivery.createDeliveryFromResultSet(ordersSet);
-                orders.add(order);
+                deliveries.add(order);
             }
         } 
         catch (SQLException e) 
         {
             e.printStackTrace();
         }
-        delivery_table.setItems(orders);
+        delivery_table.setItems(deliveries);
     }
 }

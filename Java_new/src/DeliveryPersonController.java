@@ -35,14 +35,17 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 import src.customer.CustomerService;
 import src.delivery.Delivery;
 import src.delivery.DeliveryService;
+import src.deliveryPerson.DeliveryPerson;
 import src.deliveryPerson.DeliveryPersonService;
 import src.order.OrderService;
 import src.order.PizzaOrder;
 import src.pizza.Pizza;
 import src.pizza.PizzaService;
+import src.vehicle.Vehicle;
 import src.vehicle.VehicleService;
 
 public class DeliveryPersonController implements Initializable{
@@ -158,6 +161,33 @@ public class DeliveryPersonController implements Initializable{
         Dialog<String> dialog = new Dialog<>();
         dialog.setTitle("Edit Vehicle");
 
+        final ComboBox<Vehicle> comboBox = new ComboBox<>();
+        {
+            comboBox.setConverter(vehicleConverter);
+            comboBox.setPromptText("Change vehicle");
+            comboBox.setOnAction(e -> {
+                Vehicle selectedVehicle = comboBox.getValue();
+                DeliveryPersonService.updateDeliveryPersonVehicle(deliveryPersonId, selectedVehicle.getVehicleId());
+                refreshTable();
+            });
+
+            
+            ObservableList<Vehicle> vehiclesList = FXCollections.observableArrayList();
+            try {
+                ResultSet vehicles = VehicleService.getAllVehicleModelUnassigned();
+                while (vehicles.next()) {
+                    vehiclesList.add(Vehicle.createVehicleFromResultSet(vehicles));
+                }
+                comboBox.setItems(vehiclesList);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        
+        dialog.getDialogPane().setContent(new VBox(comboBox));
+
+
         ButtonType applyButtonType = new ButtonType("Apply", ButtonBar.ButtonData.OK_DONE);
         ButtonType cancelButtonType = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
         dialog.getDialogPane().getButtonTypes().addAll(applyButtonType, cancelButtonType);
@@ -172,7 +202,10 @@ public class DeliveryPersonController implements Initializable{
         Optional<String> result = dialog.showAndWait();
 
         result.ifPresent(vehicleField -> {
+            Vehicle selectedVehicle = comboBox.getValue();
+            DeliveryPersonService.updateDeliveryPersonVehicle(deliveryPersonId, selectedVehicle.getVehicleId());
             System.out.println("Updating vehicle to: " + vehicleField);
+            refreshTable();
             refreshProfile();
         });
     }
@@ -321,10 +354,10 @@ public class DeliveryPersonController implements Initializable{
 
 
         delivery_refreshButton.setOnAction(event -> refreshTable());
-
+        
         //TODO: update name button
         //TODO: update car button
-        
+
         refreshTable();
         refreshProfile();
         profile_id.setText("Id : "+deliveryPersonId);
@@ -367,22 +400,20 @@ public class DeliveryPersonController implements Initializable{
 
     }
 
-    void refreshProfile(){
-        try{
+    void refreshProfile() {
+        try {
             ResultSet deliveryPersonSet = DeliveryPersonService.getDeliveryPersonById(deliveryPersonId);
-            if(deliveryPersonSet.next()){
+            if (deliveryPersonSet.next()) {
                 String deliveryPersonName = deliveryPersonSet.getString("delivery_person_name");
                 int vehicleId = deliveryPersonSet.getInt("vehicle_id");
                 ResultSet vehicleSet = VehicleService.getVehicleById(vehicleId);
                 String deliveryPersonVehicle = "ERROR";
-                if (vehicleSet.next())
-                {
+                if (vehicleSet.next()) {
                     deliveryPersonVehicle = vehicleSet.getString("vehicle_model");
                 }
-                profile_name.setText("Name : "+deliveryPersonName);
-                profile_vehicle.setText("Vehicle : "+deliveryPersonVehicle);
-            }
-            else{
+                profile_name.setText("Name : " + deliveryPersonName);
+                profile_vehicle.setText("Vehicle : " + deliveryPersonVehicle);
+            } else {
                 System.out.println("ERROR retrieving profile");
             }
         } catch (Exception e) {
@@ -390,4 +421,17 @@ public class DeliveryPersonController implements Initializable{
             System.out.println("ERROR refreshing profile");
         }
     }
+    
+    StringConverter<Vehicle> vehicleConverter = new StringConverter<Vehicle>() {
+        @Override
+        public String toString(Vehicle vehicle) {
+            return vehicle.getVehicleType() + " - " + vehicle.getVehicleModel();
+        }
+
+        @Override
+        public Vehicle fromString(String string) {
+            // Conversion inverse non nécessaire pour ce cas
+            return null;
+        }
+    };
 }

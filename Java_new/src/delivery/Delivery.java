@@ -98,7 +98,6 @@ public class Delivery {
         String vehicleType = resultSet.getString("vehicle_type");
         String deliveryStatus = resultSet.getString("delivery_status");
         Timestamp deliveryDate = resultSet.getTimestamp("delivery_datetime");
-        System.out.println(deliveryDate);
         return new Delivery(deliveryId, orderId, deliveryPersonId, deliveryPersonName, vehicleId, vehicleType, deliveryStatus, deliveryDate);
     }
 }
