@@ -10,7 +10,7 @@
 
 <TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="649.0" prefWidth="1055.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
   <tabs>
-      <Tab text="Livreurs">
+      <Tab text="Delivery persons">
          <content>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
@@ -135,7 +135,7 @@
             </AnchorPane>
          </content>
       </Tab>
-      <Tab text="Véhicules">
+      <Tab text="Vehicles">
          <content>
             <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="628.0" prefWidth="1046.0">
                <children>
@@ -150,6 +150,23 @@
                   </TableView>
                   <Button fx:id="vehicle_refreshButton" layoutX="959.0" layoutY="1.0" mnemonicParsing="false" text="Refresh" />
                   <Button fx:id="vehicle_addButton" layoutX="920.0" layoutY="1.0" mnemonicParsing="false" text="Add" />
+               </children>
+            </AnchorPane>
+         </content>
+      </Tab>
+      <Tab text="Ingredients">
+         <content>
+            <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="628.0" prefWidth="1046.0">
+               <children>
+                  <TableView fx:id="ingredient_table" layoutX="25.0" layoutY="27.0" prefHeight="565.0" prefWidth="989.0">
+                     <columns>
+                        <TableColumn fx:id="ingredient_ingredientId" prefWidth="75.0" text="id" />
+                        <TableColumn fx:id="ingredient_ingredientName" prefWidth="163.0" text="name" />
+                        <TableColumn fx:id="ingredient_deleteButton" prefWidth="149.5999755859375" text="delete" />
+                     </columns>
+                  </TableView>
+                  <Button fx:id="ingredient_refreshButton" layoutX="959.0" layoutY="1.0" mnemonicParsing="false" text="Refresh" />
+                  <Button fx:id="ingredient_addButton" layoutX="920.0" layoutY="1.0" mnemonicParsing="false" text="Add" />
                </children>
             </AnchorPane>
          </content>

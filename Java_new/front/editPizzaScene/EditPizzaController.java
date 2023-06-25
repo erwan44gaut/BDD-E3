@@ -72,7 +72,7 @@ public class EditPizzaController implements Initializable{
         if(newNameText!=""){
             PizzaService.updatePizzaField(pizza.getPizzaId(), "pizza_name", newNameText);
             name.setText("NAME : "+newNameText);
-            System.out.println("Change the name of the pizza to '"+newNameText+"'");
+            System.out.println("Changing the name of the pizza to '"+newNameText+"'");
         }
     }
 
@@ -85,7 +85,7 @@ public class EditPizzaController implements Initializable{
             price.setText("UNIT PRICE : "+newPriceText+ " $");
             System.out.println("Change the price of the pizza to "+newPriceText+ " $.");
         }catch(Exception e){
-
+            System.out.println("ERROR: INVALID INPUT");
         }
     }
 
@@ -93,12 +93,13 @@ public class EditPizzaController implements Initializable{
     void addIngredientAction(ActionEvent event){
         try{
             Ingredient selectedIngredient = addIngredient.getValue();
-            PizzaService.addIngredientInPizza(pizza.getPizzaId(), selectedIngredient.getId());
+            PizzaService.addIngredientInPizza(pizza.getPizzaId(), selectedIngredient.getIngredientId());
             System.out.println("Add ingredient : "+selectedIngredient.getName());
             refreshAddIngredient();
             refreshRemoveIngredient();
             refreshIngredients();
-        }catch(Exception e){
+        } catch (Exception e) {
+            System.out.println("ERROR: COULD NOT ADD INGREDIENT");
         }
     }
 
@@ -106,13 +107,13 @@ public class EditPizzaController implements Initializable{
     void removeIngredientAction(ActionEvent event){
         try{
             Ingredient selectedIngredient = removeIngredient.getValue();
-            PizzaService.deleteIngredientInPizza(pizza.getPizzaId(), selectedIngredient.getId());
+            PizzaService.deleteIngredientInPizza(pizza.getPizzaId(), selectedIngredient.getIngredientId());
             System.out.println("Remove ingredient : "+selectedIngredient.getName());
             refreshAddIngredient();
             refreshRemoveIngredient();
             refreshIngredients();
         }catch(Exception e){
-
+            System.out.println("ERROR: COULD NOT REMOVE INGREDIENT");
         }
     }
 
@@ -159,7 +160,7 @@ public class EditPizzaController implements Initializable{
             while (addSet.next()) {
                 Ingredient ingredient = Ingredient.createIngredientFromResultSet(addSet);
                 addList.add(ingredient);
-                //System.out.println(ingredient.getName()+" : "+ingredient.getId());
+                //System.out.println(ingredient.getName()+" : "+ingredient.getIngredientId());
             }
         } catch (SQLException e) {
             e.printStackTrace();

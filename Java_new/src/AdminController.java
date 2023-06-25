@@ -49,6 +49,7 @@ import src.delivery.DeliveryService;
 import src.deliveryPerson.DeliveryPerson;
 import src.deliveryPerson.DeliveryPersonService;
 import src.divers.DiversService;
+import src.ingredient.Ingredient;
 import src.ingredient.IngredientService;
 import src.order.OrderService;
 import src.order.PizzaOrder;
@@ -213,7 +214,7 @@ public class AdminController implements Initializable {
     private TableColumn<DeliveryPerson, Button> deliveryPerson_editName;
 
     @FXML
-    private TableColumn<DeliveryPerson, String> deliveryPerson_editVehicle;
+    private TableColumn<DeliveryPerson, Button> deliveryPerson_editVehicle;
 
     @FXML
     private Button deliveryPerson_refreshButton;
@@ -282,6 +283,29 @@ public class AdminController implements Initializable {
     private TableView<Delivery> delivery_table;
 
     ObservableList<Delivery> deliveries = FXCollections.observableArrayList();
+    //#endregion
+
+    // ----------------------------------------------- INGREDIENT FXML  ----------------------------------------------------//
+
+    //#region deliveries FXML
+    @FXML
+    private TableColumn<Ingredient, Integer> ingredient_ingredientId;
+    @FXML
+    private TableColumn<Ingredient, String> ingredient_ingredientName;
+    
+    @FXML
+    private TableColumn<Ingredient, Button> ingredient_deleteButton;
+
+    @FXML
+    private Button ingredient_addButton;
+
+    @FXML
+    private Button ingredient_refreshButton;
+
+    @FXML
+    private TableView<Ingredient> ingredient_table;
+
+    ObservableList<Ingredient> ingredients = FXCollections.observableArrayList();
     //#endregion
 
     @Override
@@ -969,7 +993,71 @@ public class AdminController implements Initializable {
             };
         });
 
-    //#endregion
+        //#endregion
+        
+        // ---------------------------------------------- INGREDIENTS --------------------------------------------------------//
+        //#region Ingredients
+        ingredient_table.setFixedCellSize(60.0);
+        ingredient_deleteButton.setCellValueFactory(new PropertyValueFactory<Ingredient, Button>("deleteButton"));
+        ingredient_ingredientId.setCellValueFactory(new PropertyValueFactory<Ingredient, Integer>("ingredientId"));
+        ingredient_ingredientName.setCellValueFactory(new PropertyValueFactory<Ingredient, String>("ingredientName"));
+        ingredient_refreshButton.setOnAction(event -> refreshTable());
+
+        ingredient_addButton.setOnAction(event -> {
+            Dialog<String> dialog = new Dialog<>();
+            dialog.setTitle("Create new ingredient");
+
+            TextField nameField = new TextField("");
+            nameField.setPromptText("Enter ingredient name");
+
+            dialog.getDialogPane().setContent(new VBox(nameField));
+
+            ButtonType applyButtonType = new ButtonType("Apply", ButtonBar.ButtonData.OK_DONE);
+            ButtonType cancelButtonType = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+            dialog.getDialogPane().getButtonTypes().addAll(applyButtonType, cancelButtonType);
+
+            dialog.setResultConverter(dialogButton -> {
+                if (dialogButton == applyButtonType) {
+                    return nameField.getText();
+                }
+                return null;
+            });
+
+            Optional<String> result = dialog.showAndWait();
+
+            result.ifPresent(newName -> {
+                System.out.println("Created new ingredient: " + newName);
+                IngredientService.addIngredient(newName);
+                refreshTable();
+            });
+        });
+
+        ingredient_deleteButton.setCellFactory(column -> {
+            return new TableCell<Ingredient, Button>() {
+                final Button btn = new Button("Delete");
+
+                @Override
+                protected void updateItem(Button item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty) {
+                        setGraphic(null);
+                    } else {
+                        setGraphic(btn);
+                        setAlignment(Pos.CENTER);
+                        Ingredient ingredient = getTableView().getItems().get(getIndex());
+
+                        btn.setOnAction(event -> {
+                            System.out.println("Deleting vehicle n°" + ingredient.getIngredientId());
+                            IngredientService.deleteIngredient(ingredient.getIngredientId());
+                            refreshTable();
+                        });
+                    }
+                }
+            };
+        });
+
+
+        //#endregion
         
         // ---------------------------------------------- DELIVERY PERSON --------------------------------------------------------//
         //#region DeliveryPerson
@@ -1009,41 +1097,88 @@ public class AdminController implements Initializable {
             });
         });
 
-        deliveryPerson_editVehicle.setCellFactory(column -> new TableCell<DeliveryPerson, String>() {
-            final ComboBox<Vehicle> comboBox = new ComboBox<>();
-            {
-                comboBox.setConverter(vehicleConverter);
-                comboBox.setPromptText("Change vehicle");
-                comboBox.setOnAction(event -> {
-                    Vehicle selectedVehicle = comboBox.getValue();
-                    DeliveryPerson deliveryPerson = getTableView().getItems().get(getIndex());
-                    DeliveryPersonService.updateDeliveryPersonVehicle(deliveryPerson.getDeliveryPersonId(), selectedVehicle.getVehicleId());
-                    refreshTable();
-                });
-            }
 
-            @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty) {
-                    setGraphic(null);
-                } else {
+        deliveryPerson_editVehicle.setCellFactory(column -> {
+            return new TableCell<DeliveryPerson, Button>() {
+                final Button btn = new Button("Change vehicle");
 
-                    ObservableList<Vehicle> vehiclesList = FXCollections.observableArrayList();
-                    try {
-                        ResultSet vehicles = VehicleService.getAllVehicleModelUnassigned();
-                        while (vehicles.next()) {
-                            vehiclesList.add(Vehicle.createVehicleFromResultSet(vehicles));
-                        }
-                        comboBox.setItems(vehiclesList);
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                @Override
+                protected void updateItem(Button item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty) {
+                        setGraphic(null);
+                    } else {
+                        // get all vehicles
+                        setGraphic(btn);
+                        setAlignment(Pos.CENTER);
+                        btn.setOnAction(event -> {
+                            Dialog<String> dialog = new Dialog<>();
+                            dialog.setTitle("Update Status");
+
+                            ComboBox<String> statusComboBox = new ComboBox<>();
+                            statusComboBox.getItems().addAll();
+                            // statusComboBox.getSelectionModel().select();
+
+                            ButtonType applyButtonType = new ButtonType("Apply", ButtonBar.ButtonData.OK_DONE);
+                            ButtonType cancelButtonType = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+                            dialog.getDialogPane().getButtonTypes().addAll(applyButtonType, cancelButtonType);
+                            dialog.getDialogPane().setContent(statusComboBox);
+
+                            dialog.setResultConverter(dialogButton -> {
+                                if (dialogButton == applyButtonType) {
+                                    return statusComboBox.getSelectionModel().getSelectedItem();
+                                }
+                                return null;
+                            });
+
+                            Optional<String> result = dialog.showAndWait();
+
+                            result.ifPresent(selectedStatus -> {
+
+                                refreshTable();
+                            });
+                        });
                     }
-                    setGraphic(comboBox);
-                    setAlignment(Pos.CENTER);
                 }
-            }
+            };
         });
+
+        // deliveryPerson_editVehicle.setCellFactory(column -> new TableCell<DeliveryPerson, String>() {
+        //     final ComboBox<Vehicle> comboBox = new ComboBox<>();
+        //     {
+        //         comboBox.setConverter(vehicleConverter);
+        //         comboBox.setPromptText("Change vehicle");
+        //         comboBox.setOnAction(event -> {
+        //             Vehicle selectedVehicle = comboBox.getValue();
+        //             DeliveryPerson deliveryPerson = getTableView().getItems().get(getIndex());
+        //             DeliveryPersonService.updateDeliveryPersonVehicle(deliveryPerson.getDeliveryPersonId(), selectedVehicle.getVehicleId());
+        //             refreshTable();
+        //         });
+        //     }
+
+        //     @Override
+        //     protected void updateItem(String item, boolean empty) {
+        //         super.updateItem(item, empty);
+        //         if (empty) {
+        //             setGraphic(null);
+        //         } else {
+
+        //             ObservableList<Vehicle> vehiclesList = FXCollections.observableArrayList();
+        //             try {
+        //                 ResultSet vehicles = VehicleService.getAllVehicleModelUnassigned();
+        //                 while (vehicles.next()) {
+        //                     vehiclesList.add(Vehicle.createVehicleFromResultSet(vehicles));
+        //                 }
+        //                 comboBox.setItems(vehiclesList);
+        //                 comboBox.getSelectionModel().selectFirst(); // Set first item as default selection
+        //             } catch (Exception e) {
+        //                 e.printStackTrace();
+        //             }
+        //             setGraphic(comboBox);
+        //             setAlignment(Pos.CENTER);
+        //         }
+        //     }
+        // });
 
 
         deliveryPerson_editName.setCellFactory(column -> {
@@ -1476,7 +1611,7 @@ public class AdminController implements Initializable {
                 String pizzaSize = rs.getString(1);
                 int salesCount = rs.getInt(2);
                 float percentSales = rs.getFloat(3);
-                text += String.format("\n- '%s' : %d pizza(s) saled -> %,.2f %% of total pizzas saled.",pizzaSize,salesCount,percentSales);
+                text += String.format("\n- '%s' : %d pizza(s) sold -> %,.2f %% of total pizzas sold.",pizzaSize,salesCount,percentSales);
             }
             stat_SalesByPizzaSize.setText(text);
         } catch (SQLException e) {

@@ -183,6 +183,7 @@ public class DeliveryController implements Initializable {
         } 
         catch (SQLException e) 
         {
+            System.out.println("COULD NOT REFRESH TABLE");
             e.printStackTrace();
         }
         delivery_table.setItems(deliveries);

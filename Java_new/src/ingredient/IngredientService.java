@@ -1,6 +1,7 @@
 package src.ingredient;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import src.util.DatabaseConnection;
 

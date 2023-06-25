@@ -3,41 +3,35 @@ package src.ingredient;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import src.pizza.Pizza;
-import src.util.DatabaseConnection;
+import javafx.scene.control.Button;
 
 public class Ingredient {
 
-    int id;
-    String name;
+    private int ingredientId;
+    private String name;
+    private Button deleteButton;
 
-    public Ingredient(int id, String name){
-        this.id = id;
+    public Ingredient(int ingredientId, String name){
+        this.ingredientId = ingredientId;
         this.name = name;
+        this.deleteButton = new Button("DELETE");
     }
 
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
-    public int getId(){
-        return id;
+    public int getIngredientId() {
+        return ingredientId;
     }
-
-    public static String getName(int ingredientId) throws SQLException {
-        String sqlQuery = String.format("SELECT ingredient_name FROM Ingredient WHERE ingredient_id = %d",ingredientId);
-        ResultSet resultSet = DatabaseConnection.query(sqlQuery);
-        if (resultSet.next()) {
-            return resultSet.getString("ingredient_name");
-        } else {
-            return "";
-        }
+    
+    public Button getDeleteButton() {
+        return deleteButton;
     }
 
     public static Ingredient createIngredientFromResultSet(ResultSet resultSet) throws SQLException {
-        int id = resultSet.getInt("ingredient_id");
+        int ingredientId = resultSet.getInt("ingredient_id");
         String name = resultSet.getString("ingredient_name");
-        return new Ingredient(id, name);
+        return new Ingredient(ingredientId, name);
     }
 }

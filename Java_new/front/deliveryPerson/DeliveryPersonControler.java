@@ -176,6 +176,7 @@ public class DeliveryPersonControler implements Initializable {
         } 
         catch (SQLException e) 
         {
+            System.out.println("COULD NOT REFRESH TABLE");
             e.printStackTrace();
         }
         deliveryPerson_table.setItems(deliveryPersons);

@@ -174,6 +174,7 @@ public class CustomerController implements Initializable {
                                         Float amount = Float.parseFloat(amountText);
                                         return amount;
                                     } catch (NumberFormatException e) {
+                                        System.out.println("Invalid input");
                                         return null;
                                     }
                                 }
@@ -234,6 +235,7 @@ public class CustomerController implements Initializable {
         } 
         catch (SQLException e) 
         {
+            System.out.println("COULD NOT REFRESH TABLE");
             e.printStackTrace();
         }
         customer_table.setItems(customers);
