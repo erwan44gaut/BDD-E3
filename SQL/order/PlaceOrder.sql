@@ -19,7 +19,7 @@ BEGIN
     SELECT customer_balance INTO v_customer_balance FROM Customer WHERE customer_id = p_customer_id;
     SELECT COUNT(*) INTO v_order_count FROM Pizza_Order WHERE customer_id = p_customer_id;
     
-    IF (v_customer_balance >= v_total_price or (v_order_count+1) % 10 <> 0) THEN
+    IF (v_customer_balance >= v_total_price or (v_order_count+1) % 10 = 0) THEN
         -- Place order
         INSERT INTO Pizza_Order (order_status, order_datetime, pizza_id, pizza_size, customer_id)
         VALUES ('ACCEPTED', NOW(), p_pizza_id, p_pizza_size, p_customer_id);

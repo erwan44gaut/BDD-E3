@@ -11,8 +11,8 @@ BEGIN
 
     -- Calculate the adjusted price based on the retrieved base price and pizza size
     CASE
-        WHEN pizza_size = 'large' THEN SET adjustedPrice = basePrice * 1.3;
-        WHEN pizza_size = 'small' THEN SET adjustedPrice = basePrice * 0.7;
+        WHEN pizza_size = 'large' THEN SET adjustedPrice = basePrice * 1.33;
+        WHEN pizza_size = 'small' THEN SET adjustedPrice = basePrice * 0.66;
         ELSE SET adjustedPrice = basePrice;
     END CASE;
 
