@@ -52,6 +52,13 @@ public class OrderService
         return DatabaseConnection.updateStatement(statement);
     }
 
+    public static ResultSet getOrderCountForCustomer(int customer_id)
+    {
+        CallableStatement statement = DatabaseConnection.prepareCall("{CALL GetOrderCountByCustomerId(?)}");
+        DatabaseConnection.setStatement(statement, 1, customer_id);       
+        return DatabaseConnection.queryStatement(statement);
+    }
+
     public static void unitTest() {
         // // Test getOrder(int id)
         System.out.println("#########################\nGET ORDER\n#########################\n");

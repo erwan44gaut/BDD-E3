@@ -7,7 +7,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="355.0" prefWidth="433.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <TableView fx:id="table" layoutX="101.0" layoutY="50.0" prefHeight="122.0" prefWidth="227.0">
@@ -23,5 +22,6 @@
       <Text fx:id="select_price" layoutX="31.0" layoutY="268.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PRICE :  ?" wrappingWidth="251.693359375" />
       <Button fx:id="order" layoutX="34.0" layoutY="305.0" mnemonicParsing="false" onAction="#orderAction" prefHeight="25.0" prefWidth="353.0" text="ORDER" />
       <Text fx:id="id" layoutX="355.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID :" wrappingWidth="64.693359375" />
+      <Text fx:id="freePizza" fill="#ff0404" layoutX="101.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="227.0" />
    </children>
 </AnchorPane>

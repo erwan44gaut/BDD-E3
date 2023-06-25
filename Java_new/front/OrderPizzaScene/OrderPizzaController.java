@@ -1,6 +1,9 @@
 package front.OrderPizzaScene;
 import java.net.URL;
+import java.sql.ResultSet;
 import java.util.ResourceBundle;
+
+import javax.naming.spi.DirStateFactory.Result;
 
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -26,11 +29,22 @@ public class OrderPizzaController implements Initializable {
     Pizza pizza;
     int clientId;
     String currentSize;
+    int countOrder;
 
     public OrderPizzaController(Pizza pizza, int clientId){
         this.pizza = pizza;
         this.currentSize = "MEDIUM";
         this.clientId = clientId;
+        this.countOrder = 0;
+        try{
+            ResultSet countOrderSet = OrderService.getOrderCountForCustomer(clientId);
+            if(countOrderSet.next())this.countOrder =  countOrderSet.getInt(1);
+            else this.countOrder = 0;
+        }catch(Exception e){
+            System.out.println("ERROR COUNTING PIZZAS");
+            this.countOrder = 0;
+        }
+        
     }
 
     @FXML
@@ -58,6 +72,9 @@ public class OrderPizzaController implements Initializable {
     private Text select_size;
 
     @FXML
+    private Text freePizza;
+
+    @FXML
     private TableColumn<Object[],String> size;
 
     @FXML
@@ -67,24 +84,28 @@ public class OrderPizzaController implements Initializable {
     void orderAction(ActionEvent event) {
         if(currentSize.equals("LARGE") ||currentSize.equals("MEDIUM") || currentSize.equals("SMALL"))
         {
-            OrderService.placeOrder(clientId, pizza.getPizzaId(), currentSize);
+            if(OrderService.placeOrder(clientId, pizza.getPizzaId(), currentSize)!=-1){
 
-            Scene scene = order.getScene();
+                Scene scene = order.getScene();
 
-            Stage stage = (Stage) scene.getWindow();
+                Stage stage = (Stage) scene.getWindow();
 
-            stage.close();
+                stage.close();
+            }
 
         }
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        if((countOrder+1)%10 == 0)freePizza.setText("FREE PIZZA AVAILABLE");
+        else freePizza.setText((10 -(countOrder+1)%10)+" orders left before FREE PIZZA");
         image.setImage(pizza.getImage());
         select_name.setText("Name : "+pizza.getName());
         id.setText("ID : "+pizza.getPizzaId());
         select_size.setText("SIZE : "+currentSize);
-        select_price.setText("PRICE : "+PizzaService.getAdjustedPrice(pizza.getPizzaId(), currentSize) +" $");
+        if(countOrder==0 || ((countOrder+1)%10 != 0))select_price.setText("PRICE : "+PizzaService.getAdjustedPrice(pizza.getPizzaId(), currentSize) +" $");
+        else select_price.setText("PRICE : 0 $ (FREE PIZZA)");
         size.setCellValueFactory(cellData -> new SimpleStringProperty((String) cellData.getValue()[0]));
         price.setCellValueFactory(cellData ->  new SimpleStringProperty( cellData.getValue()[1] + " $"));
         select.setCellValueFactory(cellData -> new SimpleObjectProperty<>(new Button((String) cellData.getValue()[2])));
@@ -97,7 +118,8 @@ public class OrderPizzaController implements Initializable {
                         Object[] rowData = getTableRow().getItem();
                         currentSize = rowData[0].toString(); // Récupère la valeur de la colonne "size"
                         select_size.setText("SIZE : "+currentSize);
-                        select_price.setText("PRICE : "+rowData[1].toString()+ " $");
+                        if((countOrder+1)%10 != 0)select_price.setText("PRICE : "+rowData[1].toString()+ " $");
+                        else select_price.setText("PRICE : 0 $ (FREE PIZZA)");
                     });
                 }
 
