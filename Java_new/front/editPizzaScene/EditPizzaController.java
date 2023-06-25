@@ -3,8 +3,6 @@ package front.editPizzaScene;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
@@ -18,7 +16,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.util.StringConverter;
 import src.ingredient.Ingredient;
-import src.ingredient.IngredientService;
 import src.pizza.Pizza;
 import src.pizza.PizzaService;
 

@@ -3,7 +3,6 @@ package src.ingredient;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import src.pizza.Pizza;
 import src.util.DatabaseConnection;
 
 public class Ingredient {

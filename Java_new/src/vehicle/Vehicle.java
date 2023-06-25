@@ -9,9 +9,7 @@ public class Vehicle {
     private Integer vehicleId;
     private String vehicleType;
     private String vehicleModel;
-
     private Button editName;
-    private Button delete;
 
     public Vehicle(Integer vehicleId, String vehicleType, String vehicleModel) {
         this.vehicleId = vehicleId;
@@ -19,7 +17,7 @@ public class Vehicle {
         this.vehicleModel = vehicleModel;
 
         this.editName = new Button("Edit name");
-        this.delete = new Button("Delete");
+        new Button("Delete");
     }
 
     public Integer getVehicleId()

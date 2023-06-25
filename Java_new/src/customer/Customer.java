@@ -11,8 +11,7 @@ public class Customer {
 
     private Button rechargeBalance;
     private Button editName;
-    private Button delete;
-
+    
     public Customer(Integer customerId, String customerName, Float customerBalance) {
         this.customerId = customerId;
         this.customerName = customerName;
@@ -20,7 +19,7 @@ public class Customer {
 
         this.rechargeBalance = new Button("Recharge balance");
         this.editName = new Button("Edit name");
-        this.delete = new Button("Delete");
+        new Button("Delete");
     }
 
     public Integer getCustomerId()

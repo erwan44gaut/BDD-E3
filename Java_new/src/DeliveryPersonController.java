@@ -1,7 +1,5 @@
 package src;
-import java.io.IOException;
 import java.net.URL;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -9,16 +7,12 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 
-import front.OrderPizzaScene.OrderPizzaController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
@@ -29,22 +23,14 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextFlow;
-import javafx.stage.Stage;
 import javafx.util.StringConverter;
-import src.customer.CustomerService;
 import src.delivery.Delivery;
 import src.delivery.DeliveryService;
-import src.deliveryPerson.DeliveryPerson;
 import src.deliveryPerson.DeliveryPersonService;
 import src.order.OrderService;
 import src.order.PizzaOrder;
-import src.pizza.Pizza;
-import src.pizza.PizzaService;
 import src.vehicle.Vehicle;
 import src.vehicle.VehicleService;
 

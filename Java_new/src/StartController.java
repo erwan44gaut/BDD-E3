@@ -5,7 +5,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-import front.OrderPizzaScene.OrderPizzaController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -23,9 +22,6 @@ import src.customer.Customer;
 import src.customer.CustomerService;
 import src.deliveryPerson.DeliveryPerson;
 import src.deliveryPerson.DeliveryPersonService;
-import src.ingredient.Ingredient;
-import src.pizza.PizzaService;
-import src.vehicle.Vehicle;
 
 public class StartController implements Initializable{
 
