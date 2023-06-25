@@ -48,6 +48,7 @@ CREATE TABLE Delivery(
    delivery_status ENUM('ACCEPTED', 'IN_PROGRESS', 'COMPLETED', 'LATE') DEFAULT "ACCEPTED",
    delivery_datetime DATETIME,
    delivery_person_id INT,
+   vehicle_id INT,
    order_id INT,
    UNIQUE(order_id),
    FOREIGN KEY(delivery_person_id) REFERENCES Delivery_Person(delivery_person_id) ON DELETE SET NULL,

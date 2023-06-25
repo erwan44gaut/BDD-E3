@@ -61,6 +61,7 @@ public class StartController implements Initializable{
                 stage.show();
                 closeWindow();
             } catch (IOException e) {
+                e.printStackTrace();
                 System.out.println("ERROR : CAN NOT GO TO ADMIN INTERFACE");
             }
     }
@@ -101,6 +102,7 @@ public class StartController implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         customer_select.setConverter(customerConverter);
+        deliveryPerson_select.setConverter(deliveryPersonConverter);
         refreshCustomer();
         refreshDeliveryPerson();
     }
@@ -156,7 +158,7 @@ public class StartController implements Initializable{
         } catch (SQLException e) {
             System.out.println("ERROR REFRESH DELIVERY PERSON");
         }
-        customer_select.setItems(customerList);
+        deliveryPerson_select.setItems(deliveryPersonList);
     }
 
     void closeWindow(){

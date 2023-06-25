@@ -1,6 +1,5 @@
 
 DELIMITER //
-use pizzeria;
 CREATE PROCEDURE GetOrdersDetails()
 BEGIN
     SELECT 
