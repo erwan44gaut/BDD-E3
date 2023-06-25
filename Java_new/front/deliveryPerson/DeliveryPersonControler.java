@@ -128,7 +128,7 @@ public class DeliveryPersonControler implements Initializable {
 
                             result.ifPresent(newName -> {
                                 System.out.println("Updating name to: " + newName);
-                                DeliveryPersonService.updateDeliveryPersonField(customer.getDeliveryPersonId(), "delivery_person_name", newName);
+                                DeliveryPersonService.updateDeliveryPersonName(customer.getDeliveryPersonId(), newName);
                                 refreshTable();
                             });
                         });

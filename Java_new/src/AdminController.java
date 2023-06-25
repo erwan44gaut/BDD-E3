@@ -1015,8 +1015,7 @@ public class AdminController implements Initializable {
                 comboBox.setOnAction(event -> {
                     Vehicle selectedVehicle = comboBox.getValue();
                     DeliveryPerson deliveryPerson = getTableView().getItems().get(getIndex());
-                    String vehicleId = "" + selectedVehicle.getVehicleId();
-                    DeliveryPersonService.updateDeliveryPersonField(deliveryPerson.getDeliveryPersonId(), "vehicle_id", vehicleId);
+                    DeliveryPersonService.updateDeliveryPersonVehicle(deliveryPerson.getDeliveryPersonId(), selectedVehicle.getVehicleId());
                     refreshTable();
                 });
             }
