@@ -25,6 +25,7 @@ import src.deliveryPerson.DeliveryPerson;
 import src.deliveryPerson.DeliveryPersonService;
 import src.ingredient.Ingredient;
 import src.pizza.PizzaService;
+import src.vehicle.Vehicle;
 
 public class StartController implements Initializable{
 
@@ -96,6 +97,7 @@ public class StartController implements Initializable{
 
     ObservableList<Customer> customerList = FXCollections.observableArrayList();
     ObservableList<DeliveryPerson> deliveryPersonList = FXCollections.observableArrayList();
+    ObservableList<DeliveryPerson> vehicleList = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

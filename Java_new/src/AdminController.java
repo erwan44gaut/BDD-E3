@@ -40,6 +40,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import javafx.util.Pair;
+import javafx.util.StringConverter;
 import src.customer.Customer;
 import src.customer.CustomerService;
 import src.delivery.Delivery;
@@ -1008,28 +1009,16 @@ public class AdminController implements Initializable {
         });
 
         deliveryPerson_editVehicle.setCellFactory(column -> new TableCell<DeliveryPerson, String>() {
-            final ComboBox<String> comboBox = new ComboBox<>();
+            final ComboBox<Vehicle> comboBox = new ComboBox<>();
             {
+                comboBox.setConverter(vehicleConverter);
                 comboBox.setPromptText("Change vehicle");
                 comboBox.setOnAction(event -> {
+                    Vehicle selectedVehicle = comboBox.getValue();
                     DeliveryPerson deliveryPerson = getTableView().getItems().get(getIndex());
-                    String selectedVehicle = comboBox.getValue();
-                    if (selectedVehicle != null)
-                    {
-                        String[] parts = selectedVehicle.split(" - ");
-                        String vehicleType = parts[0];
-                        String vehicleModel = parts[1];
-                        int vehicleId = -1;
-                        try {  
-                            ResultSet vehicle = VehicleService.getVehicleByModel(vehicleModel);
-                            if (vehicle.next()) vehicleId = vehicle.getInt("vehicle_id");
-                        } catch (Exception e) {
-                            System.out.println("Error while getting vehicle id");
-                            e.printStackTrace();
-                        }
-                        DeliveryPersonService.updateDeliveryPersonVehicle(deliveryPerson.getDeliveryPersonId(), vehicleId);
-                        refreshTable();
-                    }
+                    String vehicleId = "" + selectedVehicle.getVehicleId();
+                    DeliveryPersonService.updateDeliveryPersonField(deliveryPerson.getDeliveryPersonId(), "vehicle_id", vehicleId);
+                    refreshTable();
                 });
             }
 
@@ -1039,8 +1028,16 @@ public class AdminController implements Initializable {
                 if (empty) {
                     setGraphic(null);
                 } else {
-                    comboBox.getItems().setAll(VehicleService.getAllVehicleModelUnassigned());
-                    comboBox.setValue(item);
+
+                    ObservableList<Vehicle> vehiclesList = FXCollections.observableArrayList();
+                    try {
+                        ResultSet vehicles = VehicleService.getAllVehicleModelUnassigned();
+                        while (vehicles.next()) {
+                            vehiclesList.add(Vehicle.createVehicleFromResultSet(vehicles));
+                        }
+                        comboBox.setItems(vehiclesList);
+                    } catch (Exception e) {
+                    }
                     setGraphic(comboBox);
                     setAlignment(Pos.CENTER);
                 }
@@ -1496,6 +1493,18 @@ public class AdminController implements Initializable {
             stat_AverageDeliveryTime.setText("ERROR : Average delivery time");
         }
         //#endregion
-
     }
+
+     StringConverter<Vehicle> vehicleConverter = new StringConverter<Vehicle>() {
+        @Override
+        public String toString(Vehicle vehicle) {
+            return vehicle.getVehicleType() + " - " + vehicle.getVehicleModel();
+        }
+
+        @Override
+        public Vehicle fromString(String string) {
+            // Conversion inverse non nécessaire pour ce cas
+            return null;
+        }
+    };
 }
