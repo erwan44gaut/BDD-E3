@@ -91,7 +91,7 @@ public class EditPizzaController implements Initializable{
         try{
             Ingredient selectedIngredient = addIngredient.getValue();
             PizzaService.addIngredientInPizza(pizza.getPizzaId(), selectedIngredient.getIngredientId());
-            System.out.println("Add ingredient : "+selectedIngredient.getName());
+            System.out.println("Add ingredient : "+selectedIngredient.getIngredientName());
             refreshAddIngredient();
             refreshRemoveIngredient();
             refreshIngredients();
@@ -105,7 +105,7 @@ public class EditPizzaController implements Initializable{
         try{
             Ingredient selectedIngredient = removeIngredient.getValue();
             PizzaService.deleteIngredientInPizza(pizza.getPizzaId(), selectedIngredient.getIngredientId());
-            System.out.println("Remove ingredient : "+selectedIngredient.getName());
+            System.out.println("Remove ingredient : "+selectedIngredient.getIngredientName());
             refreshAddIngredient();
             refreshRemoveIngredient();
             refreshIngredients();
@@ -140,7 +140,7 @@ public class EditPizzaController implements Initializable{
     StringConverter<Ingredient> ingredientConverter = new StringConverter<Ingredient>() {
         @Override
         public String toString(Ingredient ingredient) {
-            return ingredient.getName();
+            return ingredient.getIngredientName();
         }
 
         @Override

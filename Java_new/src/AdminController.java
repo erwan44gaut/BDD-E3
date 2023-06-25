@@ -1047,7 +1047,7 @@ public class AdminController implements Initializable {
                         Ingredient ingredient = getTableView().getItems().get(getIndex());
 
                         btn.setOnAction(event -> {
-                            System.out.println("Deleting vehicle n°" + ingredient.getIngredientId());
+                            System.out.println("Deleting ingredient n°" + ingredient.getIngredientId());
                             IngredientService.deleteIngredient(ingredient.getIngredientId());
                             refreshTable();
                         });
@@ -1452,6 +1452,23 @@ public class AdminController implements Initializable {
             e.printStackTrace();
         }
         vehicle_table.setItems(vehicles);
+
+        // ---------------------------------------------- INGREDIENT --------------------------------------------------------//
+
+        ingredients.clear();
+        try 
+        {
+            ResultSet ingredientsSet = IngredientService.getIngredients();
+            while (ingredientsSet.next()) {
+                Ingredient ingredient = Ingredient.createIngredientFromResultSet(ingredientsSet);
+                ingredients.add(ingredient);
+            }
+        } 
+        catch (SQLException e) 
+        {
+            e.printStackTrace();
+        }
+        ingredient_table.setItems(ingredients);
     }
 
     // ---------------------------------------------- STATS --------------------------------------------------------//
@@ -1609,6 +1626,7 @@ public class AdminController implements Initializable {
     StringConverter<Vehicle> vehicleConverter = new StringConverter<Vehicle>() {
         @Override
         public String toString(Vehicle vehicle) {
+            if (vehicle == null) return "";
             return vehicle.getVehicleType() + " - " + vehicle.getVehicleModel();
         }
 

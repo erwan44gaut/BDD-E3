@@ -8,17 +8,17 @@ import javafx.scene.control.Button;
 public class Ingredient {
 
     private int ingredientId;
-    private String name;
+    private String ingredientName;
     private Button deleteButton;
 
     public Ingredient(int ingredientId, String name){
         this.ingredientId = ingredientId;
-        this.name = name;
+        this.ingredientName = name;
         this.deleteButton = new Button("DELETE");
     }
 
-    public String getName() {
-        return name;
+    public String getIngredientName() {
+        return ingredientName;
     }
 
     public int getIngredientId() {

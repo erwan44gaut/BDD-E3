@@ -393,7 +393,7 @@ public class DeliveryPersonController implements Initializable{
                 String deliveryPersonName = deliveryPersonSet.getString("delivery_person_name");
                 int vehicleId = deliveryPersonSet.getInt("vehicle_id");
                 ResultSet vehicleSet = VehicleService.getVehicleById(vehicleId);
-                String deliveryPersonVehicle = "ERROR";
+                String deliveryPersonVehicle = "NONE";
                 if (vehicleSet.next()) {
                     deliveryPersonVehicle = vehicleSet.getString("vehicle_model");
                 }

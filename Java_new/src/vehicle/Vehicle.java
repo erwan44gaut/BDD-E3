@@ -55,7 +55,7 @@ public class Vehicle {
             e.printStackTrace(); 
         }
 
-        return "Error getting vehicle n° " + vehicleId + " description";
+        return "No vehicle";
     }
 
     public static Vehicle createVehicleFromResultSet(ResultSet resultSet) throws SQLException {

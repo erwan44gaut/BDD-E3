@@ -12,7 +12,7 @@
    <children>
       <TextField fx:id="newName" alignment="CENTER" layoutX="29.0" layoutY="188.0" prefHeight="25.0" prefWidth="194.0" text="NAME" />
       <ComboBox fx:id="addIngredient" layoutX="329.0" layoutY="213.0" prefWidth="150.0" promptText="ingredients" />
-      <TextField fx:id="newPrice" alignment="CENTER" layoutX="29.0" layoutY="286.0" prefHeight="25.0" prefWidth="194.0" text="UNIT PRICE" />
+      <TextField fx:id="newPrice" alignment="CENTER" layoutX="29.0" layoutY="286.0" prefHeight="25.0" prefWidth="194.0" text="BASE PRICE" />
       <Separator layoutX="297.0" layoutY="126.0" orientation="VERTICAL" prefHeight="250.0" prefWidth="3.0" />
       <Text layoutX="215.0" layoutY="86.0" strokeType="OUTSIDE" strokeWidth="0.0" text="EDIT PIZZA" underline="true">
          <font>
@@ -24,7 +24,7 @@
             <Font size="18.0" />
          </font>
       </Text>
-      <Text fx:id="price" layoutX="29.0" layoutY="258.0" strokeType="OUTSIDE" strokeWidth="0.0" text="UNIT PRICE :" wrappingWidth="260.8701171875">
+      <Text fx:id="price" layoutX="29.0" layoutY="258.0" strokeType="OUTSIDE" strokeWidth="0.0" text="BASE PRICE :" wrappingWidth="260.8701171875">
          <font>
             <Font size="18.0" />
          </font>

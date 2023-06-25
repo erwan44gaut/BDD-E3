@@ -40,7 +40,7 @@ CREATE TABLE Delivery_Person(
    delivery_person_id INT AUTO_INCREMENT PRIMARY KEY,
    delivery_person_name VARCHAR(50) NOT NULL,
    vehicle_id INT,
-   FOREIGN KEY(vehicle_id) REFERENCES Vehicle(vehicle_id)
+   FOREIGN KEY(vehicle_id) REFERENCES Vehicle(vehicle_id) ON DELETE SET NULL
 );
 
 CREATE TABLE Delivery(
