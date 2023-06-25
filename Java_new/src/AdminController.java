@@ -4,6 +4,7 @@ import java.net.URL;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -42,6 +43,7 @@ import javafx.stage.Stage;
 import javafx.util.Pair;
 import src.customer.Customer;
 import src.customer.CustomerService;
+import src.delivery.DeliveryService;
 import src.deliveryPerson.DeliveryPerson;
 import src.deliveryPerson.DeliveryPersonService;
 import src.ingredient.IngredientService;
@@ -91,8 +93,7 @@ public class AdminController implements Initializable {
     ObservableList<Pizza> pizzas = FXCollections.observableArrayList();
 
 // --------------------------------------------------- ORDERS FXML  -----------------------------------------------------------------//
-
-@FXML
+    @FXML
     private TableColumn<PizzaOrder, Integer> order_orderId;
     @FXML
     private TableColumn<PizzaOrder, String> order_customerName;
@@ -112,6 +113,8 @@ public class AdminController implements Initializable {
     private TableColumn<PizzaOrder, Button> order_cancel;
     @FXML
     private TableColumn<PizzaOrder, Button> order_updateStatus;
+    @FXML
+    private TableColumn<PizzaOrder, Button> order_assignDelivery;
     @FXML
     private Button order_refreshButton;
 
@@ -465,7 +468,8 @@ public class AdminController implements Initializable {
         //#endregion
 
         // ---------------------------------------------- ORDERS --------------------------------------------------------//
-        //#region ORDERS
+        //#region orders
+
         order_table.setFixedCellSize(60.0);
         order_orderId.setCellValueFactory(new PropertyValueFactory<PizzaOrder, Integer>("orderId"));
         order_customerName.setCellValueFactory(new PropertyValueFactory<PizzaOrder, String>("customerName"));
@@ -477,81 +481,81 @@ public class AdminController implements Initializable {
         order_orderDate.setCellValueFactory(new PropertyValueFactory<PizzaOrder, Date>("orderDate"));
         order_cancel.setCellValueFactory(new PropertyValueFactory<PizzaOrder, Button>("cancel"));
         order_updateStatus.setCellValueFactory(new PropertyValueFactory<PizzaOrder, Button>("updateStatus"));
+        order_assignDelivery.setCellValueFactory(new PropertyValueFactory<PizzaOrder, Button>("assignDelivery"));
+
         order_refreshButton.setOnAction(event -> refreshTable());
-        
+
         order_updateStatus.setCellFactory(column -> {
             return new TableCell<PizzaOrder, Button>() {
                 final Button btn = new Button("Update Status");
-                
+
                 @Override
                 protected void updateItem(Button item, boolean empty) {
                     super.updateItem(item, empty);
                     if (empty) {
                         setGraphic(null);
                     } else {
-                        setGraphic(btn);
-                        setAlignment(Pos.CENTER);
                         PizzaOrder order = getTableView().getItems().get(getIndex());
-                        String orderStatus = order.getOrderStatus();
-                        btn.setOnAction(event -> {
-                            Dialog<String> dialog = new Dialog<>();
-                            dialog.setTitle("Update Status");
-                            
-                            ComboBox<String> statusComboBox = new ComboBox<>();
-                            statusComboBox.getItems().addAll("ACCEPTED", "IN_PREPARATION", "IN_DELIVERY", "COMPLETED", "CANCELED");
-                            statusComboBox.getSelectionModel().select(orderStatus);
-                            
-                            ButtonType applyButtonType = new ButtonType("Apply", ButtonBar.ButtonData.OK_DONE);
-                            ButtonType cancelButtonType = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
-                            dialog.getDialogPane().getButtonTypes().addAll(applyButtonType, cancelButtonType);
-                            dialog.getDialogPane().setContent(statusComboBox);
-
-                            dialog.setResultConverter(dialogButton -> {
-                                if (dialogButton == applyButtonType) {
-                                    return statusComboBox.getSelectionModel().getSelectedItem();
-                                }
-                                return null;
+                        List<String> possibleUpdates = order.possibleUpdates();
+                        if (possibleUpdates.size() == 0)
+                        {
+                            setGraphic(null);
+                        }
+                        else 
+                        {
+                            setGraphic(btn);
+                            setAlignment(Pos.CENTER);
+                            btn.setOnAction(event -> {
+                                Dialog<String> dialog = new Dialog<>();
+                                dialog.setTitle("Update Status");
+    
+                                ComboBox<String> statusComboBox = new ComboBox<>();
+                                statusComboBox.getItems().addAll(possibleUpdates);
+                                statusComboBox.getSelectionModel().select(possibleUpdates.get(0));
+    
+                                ButtonType applyButtonType = new ButtonType("Apply", ButtonBar.ButtonData.OK_DONE);
+                                ButtonType cancelButtonType = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+                                dialog.getDialogPane().getButtonTypes().addAll(applyButtonType, cancelButtonType);
+                                dialog.getDialogPane().setContent(statusComboBox);
+    
+                                dialog.setResultConverter(dialogButton -> {
+                                    if (dialogButton == applyButtonType) {
+                                        return statusComboBox.getSelectionModel().getSelectedItem();
+                                    }
+                                    return null;
+                                });
+    
+                                Optional<String> result = dialog.showAndWait();
+    
+                                result.ifPresent(selectedStatus -> {
+                                    System.out.println("Updating status: " + selectedStatus);
+                                    OrderService.updateStatus(order.getOrderId(), selectedStatus);
+                                    refreshTable();
+                                });
                             });
-
-                            Optional<String> result = dialog.showAndWait();
-
-                            result.ifPresent(selectedStatus -> {
-                                System.out.println("Updating status: " + selectedStatus);
-                                OrderService.updateStatus(order.getOrderId(), selectedStatus);
-                                refreshTable();
-                            });
-                        });
+                        }
                     }
                 }
             };
         });
 
-
-        order_cancel.setCellFactory(column -> 
-        {
-            return new TableCell<PizzaOrder, Button>() 
-            {
+        order_cancel.setCellFactory(column -> {
+            return new TableCell<PizzaOrder, Button>() {
                 @Override
-                protected void updateItem(Button button, boolean empty) 
-                {   
+                protected void updateItem(Button button, boolean empty) {
                     super.updateItem(button, empty);
-                    if (button == null || empty) 
-                    {
+                    if (button == null || empty) {
                         setGraphic(null);
-                    } 
-                    else 
-                    {
+                    } else {
                         PizzaOrder order = getTableView().getItems().get(getIndex());
-                        if (!order.getOrderStatus().equals("ACCEPTED"))
-                        {
+                        if (!order.getOrderStatus().equals("ACCEPTED")) {
                             setGraphic(null);
                             return;
                         }
 
                         setGraphic(button);
                         setAlignment(Pos.CENTER);
-                        button.setOnAction(event -> 
-                        {
+                        button.setOnAction(event -> {
                             int orderId = order.getOrderId();
                             OrderService.cancelOrder(orderId);
                             refreshTable();
@@ -560,6 +564,68 @@ public class AdminController implements Initializable {
                 }
             };
         });
+        order_assignDelivery.setCellFactory(column -> {
+            return new TableCell<PizzaOrder, Button>() {
+                final Button btn = new Button("Assign delivery person");
+
+                @Override
+                protected void updateItem(Button item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty) {
+                        setGraphic(null);
+                    } else {
+                        PizzaOrder order = getTableView().getItems().get(getIndex());
+                        if (order.canAssignDelivery())
+                        {
+                            setGraphic(btn);
+                            setAlignment(Pos.CENTER);
+
+                            btn.setOnAction(event -> {
+                                Dialog<String> dialog = new Dialog<>();
+                                dialog.setTitle("Select the delivery person's ID");
+    
+                                ComboBox<String> deliveryComboBox = new ComboBox<>();
+                                ResultSet deliveryPersons = DeliveryPersonService.getDeliveryPersons();
+                                try {
+                                    while (deliveryPersons.next()) {
+                                        String deliveryPersonId = Integer.toString(deliveryPersons.getInt("delivery_person_id"));
+                                        deliveryComboBox.getItems().add(deliveryPersonId);
+                                    }
+                                } catch (SQLException e) {
+                                    e.printStackTrace();
+                                }
+                                deliveryComboBox.getSelectionModel().selectFirst();
+    
+                                ButtonType confirmButtonType = new ButtonType("Assign", ButtonBar.ButtonData.OK_DONE);
+                                ButtonType cancelButtonType = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+                                dialog.getDialogPane().getButtonTypes().addAll(confirmButtonType, cancelButtonType);
+                                dialog.getDialogPane().setContent(deliveryComboBox);
+    
+                                dialog.setResultConverter(dialogButton -> {
+                                    if (dialogButton == confirmButtonType) {
+                                        return deliveryComboBox.getSelectionModel().getSelectedItem();
+                                    }
+                                    return null;
+                                });
+    
+                                Optional<String> result = dialog.showAndWait();
+    
+                                result.ifPresent(selectedDeliveryPerson -> {
+                                    System.out.println("Assigned order to delivery person: " + selectedDeliveryPerson);
+                                    DeliveryService.addDelivery(Integer.parseInt(selectedDeliveryPerson), order.getOrderId());
+                                    refreshTable();
+                                });
+                            });
+                        }
+                        else
+                        {
+                            setGraphic(null);
+                        }
+                    }
+                }
+            };
+        });
+
         //#endregion
 
         // ---------------------------------------------- CUSTOMERS --------------------------------------------------------//
@@ -858,7 +924,6 @@ public class AdminController implements Initializable {
             };
         });
 
-        refreshTable();
     //#endregion
         
         // ---------------------------------------------- DELIVERY PERSON --------------------------------------------------------//
@@ -1039,9 +1104,9 @@ public class AdminController implements Initializable {
                 orders.add(order);
             }
         } 
-        catch (Exception e) 
+        catch (SQLException e) 
         {
-           System.out.println("ERROR LOADING ORDERS");
+            e.printStackTrace();
         }
         order_table.setItems(orders);
         // ---------------------------------------------- CUSTOMERS --------------------------------------------------------//
